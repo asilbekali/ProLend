@@ -12,8 +12,13 @@
 
 import type { AuthResponse } from "@/lib/queries/useLoginMutation";
 
+// `||` rather than `??`: this is inlined by `next build`, and a build that runs
+// with the variable declared-but-empty (an unset CI variable passed as a build
+// arg) would leave "" here. `??` only guards null/undefined, so the empty
+// string would survive and `new URL("")` in buildHandoffUrl would throw at the
+// exact moment a user finishes signing up.
 const MAIN_APP_URL =
-  process.env.NEXT_PUBLIC_MAIN_APP_URL ?? "https://app.th-labs.io/session";
+  process.env.NEXT_PUBLIC_MAIN_APP_URL || "https://app.th-labs.io/session";
 
 const STORAGE_KEY = "th-labs.auth";
 

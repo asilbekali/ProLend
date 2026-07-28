@@ -1,0 +1,26 @@
+# node_modules must not be copied in: it would carry host-built (Windows)
+# binaries into a Linux image.
+node_modules
+.next
+out
+build
+
+.git
+.gitignore
+
+.env
+.env.*
+!.env.example
+
+npm-debug.log*
+yarn-error.log*
+*.log
+
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+Dockerfile
+.dockerignore
+README.md

@@ -4,7 +4,10 @@
 // and error normalization live in one place. This runs on the server only, so
 // the browser never hits the raw backend host (no CORS to configure).
 
-const BASE_URL = process.env.BACKEND_API_URL ?? "http://3.120.245.167/v1";
+// `||` rather than `??` so a declared-but-empty value (easy to produce from an
+// unset compose/CI variable) falls back instead of turning every request into
+// a fetch against a bare path.
+const BASE_URL = process.env.BACKEND_API_URL || "http://3.120.245.167/v1";
 
 export type BackendResult<T> =
   | { ok: true; status: number; data: T }
