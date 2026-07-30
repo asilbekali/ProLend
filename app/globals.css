@@ -1,38 +1,93 @@
 @import "tailwindcss";
 
+/* ── Color & surface tokens (§2) ─────────────────────────────────────────── */
 :root {
-  --background: #0a0a0f;
-  --foreground: #f5f5f7;
-  --muted: #9a99a6;
-  --surface: #120f17;
-  --border: #221f2b;
+  --bg: #050607;
+  --surface: #0a0c10;
+  --surface-2: #101318;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --text: #ffffff;
+  --text-2: rgba(255, 255, 255, 0.62);
+  --text-3: rgba(255, 255, 255, 0.38);
   --accent: #8b5cf6;
-  --accent-strong: #6d28d9;
+  --accent-dim: rgba(139, 92, 246, 0.12);
+  --live: #ff3b30;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
+  --color-bg: var(--bg);
   --color-surface: var(--surface);
-  --color-border: var(--border);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
   --color-accent: var(--accent);
-  --color-accent-strong: var(--accent-strong);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-accent-dim: var(--accent-dim);
+  --color-live: var(--live);
+  /* Kept alias so existing components referencing bg-ink still resolve. */
+  --color-ink: var(--bg);
+
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
   --font-pixel: var(--font-pixel);
 }
 
+/* ── Depth / z-index token scale (§3) ────────────────────────────────────────
+   Tailwind v4 has no tailwind.config.ts, so the depth system lives here as
+   named utilities. Use ONLY these (z-base … z-overlay) for layering. */
+@utility z-base { z-index: 0; }
+@utility z-glow { z-index: 10; }
+@utility z-grid { z-index: 20; }
+@utility z-deco { z-index: 30; }
+@utility z-content { z-index: 40; }
+@utility z-cards { z-index: 50; }
+@utility z-nav { z-index: 60; }
+@utility z-cursor { z-index: 70; }
+@utility z-overlay { z-index: 80; }
+
+/* Safe-area padding helpers for notched devices (§6). */
+@utility pt-safe { padding-top: env(safe-area-inset-top); }
+@utility pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+/* Halftone / dither dot field. `currentColor` drives its intensity so the
+   <Dither/> component can tint + mask it. */
+@utility dither-dots {
+  background-image: radial-gradient(currentColor 1px, transparent 1.4px);
+  background-size: 6px 6px;
+}
+
 html {
-  background: var(--background);
+  background: var(--bg);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01";
 }
 
+/* Every heading is monospace site-wide (§1). The .font-pixel utility on the
+   wordmark still wins (higher-specificity utility layer), so TH-LABS stays
+   pixel while all other headings inherit the mono voice. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: #fff;
+}
+
+/* ── Keyframes ───────────────────────────────────────────────────────────── */
 @keyframes wave-bar {
   0%,
   100% {
@@ -42,7 +97,89 @@ body {
     transform: scaleY(1);
   }
 }
-
 .animate-wave-bar {
   animation: wave-bar 1.4s ease-in-out infinite;
+}
+
+@keyframes wave-flow {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-wave-flow {
+  animation: wave-flow 18s linear infinite;
+}
+
+/* Infinite marquee: the track holds two identical copies; -50% swaps them. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee var(--marquee-duration, 34s) linear infinite;
+}
+.animate-marquee-reverse {
+  animation: marquee var(--marquee-duration, 34s) linear infinite reverse;
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-120%) skewX(-12deg);
+  }
+  to {
+    transform: translateX(220%) skewX(-12deg);
+  }
+}
+.animate-shimmer {
+  animation: shimmer 0.9s ease-out;
+}
+
+/* GPU-only vertical bob; amplitude/timing set per element via CSS vars. */
+@keyframes float-bob {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, var(--float-distance, -12px), 0);
+  }
+}
+.animate-float {
+  animation: float-bob var(--float-duration, 7s) ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+}
+
+/* Slow rotation for the thin-line wireframe objects. */
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spin-slow 44s linear infinite;
+}
+.animate-spin-slower {
+  animation: spin-slow 90s linear infinite;
+}
+
+/* Reduced motion: kill every ambient animation (§7). Scroll-linked motion is
+   additionally disabled per-component via useReducedMotion. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-wave-bar,
+  .animate-wave-flow,
+  .animate-marquee,
+  .animate-marquee-reverse,
+  .animate-shimmer,
+  .animate-float,
+  .animate-spin-slow,
+  .animate-spin-slower {
+    animation: none !important;
+  }
 }

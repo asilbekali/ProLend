@@ -1,29 +1,27 @@
 import Hero from "@/components/Hero";
-import MissionSection from "@/components/sections/MissionSection";
-import HowItWorksSection from "@/components/sections/HowItWorksSection";
-import FeaturesGrid from "@/components/sections/FeaturesGrid";
-import TechStrip from "@/components/sections/TechStrip";
-import WhoWeServeSection from "@/components/sections/WhoWeServeSection";
-import WhyThLabsSection from "@/components/sections/WhyThLabsSection";
-import VisionMissionSection from "@/components/sections/VisionMissionSection";
-import RoadmapSection from "@/components/sections/RoadmapSection";
-import ClosingCta from "@/components/sections/ClosingCta";
-import Footer from "@/components/sections/Footer";
+import LogoStrip from "@/components/logo-strip";
+import HowItWorks from "@/components/how-it-works";
+import AboutProject from "@/components/about-project";
+import FeaturesBento from "@/components/features-bento";
+import LanguageMarquee from "@/components/language-marquee";
+import UseCasesStack from "@/components/use-cases-stack";
+import Faq from "@/components/faq";
+import CtaBand from "@/components/cta-band";
+import Footer from "@/components/footer";
 
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col">
+    <main className="flex flex-1 flex-col">
       <Hero />
-      <MissionSection />
-      <HowItWorksSection />
-      <FeaturesGrid />
-      <TechStrip />
-      <WhoWeServeSection />
-      <WhyThLabsSection />
-      <VisionMissionSection />
-      <RoadmapSection />
-      <ClosingCta />
+      <LogoStrip />
+      <HowItWorks />
+      <AboutProject />
+      <FeaturesBento />
+      <LanguageMarquee />
+      <UseCasesStack />
+      <Faq />
+      <CtaBand />
       <Footer />
-    </div>
+    </main>
   );
 }

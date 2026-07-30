@@ -1,19 +1,24 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Press_Start_2P } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono, Press_Start_2P } from "next/font/google";
 import QueryProvider from "@/components/providers/QueryProvider";
 import ClickSpark from "@/components/reactbits/ClickSpark/ClickSpark";
+import SmoothScroll from "@/components/smooth-scroll";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Body / long-form prose.
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Every heading, nav link, button, label, stat — the technical-mono voice.
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
+// The wordmark + step numbers only.
 const pressStart2P = Press_Start_2P({
   variable: "--font-pixel",
   subsets: ["latin"],
@@ -21,9 +26,42 @@ const pressStart2P = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
-  title: "TH-LABS — AI dubbing system for natural multilingual voice conversion",
+  metadataBase: new URL("https://th-labs.ai"),
+  title: {
+    default: "TH-LABS — AI dubbing for natural multilingual voice",
+    template: "%s — TH-LABS",
+  },
   description:
-    "TH-LABS is an AI dubbing system enabling natural multilingual voice conversion for creators, businesses, and educators.",
+    "TH-LABS is an AI dubbing system for natural multilingual voice conversion. Upload video, audio, or a live stream and get voice-cloned, lip-synced output in 40+ languages — in real time.",
+  keywords: [
+    "AI dubbing",
+    "voice cloning",
+    "multilingual",
+    "lip sync",
+    "live translation",
+    "real-time dubbing",
+  ],
+  openGraph: {
+    title: "TH-LABS — AI dubbing for natural multilingual voice",
+    description:
+      "Voice-cloned, lip-synced dubbing in 40+ languages. Real time on live streams, ~2s delay.",
+    url: "https://th-labs.ai",
+    siteName: "TH-LABS",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TH-LABS — AI dubbing for natural multilingual voice",
+    description:
+      "Voice-cloned, lip-synced dubbing in 40+ languages. Real time on live streams, ~2s delay.",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#050607",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -34,19 +72,21 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} h-full antialiased scroll-smooth`}
+      className={`${inter.variable} ${jetbrainsMono.variable} ${pressStart2P.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-full flex-col bg-bg text-text">
         <QueryProvider>
-          <ClickSpark
-            sparkColor="#8b5cf6"
-            sparkSize={10}
-            sparkRadius={18}
-            sparkCount={8}
-            duration={420}
-          >
-            {children}
-          </ClickSpark>
+          <SmoothScroll>
+            <ClickSpark
+              sparkColor="#8b5cf6"
+              sparkSize={9}
+              sparkRadius={16}
+              sparkCount={6}
+              duration={400}
+            >
+              {children}
+            </ClickSpark>
+          </SmoothScroll>
         </QueryProvider>
       </body>
     </html>
