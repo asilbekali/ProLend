@@ -8,8 +8,13 @@
 // Request body:
 //   { email: string; password: string }
 //
-// Response (the shape both login and register return):
-//   { accessToken, refreshToken, user: { id, email, name, role, createdAt } }
+// Response (the shape login, register and google all return):
+//   { user: { id, email, name, role, createdAt }, code, expiresIn }
+//
+// Note what is NOT in that response: the access and refresh tokens. They are
+// issued to the route handler and stay there — the browser gets a single-use
+// handoff code instead, which lib/session.ts turns into a redirect. See
+// lib/handoff.ts for the reasoning.
 
 import { useMutation } from "@tanstack/react-query";
 import { apiFetch } from "@/lib/api-client";
@@ -22,10 +27,11 @@ export type AuthUser = {
   createdAt: string;
 };
 
-export type AuthResponse = {
-  accessToken: string;
-  refreshToken: string;
+export type AuthHandoff = {
   user: AuthUser;
+  /** Single-use, ~60s. Redeemed by the Studio, never stored by this origin. */
+  code: string;
+  expiresIn: number;
 };
 
 export type LoginPayload = {
@@ -36,7 +42,7 @@ export type LoginPayload = {
 export function useLoginMutation() {
   return useMutation({
     mutationFn: (payload: LoginPayload) =>
-      apiFetch<AuthResponse>("/api/auth/login", {
+      apiFetch<AuthHandoff>("/api/auth/login", {
         method: "POST",
         body: JSON.stringify(payload),
       }),

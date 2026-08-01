@@ -9,16 +9,16 @@
 // backend create-user / login endpoints)
 //
 // Request body:  { credential: string }   // Google Identity Services ID token
-// Response:      { accessToken, refreshToken, user }  // same shape as login
+// Response:      { user, code, expiresIn }   // same shape as login
 
 import { useMutation } from "@tanstack/react-query";
 import { apiFetch } from "@/lib/api-client";
-import type { AuthResponse } from "@/lib/queries/useLoginMutation";
+import type { AuthHandoff } from "@/lib/queries/useLoginMutation";
 
 export function useGoogleAuthMutation() {
   return useMutation({
     mutationFn: (credential: string) =>
-      apiFetch<AuthResponse>("/api/auth/google", {
+      apiFetch<AuthHandoff>("/api/auth/google", {
         method: "POST",
         body: JSON.stringify({ credential }),
       }),
