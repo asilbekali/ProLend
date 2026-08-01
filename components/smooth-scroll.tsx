@@ -31,6 +31,14 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       lerp: 0.085,
       duration: 1.2,
       smoothWheel: true,
+      // Clicking any in-page anchor (navbar links, the hero "Learn more" ↓,
+      // mobile-menu links) animates a smooth scroll to the target instead of a
+      // native jump. Offset leaves room for the fixed navbar so the section
+      // heading isn't hidden beneath it.
+      anchors: {
+        offset: -96,
+        duration: 1.4,
+      },
     });
 
     // Drive Lenis from Framer Motion's frame loop instead of a private rAF.

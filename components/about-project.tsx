@@ -32,13 +32,17 @@ const stagger: Variants = { hidden: {}, show: { transition: { staggerChildren: 0
 
 export default function AboutProject() {
   return (
-    <section id="about" className="relative overflow-hidden">
+    // overflow-clip (not -hidden) still clips the torus but does NOT create a
+    // scroll container, so the sticky headline below can actually pin + travel
+    // with the scroll instead of being trapped.
+    <section id="about" className="relative overflow-clip">
       {/* background wireframe torus */}
       <WireTorus className="pointer-events-none absolute right-[-14%] top-1/3 h-[440px] w-[440px] opacity-30 md:h-[560px] md:w-[560px]" />
 
       <div className="relative z-10 mx-auto grid w-full max-w-[1280px] grid-cols-1 gap-12 px-5 py-20 sm:px-8 md:grid-cols-[0.85fr_1.15fr] md:gap-16 md:py-32 lg:px-12">
-        {/* Left — sticky headline */}
-        <div className="md:sticky md:top-28 md:self-start">
+        {/* Left — sticky headline. z-20 lifts it above the decorative torus and
+            the scrolling right column so it stays legible the whole way down. */}
+        <div className="relative z-20 md:sticky md:top-28 md:self-start">
           <SectionMarker index="02" label="ABOUT THE PROJECT" />
           <h2 className="mt-5 text-[clamp(1.9rem,4.5vw,3.4rem)] font-medium leading-[1.08] tracking-tight text-white">
             One recording.{" "}

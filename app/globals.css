@@ -129,6 +129,51 @@ h6 {
   animation: marquee var(--marquee-duration, 34s) linear infinite reverse;
 }
 
+/* 3D cylinder wheel: the language section spins on its X axis so each pair
+   rotates up through the sharp center band and recedes/blurs at the edges. */
+@keyframes cylinder-spin {
+  to {
+    transform: rotateX(-360deg);
+  }
+}
+.animate-cylinder {
+  animation: cylinder-spin var(--cylinder-duration, 28s) linear infinite;
+}
+
+/* Typewriter caption: the translated line types itself out char-by-char (steps),
+   holds, then loops. A step-end border-right blink is the caret. */
+@keyframes type-caption {
+  0% {
+    width: 0;
+  }
+  55% {
+    width: var(--type-ch, 20ch);
+  }
+  100% {
+    width: var(--type-ch, 20ch);
+  }
+}
+@keyframes type-caret {
+  0%,
+  100% {
+    border-color: var(--accent);
+  }
+  50% {
+    border-color: transparent;
+  }
+}
+.animate-type-caption {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  width: var(--type-ch, 20ch);
+  border-right: 2px solid var(--accent);
+  animation:
+    type-caption var(--type-duration, 4.8s) steps(20, end) infinite,
+    type-caret 0.7s step-end infinite;
+}
+
 @keyframes shimmer {
   from {
     transform: translateX(-120%) skewX(-12deg);
@@ -176,6 +221,8 @@ h6 {
   .animate-wave-flow,
   .animate-marquee,
   .animate-marquee-reverse,
+  .animate-cylinder,
+  .animate-type-caption,
   .animate-shimmer,
   .animate-float,
   .animate-spin-slow,
