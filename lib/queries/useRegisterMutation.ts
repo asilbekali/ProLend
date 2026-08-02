@@ -10,11 +10,11 @@
 //   { name: string; email: string; password: string }
 //
 // Response (same shape login returns — see useLoginMutation.ts):
-//   { accessToken, refreshToken, user }
+//   { user, code, expiresIn }   — a one-time handoff code, not tokens
 
 import { useMutation } from "@tanstack/react-query";
 import { apiFetch } from "@/lib/api-client";
-import type { AuthResponse } from "@/lib/queries/useLoginMutation";
+import type { AuthHandoff } from "@/lib/queries/useLoginMutation";
 
 export type RegisterPayload = {
   name: string;
@@ -25,7 +25,7 @@ export type RegisterPayload = {
 export function useRegisterMutation() {
   return useMutation({
     mutationFn: (payload: RegisterPayload) =>
-      apiFetch<AuthResponse>("/api/auth/register", {
+      apiFetch<AuthHandoff>("/api/auth/register", {
         method: "POST",
         body: JSON.stringify(payload),
       }),

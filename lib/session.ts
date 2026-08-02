@@ -1,19 +1,31 @@
 // FILE MISSION: what happens right after a successful login/register on this
-// landing page — the hand-off to the main app.
+// landing page — the hand-off to the Studio.
 //
-// This landing page is only the doorway; the real product lives elsewhere. Once
-// the backend returns tokens, we (1) stash them in localStorage in case the main
-// app ends up on the same origin, and (2) redirect to NEXT_PUBLIC_MAIN_APP_URL
-// with the tokens as query params so a cross-origin main app can log the user
-// straight back in ("relogin" with the access token).
+// This landing page is only the doorway; the real product (the Studio) lives on
+// Modal, at a different origin. Different origin means no shared cookie, so the
+// session has to travel in the redirect itself.
 //
-// The destination is the Studio, deployed on Modal. Note that the Studio has no
-// authentication of its own yet, so it does not currently read the tokens this
-// sends — a handed-off user lands on the Studio already, but as an anonymous
-// visitor. Wiring the token up on that side is what turns this into a real
-// single sign-on rather than a redirect.
+// What travels is a one-time code, not the session:
+//
+//     1. The server-side route handler authenticates the user, keeps the token
+//        pair, and swaps it for a single-use code (lib/handoff.ts).
+//     2. The browser receives only { user, code, expiresIn }.
+//     3. We redirect to  <studio>/?code=<code>.
+//     4. The Studio redeems the code against POST /v1/auth/handoff/exchange
+//        and gets the real tokens over a direct HTTPS POST, then strips the
+//        code from its URL.
+//
+// The code is good for ~60 seconds and exactly one redemption, so the copy that
+// inevitably ends up in browser history and in Modal's ingress log is already
+// spent by the time anyone could read it.
+//
+// This replaces an earlier version that put `access_token` and `refresh_token`
+// straight into the query string and mirrored them into localStorage. Both are
+// gone: no token is ever exposed to client-side JavaScript on this origin, so
+// there is nothing here for an XSS or a compromised third-party script (this
+// page loads Google Identity Services and the Spline runtime) to steal.
 
-import type { AuthResponse } from "@/lib/queries/useLoginMutation";
+import type { AuthHandoff } from "@/lib/queries/useLoginMutation";
 
 // `||` rather than `??`: this is inlined by `next build`, and a build that runs
 // with the variable declared-but-empty (an unset CI variable passed as a build
@@ -27,30 +39,20 @@ const MAIN_APP_URL =
   process.env.NEXT_PUBLIC_MAIN_APP_URL ||
   "https://isoqovjorabek2--th-labs-dubbing-web.modal.run";
 
-const STORAGE_KEY = "th-labs.auth";
-
-export function persistSession(auth: AuthResponse) {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(auth));
-  } catch {
-    // Private mode / storage disabled — the query-param handoff still works.
-  }
-}
-
-// Build the main-app URL with the tokens attached so the destination can pick
-// the user up already authenticated.
-export function buildHandoffUrl(auth: AuthResponse): string {
+// Build the Studio URL carrying the one-time code. The code is a credential for
+// the next few seconds, so it is the ONLY thing added — no email, no user id.
+// Anything else here would be permanently readable in history and logs without
+// the code's saving grace of expiring.
+export function buildHandoffUrl(handoff: AuthHandoff): string {
   const url = new URL(MAIN_APP_URL);
-  url.searchParams.set("access_token", auth.accessToken);
-  url.searchParams.set("refresh_token", auth.refreshToken);
+  url.searchParams.set("code", handoff.code);
   return url.toString();
 }
 
-// Persist the session, then send the user to the main app carrying their token.
-export function completeAuthAndRedirect(auth: AuthResponse) {
-  persistSession(auth);
-  if (typeof window !== "undefined") {
-    window.location.assign(buildHandoffUrl(auth));
-  }
+// Send the user to the Studio carrying their one-time code.
+export function completeAuthAndRedirect(handoff: AuthHandoff) {
+  if (typeof window === "undefined") return;
+  // `replace`, not `assign`: keeps the code-bearing URL out of the back stack,
+  // so Back cannot return to it and re-fire a redemption.
+  window.location.replace(buildHandoffUrl(handoff));
 }

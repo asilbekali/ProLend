@@ -27,7 +27,8 @@ const newsreader = Newsreader({
 
 // "register" = full account auth against the backend. The card shows a
 // Register / Login toggle (name+email+password to create, email+password to
-// sign in) and, on success, hands the access token to the main app.
+// sign in) and, on success, redirects to the Studio carrying a one-time
+// handoff code. No token is ever exposed here — see lib/session.ts.
 // "waitlist" = lightweight, one-shot name/email signup, no login concept
 // (the Hero "Join Waitlist" CTA — backed by a stub until its API ships).
 export type JoinModalKind = "register" | "waitlist";
@@ -105,7 +106,7 @@ function JoinModalCard({
   const activeMutation = isAuth ? authMutation : waitlistMutation;
 
   // Google handles register-or-login in one shot; hand its result to the same
-  // token redirect the manual form uses.
+  // handoff redirect the manual form uses.
   function handleGoogleCredential(credential: string) {
     setValidationError("");
     googleMutation.mutate(credential, { onSuccess: completeAuthAndRedirect });
@@ -130,7 +131,7 @@ function JoinModalCard({
         return;
       }
       setValidationError("");
-      // On success, hand the tokens to the main app and redirect there.
+      // On success, redirect to the Studio carrying a one-time handoff code.
       if (mode === "register") {
         registerMutation.mutate(
           { name: name.trim(), email: email.trim(), password },
