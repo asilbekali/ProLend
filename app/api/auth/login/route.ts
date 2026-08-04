@@ -3,7 +3,7 @@
 // { user, code, expiresIn } — a one-time handoff code, NOT the token pair.
 // See lib/handoff.ts for why. Contract mirrors lib/queries/useLoginMutation.ts.
 
-import { backendFetch } from "@/lib/backend";
+import { backendFetch, jsonWithCookies } from "@/lib/backend";
 import { mintHandoff, type BackendAuthResponse } from "@/lib/handoff";
 
 export async function POST(request: Request) {
@@ -26,10 +26,12 @@ export async function POST(request: Request) {
     return Response.json({ message: result.message }, { status: result.status });
   }
 
-  // The tokens stop here. Only the code continues to the browser.
+  // The access token stops here. Only the code continues to the browser —
+  // plus the backend's refresh cookie, forwarded so this origin keeps its own
+  // first-party session for a later silent re-handoff.
   const handoff = await mintHandoff(result.data);
   if (!handoff.ok) {
     return Response.json({ message: handoff.message }, { status: handoff.status });
   }
-  return Response.json(handoff.data, { status: 200 });
+  return jsonWithCookies(handoff.data, 200, result.setCookie);
 }

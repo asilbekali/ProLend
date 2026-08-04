@@ -43,10 +43,14 @@ const MAIN_APP_URL =
 // the next few seconds, so it is the ONLY thing added — no email, no user id.
 // Anything else here would be permanently readable in history and logs without
 // the code's saving grace of expiring.
-export function buildHandoffUrl(handoff: AuthHandoff): string {
+export function studioUrlWithCode(code: string): string {
   const url = new URL(MAIN_APP_URL);
-  url.searchParams.set("code", handoff.code);
+  url.searchParams.set("code", code);
   return url.toString();
+}
+
+export function buildHandoffUrl(handoff: AuthHandoff): string {
+  return studioUrlWithCode(handoff.code);
 }
 
 // Send the user to the Studio carrying their one-time code.

@@ -37,7 +37,7 @@
 // bearing.
 
 import { createHmac } from "crypto";
-import { backendFetch } from "@/lib/backend";
+import { backendFetch, jsonWithCookies } from "@/lib/backend";
 import { mintHandoff, type BackendAuthResponse } from "@/lib/handoff";
 
 const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? "";
@@ -121,7 +121,7 @@ export async function POST(request: Request) {
     if (!handoff.ok) {
       return Response.json({ message: handoff.message }, { status: handoff.status });
     }
-    return Response.json(handoff.data, { status: 200 });
+    return jsonWithCookies(handoff.data, 200, login.setCookie);
   }
 
   // First time with Google: create the account, which also returns tokens.
@@ -134,7 +134,7 @@ export async function POST(request: Request) {
     if (!handoff.ok) {
       return Response.json({ message: handoff.message }, { status: handoff.status });
     }
-    return Response.json(handoff.data, { status: 201 });
+    return jsonWithCookies(handoff.data, 201, created.setCookie);
   }
 
   // Both failed — most likely this email was registered manually with a

@@ -21,10 +21,17 @@
 import { backendFetch, type BackendResult } from "@/lib/backend";
 import type { AuthUser } from "@/lib/queries/useLoginMutation";
 
-/** What the backend returns from login / create-user. Stays on the server. */
+/**
+ * What the backend returns from login / create-user. Stays on the server.
+ *
+ * No refreshToken field: the account API issues the refresh token as an
+ * httpOnly cookie rather than in the body. The route handlers forward that
+ * Set-Cookie to the browser (see jsonWithCookies) so this origin keeps a
+ * first-party session — which is what lets the Studio bounce back here for a
+ * silent re-handoff when its own third-party cookie is blocked.
+ */
 export type BackendAuthResponse = {
   accessToken: string;
-  refreshToken: string;
   user: AuthUser;
 };
 
@@ -63,5 +70,10 @@ export async function mintHandoff(
       code: result.data.code,
       expiresIn: result.data.expiresIn,
     },
+    // Passed through rather than hardcoded to []: minting a code sets no
+    // cookie today, but if it ever does, dropping it here would be a silent
+    // loss rather than a type error. The cookie the browser actually needs
+    // comes from the login/create-user call the route makes first.
+    setCookie: result.setCookie,
   };
 }
