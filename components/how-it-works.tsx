@@ -17,23 +17,23 @@ const STEPS = [
   {
     title: "Upload your content",
     description: "Video, audio, podcast, course, or live stream — bring whatever you're creating.",
-    url: "th-labs.ai/upload",
+    url: "th-labs.uz/upload",
   },
   {
     title: "Choose target languages",
     description: "Pick as many languages as your audience speaks. No limits, no extra studios.",
-    url: "th-labs.ai/languages",
+    url: "th-labs.uz/languages",
   },
   {
     title: "Get natural multilingual output",
     description: "In minutes: voice cloned, lip-synced, and subtitled — ready to publish.",
-    url: "th-labs.ai/export",
+    url: "th-labs.uz/export",
   },
   {
     title: "Go live in real time",
     description:
       "Dub YouTube streams, webinars, and live events on the fly — your audience hears you in their language, seconds behind.",
-    url: "th-labs.ai/live",
+    url: "th-labs.uz/live",
   },
 ];
 
