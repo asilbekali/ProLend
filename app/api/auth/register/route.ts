@@ -1,11 +1,11 @@
 // POST /api/auth/register — thin proxy to the TH-LABS backend
 // POST /v1/users/create-user. Takes { name, email, password }, forwards it, and
-// returns the backend's { accessToken, refreshToken, user } on success so the
-// landing page can hand the tokens to the main app. Contract mirrors
+// returns { user, code, expiresIn } — a one-time handoff code, NOT the token
+// pair. See lib/handoff.ts for why. Contract mirrors
 // lib/queries/useRegisterMutation.ts.
 
-import { backendFetch } from "@/lib/backend";
-import type { AuthResponse } from "@/lib/queries/useLoginMutation";
+import { backendFetch, jsonWithCookies } from "@/lib/backend";
+import { mintHandoff, type BackendAuthResponse } from "@/lib/handoff";
 
 export async function POST(request: Request) {
   let body: { name?: string; email?: string; password?: string };
@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     return Response.json({ message: "Invalid request body." }, { status: 400 });
   }
 
-  const result = await backendFetch<AuthResponse>("/users/create-user", {
+  const result = await backendFetch<BackendAuthResponse>("/users/create-user", {
     method: "POST",
     body: JSON.stringify({
       name: (body.name ?? "").trim(),
@@ -27,5 +27,13 @@ export async function POST(request: Request) {
   if (!result.ok) {
     return Response.json({ message: result.message }, { status: result.status });
   }
-  return Response.json(result.data, { status: result.status });
+
+  // The access token stops here. Only the code continues to the browser —
+  // plus the backend's refresh cookie, forwarded so this origin keeps its own
+  // first-party session for a later silent re-handoff.
+  const handoff = await mintHandoff(result.data);
+  if (!handoff.ok) {
+    return Response.json({ message: handoff.message }, { status: handoff.status });
+  }
+  return jsonWithCookies(handoff.data, 201, result.setCookie);
 }
