@@ -1,8 +1,8 @@
 "use client";
 
 import { motion, type Variants } from "motion/react";
+import Frame from "./frame";
 import SectionMarker from "./section-marker";
-import WireTorus from "./wireframe/torus";
 
 const PARAGRAPHS = [
   "TH-LABS turns one recording into natural-sounding audio in dozens of languages. Upload a video, a podcast, or a course — or point it at a live stream — pick the languages you want, and it returns a dubbed track that still sounds like you.",
@@ -25,30 +25,21 @@ const STATS = [
 ];
 
 const reveal: Variants = {
-  hidden: { opacity: 0, y: 40, filter: "blur(8px)" },
-  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
 };
 const stagger: Variants = { hidden: {}, show: { transition: { staggerChildren: 0.08 } } };
 
 export default function AboutProject() {
   return (
-    // overflow-clip (not -hidden) still clips the torus but does NOT create a
-    // scroll container, so the sticky headline below can actually pin + travel
-    // with the scroll instead of being trapped.
-    <section id="about" className="relative overflow-clip">
-      {/* background wireframe torus */}
-      <WireTorus className="pointer-events-none absolute right-[-14%] top-1/3 h-[440px] w-[440px] opacity-30 md:h-[560px] md:w-[560px]" />
-
-      <div className="relative z-10 mx-auto grid w-full max-w-[1280px] grid-cols-1 gap-12 px-5 py-20 sm:px-8 md:grid-cols-[0.85fr_1.15fr] md:gap-16 md:py-32 lg:px-12">
-        {/* Left — sticky headline. z-20 lifts it above the decorative torus and
-            the scrolling right column so it stays legible the whole way down. */}
-        <div className="relative z-20 md:sticky md:top-28 md:self-start">
-          <SectionMarker index="02" label="ABOUT THE PROJECT" />
-          <h2 className="mt-5 text-[clamp(1.9rem,4.5vw,3.4rem)] font-medium leading-[1.08] tracking-tight text-white">
-            One recording.{" "}
-            <span className="font-normal italic text-white/45">
-              Every language your audience speaks.
-            </span>
+    <Frame as="section" id="about" className="border-b border-line">
+      <div className="grid grid-cols-1 gap-10 py-14 md:grid-cols-[0.8fr_1.2fr] md:gap-16 md:py-18">
+        {/* Left — sticky headline */}
+        <div className="md:sticky md:top-28 md:self-start">
+          <SectionMarker index="01" label="ABOUT THE PROJECT" />
+          <h2 className="mt-4 text-[clamp(1.7rem,3.4vw,2.6rem)] font-medium leading-[1.1]">
+            <span className="block text-text">One recording.</span>
+            <span className="block text-text-3">Every language your audience speaks.</span>
           </h2>
         </div>
 
@@ -65,7 +56,7 @@ export default function AboutProject() {
               <motion.p
                 key={i}
                 variants={reveal}
-                className="max-w-[62ch] font-sans text-[15px] leading-relaxed text-white/62"
+                className="max-w-[62ch] text-[15px] leading-relaxed text-text-2"
               >
                 {p}
               </motion.p>
@@ -73,15 +64,18 @@ export default function AboutProject() {
           </div>
 
           {/* Numbered principles */}
-          <motion.ul variants={stagger} className="grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2">
+          <motion.ul
+            variants={stagger}
+            className="grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2"
+          >
             {PRINCIPLES.map((pr) => (
               <motion.li key={pr.n} variants={reveal} className="flex gap-4">
                 <span className="font-mono text-sm text-accent">{pr.n}</span>
                 <div>
-                  <h3 className="font-mono text-[15px] font-medium tracking-tight text-white">
+                  <h3 className="font-display text-[15px] font-medium text-text">
                     {pr.title}
                   </h3>
-                  <p className="mt-1 font-sans text-sm leading-relaxed text-white/55">{pr.body}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-text-2">{pr.body}</p>
                 </div>
               </motion.li>
             ))}
@@ -90,18 +84,17 @@ export default function AboutProject() {
           {/* Stat row */}
           <motion.div
             variants={reveal}
-            className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/[0.08] pt-6 font-mono text-sm"
+            className="flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-line pt-6 font-mono text-sm"
           >
-            {STATS.map((s, i) => (
+            {STATS.map((s) => (
               <div key={s.label} className="flex items-center gap-2">
-                {i > 0 && <span className="mr-4 text-white/20">·</span>}
-                <span className="text-white/45">{s.label}</span>
-                <span className="font-medium text-white">{s.value}</span>
+                <span className="text-text-3">{s.label}</span>
+                <span className="font-medium text-text">{s.value}</span>
               </div>
             ))}
           </motion.div>
         </motion.div>
       </div>
-    </section>
+    </Frame>
   );
 }

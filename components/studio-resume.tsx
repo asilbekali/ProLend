@@ -93,7 +93,7 @@ export default function StudioResume() {
       aria-live="polite"
       className="z-overlay fixed inset-0 flex flex-col items-center justify-center gap-4 bg-bg"
     >
-      <span className="h-6 w-6 animate-spin rounded-full border-2 border-white/20 border-t-accent" />
+      <span className="h-6 w-6 animate-spin rounded-full border-2 border-line-strong border-t-accent" />
       <p className="font-mono text-sm text-text-2">Returning you to the Studio…</p>
     </div>
   );

@@ -11,8 +11,6 @@ import { useGoogleAuthMutation } from "@/lib/queries/useGoogleAuthMutation";
 import GoogleSignInButton from "@/components/GoogleSignInButton";
 import { completeAuthAndRedirect } from "@/lib/session";
 
-const GOOGLE_ENABLED = !!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-
 const pressStart2P = Press_Start_2P({
   subsets: ["latin"],
   weight: "400",
@@ -29,9 +27,10 @@ const newsreader = Newsreader({
 // Register / Login toggle (name+email+password to create, email+password to
 // sign in) and, on success, redirects to the Studio carrying a one-time
 // handoff code. No token is ever exposed here — see lib/session.ts.
-// "waitlist" = lightweight, one-shot name/email signup, no login concept
-// (the Hero "Join Waitlist" CTA — backed by a stub until its API ships).
-export type JoinModalKind = "register" | "waitlist";
+// "community" = lightweight, one-shot name/email signup, no login concept
+// (the "Join Community" CTAs). Still posts to the existing /api/waitlist
+// endpoint — only the user-facing framing changed.
+export type JoinModalKind = "register" | "community";
 export type JoinModalAccent = "white" | "purple";
 
 type AuthMode = "register" | "login";
@@ -56,22 +55,22 @@ const AUTH_COPY: Record<
   },
 };
 
-const WAITLIST_COPY = {
-  eyebrow: "Early Access",
-  title: "Join the Waitlist",
+const COMMUNITY_COPY = {
+  eyebrow: "Community",
+  title: "Join the Community",
   description:
-    "Be first in line for TH-LABS. Drop your name and email — one spot per person, we'll reach out when yours opens.",
-  submitLabel: "Join Waitlist",
-  successTitle: "You're on the list",
+    "Get early access to TH-LABS, plus build updates and language drops as they ship. Drop your name and email — one spot per person.",
+  submitLabel: "Join Community",
+  successTitle: "Welcome in",
   successBody:
-    "Thanks for joining early. We'll email you as soon as your spot is ready.",
+    "You're part of the TH-LABS community. We'll email you as soon as your access opens up.",
 };
 
-// Shown instead of the normal waitlist success message when the backend
-// reports this email already has a spot (JoinWaitlistResponse.alreadyExists).
-const ALREADY_ON_WAITLIST = {
+// Shown instead of the normal success message when the backend reports this
+// email is already a member (JoinWaitlistResponse.alreadyExists).
+const ALREADY_A_MEMBER = {
   title: "You're Already In",
-  body: "This email already has a spot on the waitlist — no need to sign up twice.",
+  body: "This email is already part of the community — no need to sign up twice.",
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -89,7 +88,7 @@ function JoinModalCard({
   const accentClasses =
     accent === "purple"
       ? "bg-accent hover:bg-accent-strong text-white"
-      : "bg-white hover:bg-white/90 text-black";
+      : "bg-text hover:bg-text/90 text-bg";
 
   const [mode, setMode] = useState<AuthMode>("register");
   const [name, setName] = useState("");
@@ -100,10 +99,10 @@ function JoinModalCard({
   const registerMutation = useRegisterMutation();
   const loginMutation = useLoginMutation();
   const googleMutation = useGoogleAuthMutation();
-  const waitlistMutation = useJoinWaitlistMutation();
+  const communityMutation = useJoinWaitlistMutation();
 
   const authMutation = mode === "register" ? registerMutation : loginMutation;
-  const activeMutation = isAuth ? authMutation : waitlistMutation;
+  const activeMutation = isAuth ? authMutation : communityMutation;
 
   // Google handles register-or-login in one shot; hand its result to the same
   // handoff redirect the manual form uses.
@@ -112,7 +111,7 @@ function JoinModalCard({
     googleMutation.mutate(credential, { onSuccess: completeAuthAndRedirect });
   }
 
-  const copy = isAuth ? AUTH_COPY[mode] : WAITLIST_COPY;
+  const copy = isAuth ? AUTH_COPY[mode] : COMMUNITY_COPY;
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -146,7 +145,7 @@ function JoinModalCard({
       return;
     }
 
-    // Waitlist flavor: name + email only.
+    // Community flavor: name + email only.
     if (!name.trim()) {
       setValidationError("Enter your name.");
       return;
@@ -156,7 +155,7 @@ function JoinModalCard({
       return;
     }
     setValidationError("");
-    waitlistMutation.mutate({ name: name.trim(), email: email.trim() });
+    communityMutation.mutate({ name: name.trim(), email: email.trim() });
   }
 
   function switchMode(next: AuthMode) {
@@ -173,15 +172,15 @@ function JoinModalCard({
   // form doesn't flash back before the browser leaves.
   const authSucceeded =
     isAuth && (authMutation.isSuccess || googleMutation.isSuccess);
-  const waitlistSucceeded = !isAuth && waitlistMutation.isSuccess;
+  const communitySucceeded = !isAuth && communityMutation.isSuccess;
   const errorMessage =
     validationError ||
     activeMutation.error?.message ||
     (isAuth ? googleMutation.error?.message : undefined);
 
-  // Waitlist-only: backend says this email already had a spot.
-  const alreadyOnWaitlist =
-    !isAuth && waitlistMutation.data?.alreadyExists === true;
+  // Community-only: backend says this email already had a spot.
+  const alreadyAMember =
+    !isAuth && communityMutation.data?.alreadyExists === true;
 
   return (
     <motion.div
@@ -192,13 +191,13 @@ function JoinModalCard({
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 12, scale: 0.97 }}
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-      className={`relative z-10 w-full max-w-md rounded-3xl border border-border bg-surface p-8 text-foreground shadow-2xl ${newsreader.className}`}
+      className={`relative z-10 w-full max-w-md rounded-3xl border border-line bg-bg p-8 text-foreground shadow-[0_40px_100px_-30px_rgba(11,11,12,0.35)] ${newsreader.className}`}
     >
       <button
         type="button"
         onClick={onClose}
         aria-label="Close"
-        className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full text-muted transition-colors hover:bg-white/10 hover:text-white"
+        className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface hover:text-text"
       >
         <X className="h-4 w-4" />
       </button>
@@ -212,7 +211,7 @@ function JoinModalCard({
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
             className={`mb-5 flex h-14 w-14 items-center justify-center rounded-full ${accentClasses}`}
           >
-            <Check className={`h-6 w-6 ${accent === "purple" ? "text-white" : "text-black"}`} />
+            <Check className={`h-6 w-6 ${accent === "purple" ? "text-white" : "text-bg"}`} />
           </motion.div>
           <h2
             className={`${pressStart2P.className} uppercase text-foreground`}
@@ -229,21 +228,21 @@ function JoinModalCard({
             Taking you to TH-LABS…
           </p>
         </div>
-      ) : waitlistSucceeded ? (
+      ) : communitySucceeded ? (
         <div className="flex flex-col items-center py-6 text-center">
           <motion.div
             initial={{ scale: 0.4, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
             className={`mb-5 flex h-14 w-14 items-center justify-center rounded-full ${
-              alreadyOnWaitlist ? "bg-white/10" : accentClasses
+              alreadyAMember ? "bg-surface-2" : accentClasses
             }`}
           >
-            {alreadyOnWaitlist ? (
+            {alreadyAMember ? (
               <UserCheck className="h-6 w-6 text-foreground" />
             ) : (
               <Check
-                className={`h-6 w-6 ${accent === "purple" ? "text-white" : "text-black"}`}
+                className={`h-6 w-6 ${accent === "purple" ? "text-white" : "text-bg"}`}
               />
             )}
           </motion.div>
@@ -251,10 +250,10 @@ function JoinModalCard({
             className={`${pressStart2P.className} uppercase text-foreground`}
             style={{ fontSize: "clamp(16px, 3vw, 20px)" }}
           >
-            {alreadyOnWaitlist ? ALREADY_ON_WAITLIST.title : WAITLIST_COPY.successTitle}
+            {alreadyAMember ? ALREADY_A_MEMBER.title : COMMUNITY_COPY.successTitle}
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted">
-            {alreadyOnWaitlist ? ALREADY_ON_WAITLIST.body : WAITLIST_COPY.successBody}
+            {alreadyAMember ? ALREADY_A_MEMBER.body : COMMUNITY_COPY.successBody}
           </p>
           <button
             type="button"
@@ -280,26 +279,12 @@ function JoinModalCard({
             {copy.description}
           </p>
 
-          {isAuth && GOOGLE_ENABLED && (
-            <>
-              <div className="mt-6">
-                <GoogleSignInButton
-                  onCredential={handleGoogleCredential}
-                  disabled={isPending}
-                />
-              </div>
-              <div className="my-5 flex items-center gap-3">
-                <span className="h-px flex-1 bg-white/10" />
-                <span className="text-xs uppercase tracking-[0.2em] text-muted">
-                  or
-                </span>
-                <span className="h-px flex-1 bg-white/10" />
-              </div>
-            </>
-          )}
-
+          {/* Mode first, so "Register" vs "Login" is chosen before either the
+              Google route or the email form is offered. Google itself handles
+              both cases in one click — first sign-in creates the account, every
+              one after logs in. */}
           {isAuth && (
-            <div className="mt-6 flex rounded-full border border-white/10 bg-white/5 p-1">
+            <div className="mt-6 flex rounded-full border border-line bg-surface p-1">
               {(["register", "login"] as const).map((m) => (
                 <button
                   key={m}
@@ -307,7 +292,7 @@ function JoinModalCard({
                   onClick={() => switchMode(m)}
                   className={`h-9 flex-1 rounded-full text-sm font-medium transition-colors ${
                     mode === m
-                      ? "bg-white text-black"
+                      ? "bg-bg text-text shadow-sm"
                       : "text-muted hover:text-foreground"
                   }`}
                 >
@@ -317,14 +302,32 @@ function JoinModalCard({
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-3">
+          {isAuth && (
+            <>
+              <div className="mt-5">
+                <GoogleSignInButton
+                  onCredential={handleGoogleCredential}
+                  disabled={isPending}
+                />
+              </div>
+              <div className="my-5 flex items-center gap-3">
+                <span className="h-px flex-1 bg-line" />
+                <span className="text-xs uppercase tracking-[0.2em] text-muted">
+                  or
+                </span>
+                <span className="h-px flex-1 bg-line" />
+              </div>
+            </>
+          )}
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             {(!isAuth || mode === "register") && (
               <input
                 type="text"
                 placeholder="Full name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="h-12 rounded-full border border-white/15 bg-transparent px-5 text-sm text-foreground placeholder:text-muted focus:border-white/40 focus:outline-none"
+                className="h-12 rounded-full border border-line bg-bg px-5 text-sm text-foreground placeholder:text-text-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25"
               />
             )}
             <input
@@ -332,7 +335,7 @@ function JoinModalCard({
               placeholder="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="h-12 rounded-full border border-white/15 bg-transparent px-5 text-sm text-foreground placeholder:text-muted focus:border-white/40 focus:outline-none"
+              className="h-12 rounded-full border border-line bg-bg px-5 text-sm text-foreground placeholder:text-text-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25"
             />
             {isAuth && (
               <input
@@ -341,11 +344,11 @@ function JoinModalCard({
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete={mode === "register" ? "new-password" : "current-password"}
-                className="h-12 rounded-full border border-white/15 bg-transparent px-5 text-sm text-foreground placeholder:text-muted focus:border-white/40 focus:outline-none"
+                className="h-12 rounded-full border border-line bg-bg px-5 text-sm text-foreground placeholder:text-text-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25"
               />
             )}
             {errorMessage && (
-              <span className="px-1 text-xs text-red-400">{errorMessage}</span>
+              <span className="px-1 text-xs text-live">{errorMessage}</span>
             )}
             <button
               type="submit"
@@ -397,7 +400,7 @@ export default function JoinModal({
           transition={{ duration: 0.2 }}
         >
           <motion.div
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-text/25 backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
           />

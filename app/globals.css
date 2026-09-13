@@ -1,18 +1,115 @@
 @import "tailwindcss";
 
-/* ── Color & surface tokens (§2) ─────────────────────────────────────────── */
+/* Dark mode is driven by an explicit `data-theme="dark"` on <html>, set before
+   first paint by the inline script in app/layout.tsx. An attribute (rather than
+   a media query) is what lets the navbar toggle override the OS preference. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ── Color & surface tokens ──────────────────────────────────────────────────
+   Light editorial system: white page, near-black ink, hairline rules. Surfaces
+   are warm-neutral greys (never pure #f00 cool) so product panels sit quietly
+   against the white without looking like disabled UI. */
 :root {
-  --bg: #050607;
-  --surface: #0a0c10;
-  --surface-2: #101318;
-  --line: rgba(255, 255, 255, 0.08);
-  --line-strong: rgba(255, 255, 255, 0.16);
-  --text: #ffffff;
-  --text-2: rgba(255, 255, 255, 0.62);
-  --text-3: rgba(255, 255, 255, 0.38);
-  --accent: #8b5cf6;
-  --accent-dim: rgba(139, 92, 246, 0.12);
-  --live: #ff3b30;
+  --bg: #ffffff;
+  --surface: #f7f7f5;
+  --surface-2: #efefec;
+  --line: #e6e6e1;
+  --line-strong: #d4d4ce;
+  --text: #0b0b0c;
+  --text-2: #5f6066;
+  --text-3: #9a9ba1;
+  --accent: #6d28d9;
+  --accent-strong: #5b21b6;
+  --accent-bright: #8b5cf6;
+  --accent-soft: #f3eeff;
+  --accent-dim: rgba(109, 40, 217, 0.1);
+  --live: #e0322b;
+
+  /* Category colors for the solid pill rows + feature-row chips. Flat and
+     saturated — they carry the section, so they never get tinted down. */
+  --cat-voice: #15803d;
+  --cat-sync: #1d4ed8;
+  --cat-lang: #b91c1c;
+  --cat-live: #ea580c;
+
+  /* Semantic tint pairs for chips, icon squares, and status pills. Defining
+     them as tokens (instead of literal `bg-emerald-50 text-emerald-700`) is
+     what lets every accented chip on the page flip with the theme without a
+     single `dark:` utility in the components. */
+  --tint-green-bg: #ecfdf3;
+  --tint-green-fg: #15803d;
+  --tint-blue-bg: #eff6ff;
+  --tint-blue-fg: #1d4ed8;
+  --tint-violet-bg: #f5f1ff;
+  --tint-violet-fg: #6d28d9;
+  --tint-orange-bg: #fff4ec;
+  --tint-orange-fg: #c2410c;
+  --tint-rose-bg: #fff1f2;
+  --tint-rose-fg: #be123c;
+  --tint-amber-bg: #fffbeb;
+  --tint-amber-fg: #b45309;
+
+  /* The hero / CTA pastel wash, as one swappable value. */
+  --mesh:
+    radial-gradient(48% 58% at 12% 18%, rgba(167, 139, 250, 0.34), transparent 62%),
+    radial-gradient(44% 52% at 88% 12%, rgba(125, 211, 252, 0.3), transparent 62%),
+    radial-gradient(52% 48% at 72% 86%, rgba(244, 114, 182, 0.2), transparent 64%),
+    radial-gradient(40% 44% at 26% 92%, rgba(253, 186, 116, 0.22), transparent 62%);
+
+  /* Aliases consumed by JoinModal / auth surfaces. */
+  --foreground: var(--text);
+  --muted: var(--text-2);
+  --border: var(--line);
+
+  color-scheme: light;
+}
+
+/* ── Dark theme ──────────────────────────────────────────────────────────────
+   Not a simple inversion: surfaces stay slightly warm-neutral, the accent is
+   lifted to a brighter violet so it still reads on a dark field, and the tint
+   pairs become low-alpha washes of their own hue rather than pale pastels. */
+[data-theme="dark"] {
+  --bg: #0a0a0c;
+  --surface: #141418;
+  --surface-2: #1c1c22;
+  --line: #26262e;
+  --line-strong: #3a3a45;
+  --text: #f4f4f6;
+  --text-2: #a3a3ae;
+  --text-3: #71717f;
+
+  --accent: #a78bfa;
+  --accent-strong: #c4b5fd;
+  --accent-bright: #c4b5fd;
+  --accent-soft: rgba(167, 139, 250, 0.14);
+  --accent-dim: rgba(167, 139, 250, 0.1);
+  --live: #ff5f57;
+
+  --cat-voice: #15803d;
+  --cat-sync: #1d4ed8;
+  --cat-lang: #b91c1c;
+  --cat-live: #ea580c;
+
+  --tint-green-bg: rgba(34, 197, 94, 0.14);
+  --tint-green-fg: #4ade80;
+  --tint-blue-bg: rgba(59, 130, 246, 0.14);
+  --tint-blue-fg: #60a5fa;
+  --tint-violet-bg: rgba(167, 139, 250, 0.16);
+  --tint-violet-fg: #c4b5fd;
+  --tint-orange-bg: rgba(249, 115, 22, 0.14);
+  --tint-orange-fg: #fb923c;
+  --tint-rose-bg: rgba(244, 63, 94, 0.14);
+  --tint-rose-fg: #fb7185;
+  --tint-amber-bg: rgba(245, 158, 11, 0.14);
+  --tint-amber-fg: #fbbf24;
+
+  --mesh:
+    radial-gradient(48% 58% at 12% 18%, rgba(139, 92, 246, 0.3), transparent 62%),
+    radial-gradient(44% 52% at 88% 12%, rgba(56, 189, 248, 0.18), transparent 62%),
+    radial-gradient(52% 48% at 72% 86%, rgba(236, 72, 153, 0.16), transparent 64%),
+    radial-gradient(40% 44% at 26% 92%, rgba(249, 115, 22, 0.14), transparent 62%);
+
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -25,17 +122,43 @@
   --color-text-2: var(--text-2);
   --color-text-3: var(--text-3);
   --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-soft: var(--accent-soft);
   --color-accent-dim: var(--accent-dim);
+  --color-accent-strong: var(--accent-strong);
   --color-live: var(--live);
+
+  --color-cat-voice: var(--cat-voice);
+  --color-cat-sync: var(--cat-sync);
+  --color-cat-lang: var(--cat-lang);
+  --color-cat-live: var(--cat-live);
+
+  --color-tint-green-bg: var(--tint-green-bg);
+  --color-tint-green-fg: var(--tint-green-fg);
+  --color-tint-blue-bg: var(--tint-blue-bg);
+  --color-tint-blue-fg: var(--tint-blue-fg);
+  --color-tint-violet-bg: var(--tint-violet-bg);
+  --color-tint-violet-fg: var(--tint-violet-fg);
+  --color-tint-orange-bg: var(--tint-orange-bg);
+  --color-tint-orange-fg: var(--tint-orange-fg);
+  --color-tint-rose-bg: var(--tint-rose-bg);
+  --color-tint-rose-fg: var(--tint-rose-fg);
+  --color-tint-amber-bg: var(--tint-amber-bg);
+  --color-tint-amber-fg: var(--tint-amber-fg);
+
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
   /* Kept alias so existing components referencing bg-ink still resolve. */
   --color-ink: var(--bg);
 
   --font-sans: var(--font-inter);
+  --font-display: var(--font-outfit);
   --font-mono: var(--font-jetbrains);
   --font-pixel: var(--font-pixel);
 }
 
-/* ── Depth / z-index token scale (§3) ────────────────────────────────────────
+/* ── Depth / z-index token scale ─────────────────────────────────────────────
    Tailwind v4 has no tailwind.config.ts, so the depth system lives here as
    named utilities. Use ONLY these (z-base … z-overlay) for layering. */
 @utility z-base { z-index: 0; }
@@ -48,7 +171,7 @@
 @utility z-cursor { z-index: 70; }
 @utility z-overlay { z-index: 80; }
 
-/* Safe-area padding helpers for notched devices (§6). */
+/* Safe-area padding helpers for notched devices. */
 @utility pt-safe { padding-top: env(safe-area-inset-top); }
 @utility pb-safe { padding-bottom: env(safe-area-inset-bottom); }
 
@@ -59,8 +182,85 @@
   background-size: 6px 6px;
 }
 
+/* ── Surface patterns ────────────────────────────────────────────────────────
+   The reference layers three repeating fields: a loose dot grid under the hero,
+   a fine square grid behind product frames (tinted per category), and a
+   vertical hatch used as a divider band between sections. */
+
+@utility field-dots {
+  background-image: radial-gradient(var(--line-strong) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+/* Fine product grid. Tint via --grid-line / --grid-fill on the element. */
+@utility field-grid {
+  background-color: var(--grid-fill, transparent);
+  background-image:
+    linear-gradient(to right, var(--grid-line, var(--line)) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line, var(--line)) 1px, transparent 1px);
+  background-size: var(--grid-size, 13px) var(--grid-size, 13px);
+}
+
+/* Vertical hatch divider — the thin ruled band separating major sections. */
+@utility field-hatch {
+  background-image: linear-gradient(to right, var(--line) 1px, transparent 1px);
+  background-size: 9px 100%;
+}
+
+/* The pastel wash behind the hero and the closing CTA. Themed via --mesh. */
+@utility field-mesh {
+  background-image: var(--mesh);
+}
+
+/* Per-category tints for `field-grid`. Plain classes rather than @utility so
+   the dark overrides can live right beside them. Pair with `field-grid`:
+   <div class="field-grid grid-tint-violet">. */
+.grid-tint-violet {
+  --grid-fill: #faf7ff;
+  --grid-line: rgba(139, 92, 246, 0.16);
+}
+.grid-tint-blue {
+  --grid-fill: #f6fbff;
+  --grid-line: rgba(29, 78, 216, 0.13);
+}
+.grid-tint-orange {
+  --grid-fill: #fffaf5;
+  --grid-line: rgba(234, 88, 12, 0.14);
+}
+.grid-tint-green {
+  --grid-fill: #f4fdf7;
+  --grid-line: rgba(21, 128, 61, 0.13);
+}
+
+/* In dark mode the ruled squares read as noise against the dark field, so the
+   grid lines are dropped entirely and each tint falls back to a flat, very
+   slightly hued panel. The squares return as-is in light mode. */
+[data-theme="dark"] .field-grid {
+  background-image: none;
+}
+[data-theme="dark"] .grid-tint-violet {
+  --grid-fill: #131020;
+}
+[data-theme="dark"] .grid-tint-blue {
+  --grid-fill: #0e1420;
+}
+[data-theme="dark"] .grid-tint-orange {
+  --grid-fill: #1a1310;
+}
+[data-theme="dark"] .grid-tint-green {
+  --grid-fill: #0d1712;
+}
+
+/* The hero dot field and the hatch dividers are the same kind of ruling —
+   drop them in dark too so the page reads as flat, quiet surfaces. */
+[data-theme="dark"] .field-dots,
+[data-theme="dark"] .field-hatch {
+  background-image: none;
+}
+
 html {
   background: var(--bg);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -68,23 +268,44 @@ body {
   color: var(--text);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-feature-settings: "ss01";
+  /* `clip` (not `hidden`) contains any stray horizontal spill without turning
+     the body into a scroll container — position: sticky keeps working. */
+  overflow-x: clip;
 }
 
-/* Every heading is monospace site-wide (§1). The .font-pixel utility on the
-   wordmark still wins (higher-specificity utility layer), so TH-LABS stays
-   pixel while all other headings inherit the mono voice. */
+/* Headings take the geometric display face, set tight — the single loudest
+   signal of the reference's voice. The .font-pixel utility on the wordmark
+   still wins (higher-specificity utility layer), so TH-LABS stays pixel. */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-mono), ui-monospace, monospace;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.025em;
 }
 
 ::selection {
-  background: rgba(139, 92, 246, 0.3);
-  color: #fff;
+  background: rgba(139, 92, 246, 0.22);
+  color: var(--text);
+}
+
+/* Theme switch: ease the large flat areas so toggling doesn't strobe. Scoped
+   to the properties that actually change, and skipped entirely for users who
+   asked for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  body,
+  header,
+  section,
+  footer,
+  article,
+  aside {
+    transition:
+      background-color 0.22s ease,
+      border-color 0.22s ease,
+      color 0.22s ease;
+  }
 }
 
 /* ── Keyframes ───────────────────────────────────────────────────────────── */
@@ -214,7 +435,21 @@ h6 {
   animation: spin-slow 90s linear infinite;
 }
 
-/* Reduced motion: kill every ambient animation (§7). Scroll-linked motion is
+/* Hero mesh: the pastel wash drifts slowly so the hero is never quite static. */
+@keyframes mesh-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-2%, 1.5%, 0) scale(1.06);
+  }
+}
+.animate-mesh {
+  animation: mesh-drift 22s ease-in-out infinite;
+}
+
+/* Reduced motion: kill every ambient animation. Scroll-linked motion is
    additionally disabled per-component via useReducedMotion. */
 @media (prefers-reduced-motion: reduce) {
   .animate-wave-bar,
@@ -226,7 +461,8 @@ h6 {
   .animate-shimmer,
   .animate-float,
   .animate-spin-slow,
-  .animate-spin-slower {
+  .animate-spin-slower,
+  .animate-mesh {
     animation: none !important;
   }
 }

@@ -34,7 +34,7 @@ export default function SectionMarker({
       whileInView="show"
       viewport={{ once: true, margin: "-15% 0px" }}
       aria-label={text}
-      className={`inline-flex font-mono text-xs uppercase tracking-[0.2em] text-white/40 ${className}`}
+      className={`inline-flex font-mono text-xs uppercase tracking-[0.2em] text-text-3 ${className}`}
     >
       {text.split("").map((c, i) => (
         <motion.span key={i} variants={glyph} aria-hidden="true" className="whitespace-pre">

@@ -1,8 +1,10 @@
 import Hero from "@/components/Hero";
 import LogoStrip from "@/components/logo-strip";
+import ProblemRows from "@/components/problem-rows";
 import HowItWorks from "@/components/how-it-works";
-import AboutProject from "@/components/about-project";
 import FeaturesBento from "@/components/features-bento";
+import ApiBand from "@/components/api-band";
+import AboutProject from "@/components/about-project";
 import LanguageMarquee from "@/components/language-marquee";
 import UseCasesStack from "@/components/use-cases-stack";
 import Faq from "@/components/faq";
@@ -17,9 +19,11 @@ export default function Home() {
       <StudioResume />
       <Hero />
       <LogoStrip />
+      <ProblemRows />
       <HowItWorks />
-      <AboutProject />
       <FeaturesBento />
+      <ApiBand />
+      <AboutProject />
       <LanguageMarquee />
       <UseCasesStack />
       <Faq />

@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import SectionMarker from "./section-marker";
+import { Plus } from "lucide-react";
+import Frame, { Inner } from "./frame";
+import SectionHead from "./section-head";
 
 const FAQS = [
   {
@@ -23,7 +25,7 @@ const FAQS = [
   },
   {
     q: "How is pricing structured?",
-    a: "Usage-based, billed by minutes processed, with a free tier to try it. Waitlist members get early-access pricing when we open up.",
+    a: "Usage-based, billed by minutes processed, with a free tier to try it. Community members get early-access pricing when we open up.",
   },
   {
     q: "How is my data handled?",
@@ -35,65 +37,61 @@ export default function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section
-      id="faq"
-      className="relative mx-auto w-full max-w-[1280px] px-5 py-20 sm:px-8 md:py-32 lg:px-12"
-    >
-      <div className="mb-12 md:mb-16">
-        <SectionMarker index="06" label="FAQ" />
-        <h2 className="mt-5 max-w-2xl text-[clamp(2rem,5vw,4rem)] font-medium leading-[1.05] tracking-tight text-white">
-          Questions,{" "}
-          <span className="font-normal italic text-white/45">answered plainly.</span>
-        </h2>
-      </div>
+    <Frame as="section" bleed id="faq" className="border-b border-line">
+      <Inner className="py-12 md:py-16">
+        <SectionHead
+          title="Questions, answered plainly"
+          sub="If yours isn't here, the community channels are the fastest way to reach us."
+        />
 
-      <div className="mx-auto max-w-3xl border-t border-white/[0.08]">
-        {FAQS.map((f, i) => {
-          const isOpen = open === i;
-          return (
-            <div key={f.q} className="border-b border-white/[0.08]">
-              <h3>
-                <button
-                  type="button"
-                  onClick={() => setOpen(isOpen ? null : i)}
-                  aria-expanded={isOpen}
-                  aria-controls={`faq-panel-${i}`}
-                  id={`faq-trigger-${i}`}
-                  className="flex w-full items-center justify-between gap-6 py-5 text-left outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-                >
-                  <span className="font-mono text-base text-white sm:text-lg">{f.q}</span>
-                  <span
-                    aria-hidden="true"
-                    className={`shrink-0 text-xl text-white/50 transition-transform duration-300 ${
-                      isOpen ? "rotate-45" : "rotate-0"
-                    }`}
+        <div className="mx-auto mt-10 max-w-3xl">
+          {FAQS.map((f, i) => {
+            const isOpen = open === i;
+            return (
+              <div key={f.q} className="border-b border-line first:border-t">
+                <h3>
+                  <button
+                    type="button"
+                    onClick={() => setOpen(isOpen ? null : i)}
+                    aria-expanded={isOpen}
+                    aria-controls={`faq-panel-${i}`}
+                    id={`faq-trigger-${i}`}
+                    className="flex w-full items-center justify-between gap-6 py-5 text-left outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   >
-                    +
-                  </span>
-                </button>
-              </h3>
-              <AnimatePresence initial={false}>
-                {isOpen && (
-                  <motion.div
-                    id={`faq-panel-${i}`}
-                    role="region"
-                    aria-labelledby={`faq-trigger-${i}`}
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-                    className="overflow-hidden"
-                  >
-                    <p className="max-w-[60ch] pb-6 font-sans text-[15px] leading-relaxed text-white/60">
-                      {f.a}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          );
-        })}
-      </div>
-    </section>
+                    <span className="font-display text-base font-medium text-text sm:text-lg">
+                      {f.q}
+                    </span>
+                    <Plus
+                      aria-hidden="true"
+                      className={`h-4 w-4 shrink-0 text-text-3 transition-transform duration-300 ${
+                        isOpen ? "rotate-45" : "rotate-0"
+                      }`}
+                    />
+                  </button>
+                </h3>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      id={`faq-panel-${i}`}
+                      role="region"
+                      aria-labelledby={`faq-trigger-${i}`}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <p className="max-w-[62ch] pb-6 text-[15px] leading-relaxed text-text-2">
+                        {f.a}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+      </Inner>
+    </Frame>
   );
 }

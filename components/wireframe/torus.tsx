@@ -10,7 +10,7 @@ export default function WireTorus({ className = "" }: { className?: string }) {
         fill="none"
         stroke="currentColor"
         strokeWidth="0.75"
-        className="h-full w-full text-white/25"
+        className="h-full w-full"
       >
         <g transform="rotate(-20 100 100)">
           <ellipse cx="100" cy="100" rx="82" ry="34" />

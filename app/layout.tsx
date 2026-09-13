@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Press_Start_2P } from "next/font/google";
+import { Inter, JetBrains_Mono, Outfit, Press_Start_2P } from "next/font/google";
 import QueryProvider from "@/components/providers/QueryProvider";
+import { THEME_INIT_SCRIPT } from "@/components/theme-toggle";
 import ClickSpark from "@/components/reactbits/ClickSpark/ClickSpark";
 import SmoothScroll from "@/components/smooth-scroll";
 import "./globals.css";
@@ -11,7 +12,13 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-// Every heading, nav link, button, label, stat — the technical-mono voice.
+// Every heading — the geometric display voice, set tight and near-black.
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+});
+
+// Eyebrows, labels, stats, code — the technical-mono voice.
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
   subsets: ["latin"],
@@ -93,7 +100,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#050607",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0c" },
+  ],
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -143,8 +153,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} ${pressStart2P.variable} h-full antialiased`}
+      // The theme script stamps data-theme on <html> before hydration, so the
+      // server markup intentionally differs here.
+      suppressHydrationWarning
+      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} ${pressStart2P.variable} h-full antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col bg-bg text-text">
         <script
           type="application/ld+json"

@@ -10,7 +10,7 @@ export default function WireGlobe({ className = "" }: { className?: string }) {
         fill="none"
         stroke="currentColor"
         strokeWidth="0.75"
-        className="h-full w-full text-white/25"
+        className="h-full w-full"
       >
         <circle cx="100" cy="100" r="80" />
         <ellipse cx="100" cy="100" rx="80" ry="26" />

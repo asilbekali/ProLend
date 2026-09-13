@@ -10,7 +10,7 @@ export default function WireCube({ className = "" }: { className?: string }) {
         fill="none"
         stroke="currentColor"
         strokeWidth="0.75"
-        className="h-full w-full text-white/25"
+        className="h-full w-full"
       >
         {/* back face */}
         <rect x="60" y="40" width="90" height="90" />
