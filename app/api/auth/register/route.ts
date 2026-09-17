@@ -1,4 +1,4 @@
-// POST /api/auth/register — thin proxy to the TH-LABS backend
+// POST /api/auth/register — thin proxy to the TH-Labs backend
 // POST /v1/users/create-user. Takes { name, email, password }, forwards it, and
 // returns { user, code, expiresIn } — a one-time handoff code, NOT the token
 // pair. See lib/handoff.ts for why. Contract mirrors

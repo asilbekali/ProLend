@@ -1,6 +1,6 @@
 "use client";
 
-// FILE MISSION: "Register" — create a new TH-LABS account with name + email +
+// FILE MISSION: "Register" — create a new TH-Labs account with name + email +
 // password. Backs the "Register" tab of JoinModal's register/login flavor.
 //
 // Talks to: POST /api/auth/register  (proxies the backend

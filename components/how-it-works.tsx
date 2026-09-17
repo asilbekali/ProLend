@@ -108,7 +108,7 @@ export default function HowItWorks() {
           <br className="hidden sm:block" /> already making.
         </>
       ),
-      body: "Video, audio, a podcast, a course, or a live stream. Drop it in and TH-LABS handles ingest, speaker detection, and transcription before you've finished your coffee.",
+      body: "Video, audio, a podcast, a course, or a live stream. Drop it in and TH-Labs handles ingest, speaker detection, and transcription before you've finished your coffee.",
       link: "Learn more about ingest",
       grid: "grid-tint-green",
       visual: <UploadScene />,

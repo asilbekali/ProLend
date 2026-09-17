@@ -19,9 +19,10 @@ import {
   User,
   Users,
 } from "lucide-react";
+import LogoMark from "./logo-mark";
 
 /* ── Shared dashboard chrome ──────────────────────────────────────────────────
-   Every hero/feature preview is framed as a screenshot of the TH-LABS Studio:
+   Every hero/feature preview is framed as a screenshot of the TH-Labs Studio:
    a slim left rail, a title bar, and the panel body. Keeping the chrome in one
    place is what makes three different panels read as one product. */
 
@@ -50,9 +51,9 @@ export function DashboardFrame({
       {/* Left rail */}
       <div className="hidden w-[172px] shrink-0 flex-col border-r border-line bg-surface/60 p-3 sm:flex">
         <div className="flex items-center gap-2 px-2 py-1.5">
-          <span className="flex h-6 w-6 items-center justify-center rounded-md bg-accent text-[9px] font-bold text-white">
-            TH
-          </span>
+          {/* The mark is its own rounded-square badge, so it stands in for the
+              accent tile that used to sit here rather than nesting inside one. */}
+          <LogoMark className="h-6 w-6 shrink-0 text-accent" />
           <span className="font-display text-sm font-medium text-text">Studio</span>
           <ChevronDown className="ml-auto h-3.5 w-3.5 text-text-3" />
         </div>

@@ -43,14 +43,14 @@ const AUTH_COPY: Record<
     eyebrow: "Get Started",
     title: "Create Account",
     description:
-      "Create your TH-LABS account — name, email and a password (8+ characters). We'll take you straight into the app.",
+      "Create your TH-Labs account — name, email and a password (8+ characters). We'll take you straight into the app.",
     submitLabel: "Create account",
   },
   login: {
     eyebrow: "Welcome Back",
     title: "Log In",
     description:
-      "Log in to your TH-LABS account with your email and password to pick up where you left off.",
+      "Log in to your TH-Labs account with your email and password to pick up where you left off.",
     submitLabel: "Log in",
   },
 };
@@ -59,11 +59,11 @@ const COMMUNITY_COPY = {
   eyebrow: "Community",
   title: "Join the Community",
   description:
-    "Get early access to TH-LABS, plus build updates and language drops as they ship. Drop your name and email — one spot per person.",
+    "Get early access to TH-Labs, plus build updates and language drops as they ship. Drop your name and email — one spot per person.",
   submitLabel: "Join Community",
   successTitle: "Welcome in",
   successBody:
-    "You're part of the TH-LABS community. We'll email you as soon as your access opens up.",
+    "You're part of the TH-Labs community. We'll email you as soon as your access opens up.",
 };
 
 // Shown instead of the normal success message when the backend reports this
@@ -225,7 +225,7 @@ function JoinModalCard({
           </h2>
           <p className="mt-3 flex items-center gap-2 text-sm leading-relaxed text-muted">
             <Loader2 className="h-4 w-4 animate-spin" />
-            Taking you to TH-LABS…
+            Taking you to TH-Labs…
           </p>
         </div>
       ) : communitySucceeded ? (

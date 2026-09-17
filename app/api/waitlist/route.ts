@@ -1,6 +1,6 @@
 // POST /api/waitlist — lightweight name+email signup (Hero "Join Waitlist").
 //
-// Proxies the TH-LABS backend POST /v1/wait-list. The backend takes
+// Proxies the TH-Labs backend POST /v1/wait-list. The backend takes
 // { userName, email } and returns the created row { id, name, email, ... } on
 // 201, or 409 { message: "Email is already on the wait list" } if that email
 // already has a spot. We map that onto the UI contract

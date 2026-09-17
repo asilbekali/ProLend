@@ -5,7 +5,7 @@ import { useMotionValueEvent, useScroll } from "motion/react";
 import Frame, { Inner } from "./frame";
 import SectionHead from "./section-head";
 
-// Turkic pairs lead the first row — they're what TH-LABS is strongest at, and
+// Turkic pairs lead the first row — they're what TH-Labs is strongest at, and
 // they're badly served by every general-purpose dubbing tool.
 const ROW_A = [
   "EN → UZ",
@@ -109,7 +109,7 @@ export default function LanguageMarquee() {
             ))}
           </div>
           <p className="mx-auto mt-5 max-w-xl text-center text-[15px] leading-relaxed text-text-2">
-            Turkic languages are where TH-LABS is strongest. Vowel harmony, heavy
+            Turkic languages are where TH-Labs is strongest. Vowel harmony, heavy
             agglutination, and word order that moves the verb to the end all break the
             timing of a naive dub — so we train and tune for them directly. Uzbek,
             Turkish, and Kazakh get the same voice-cloned, lip-synced quality as English,

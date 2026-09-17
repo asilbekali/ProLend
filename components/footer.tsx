@@ -6,6 +6,7 @@ import {
   YoutubeIcon,
 } from "./social-icons";
 import Wordmark from "./wordmark";
+import LogoMark from "./logo-mark";
 import Frame, { Inner } from "./frame";
 
 const COLUMNS = [
@@ -63,7 +64,10 @@ export default function Footer() {
         <div className="flex flex-col gap-12 py-14 md:flex-row md:justify-between md:gap-16 md:py-16">
           {/* Brand */}
           <div className="flex max-w-xs flex-col gap-4">
-            <Wordmark className="text-[13px] text-text" />
+            <span className="flex items-center gap-2.5 text-text">
+              <LogoMark className="h-6 w-6 shrink-0" />
+              <Wordmark className="text-[13px]" />
+            </span>
             <p className="text-sm leading-relaxed text-text-2">
               One recording, every language your audience speaks — voice-cloned,
               lip-synced, in real time.
@@ -115,7 +119,7 @@ export default function Footer() {
             </span>
             All services are online
           </span>
-          <span>© 2026 TH-LABS. Natural multilingual voice conversion.</span>
+          <span>© 2026 TH-Labs. Natural multilingual voice conversion.</span>
         </div>
       </Inner>
     </Frame>

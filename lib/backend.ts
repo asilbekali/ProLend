@@ -1,4 +1,4 @@
-// FILE MISSION: the single server-side gateway to the TH-LABS backend
+// FILE MISSION: the single server-side gateway to the TH-Labs backend
 // (PostgreSQL/Prisma API at BACKEND_API_URL). Every Next.js route handler that
 // needs to talk to the backend goes through here so the base URL, JSON headers,
 // and error normalization live in one place. This runs on the server only, so

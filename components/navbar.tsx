@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion, type Variants } from "motion/react";
 import { AudioLines, BookOpen, ChevronDown, Radio, Sparkles } from "lucide-react";
 import Wordmark from "./wordmark";
+import LogoMark from "./logo-mark";
 import JoinModal from "./JoinModal";
 import { MEASURE } from "./frame";
 import ThemeToggle from "./theme-toggle";
@@ -189,10 +190,11 @@ export default function Navbar() {
         >
           <Link
             href="#top"
-            aria-label="TH-LABS — home"
-            className="rounded px-0.5 outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+            aria-label="TH-Labs — home"
+            className="flex items-center gap-2 rounded px-0.5 text-text outline-none focus-visible:ring-2 focus-visible:ring-accent/50 sm:gap-2.5"
           >
-            <Wordmark className="text-[11px] text-text sm:text-[13px]" />
+            <LogoMark className="h-5 w-5 shrink-0 sm:h-[22px] sm:w-[22px]" />
+            <Wordmark className="text-[11px] sm:text-[13px]" />
           </Link>
 
           {/* Desktop nav */}
@@ -286,7 +288,10 @@ export default function Navbar() {
             className="z-overlay fixed inset-0 flex flex-col overflow-y-auto bg-bg px-6 pb-safe pt-6 md:hidden"
           >
             <div className="flex items-center justify-between gap-3">
-              <Wordmark className="text-[12px] text-text" />
+              <span className="flex items-center gap-2 text-text">
+                <LogoMark className="h-5 w-5 shrink-0" />
+                <Wordmark className="text-[12px]" />
+              </span>
               <ThemeToggle className="ml-auto" />
               <button
                 type="button"

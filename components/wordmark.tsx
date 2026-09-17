@@ -3,7 +3,7 @@
 import type { ElementType } from "react";
 import { motion, type Variants } from "motion/react";
 
-const TEXT = "TH-LABS";
+const TEXT = "TH-Labs";
 
 // Per-character entrance: rise + blur-to-focus. Consumed by the hero's master
 // timeline — the container inherits `show` from its parent and cascades to the
@@ -36,7 +36,7 @@ type WordmarkProps = {
 };
 
 /**
- * The single source of truth for the "TH-LABS" wordmark — always the pixel font
+ * The single source of truth for the "TH-Labs" wordmark — always the pixel font
  * (`font-pixel` → Press Start 2P). Never hardcode the wordmark elsewhere.
  *
  * Two modes:
@@ -52,7 +52,8 @@ export default function Wordmark({
   charReveal = false,
   charClassName = "",
 }: WordmarkProps) {
-  const base = "font-pixel select-none uppercase leading-none tracking-[0.08em]";
+  // No `uppercase` here: the brand is cased "TH-Labs", not "TH-LABS".
+  const base = "font-pixel select-none leading-none tracking-[0.08em]";
 
   if (charReveal) {
     return (

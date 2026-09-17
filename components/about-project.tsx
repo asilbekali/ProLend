@@ -5,7 +5,7 @@ import Frame from "./frame";
 import SectionMarker from "./section-marker";
 
 const PARAGRAPHS = [
-  "TH-LABS turns one recording into natural-sounding audio in dozens of languages. Upload a video, a podcast, or a course — or point it at a live stream — pick the languages you want, and it returns a dubbed track that still sounds like you.",
+  "TH-Labs turns one recording into natural-sounding audio in dozens of languages. Upload a video, a podcast, or a course — or point it at a live stream — pick the languages you want, and it returns a dubbed track that still sounds like you.",
   "Conventional dubbing is slow and expensive. A studio booking, a separate voice actor for every language, and days of turnaround mean most creators only ever ship in one language, and the results often sound flat and detached from the original speaker.",
   "Under the hood the system runs a short pipeline: speech recognition transcribes the original, translation adapts it while holding the meaning, a cloned voice speaks the result in your timbre, lip sync aligns the mouth to the new audio, and a final mix sets it back against the music and effects.",
   "The difference is that the voice stays yours. Prosody — the rhythm, stress, and feeling of how you actually talk — is kept rather than smoothed away, and the whole thing runs fast enough to work on a live broadcast.",

@@ -47,7 +47,7 @@ export default function ApiBand() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-white/55">
-              TH-LABS API
+              TH-Labs API
             </span>
             <h2 className="mt-4 text-[clamp(1.8rem,3.8vw,2.9rem)] font-medium leading-[1.08] text-white">
               Don&apos;t rebuild dubbing.

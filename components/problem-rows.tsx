@@ -39,7 +39,7 @@ export default function ProblemRows() {
           </h2>
           <p className="mt-6 max-w-md text-[15px] leading-relaxed text-text-2">
             Studio bookings, a separate voice actor per language, subtitle vendors, weeks
-            of turnaround — none of that should decide who gets to watch. TH-LABS handles
+            of turnaround — none of that should decide who gets to watch. TH-Labs handles
             the whole pipeline so you can publish everywhere at once.
           </p>
         </motion.div>

@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "TH-LABS — AI dubbing for natural multilingual voice";
+export const alt = "TH-Labs — AI dubbing for natural multilingual voice";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -45,7 +45,7 @@ export default function OpengraphImage() {
               color: "#ffffff",
             }}
           >
-            TH-LABS
+            TH-Labs
             <div
               style={{
                 width: 26,

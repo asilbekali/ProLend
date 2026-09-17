@@ -1,4 +1,4 @@
-// FILE MISSION: sends the "Welcome to TH-LABS" email to anyone who registers
+// FILE MISSION: sends the "Welcome to TH-Labs" email to anyone who registers
 // or joins the waitlist. Uses the Gmail SMTP credentials from .env via
 // nodemailer. Called (fire-and-forget, errors logged not thrown) from the
 // waitlist / register / google-signin flows so a mail hiccup never fails the
@@ -51,13 +51,13 @@ function welcomeHtml(name: string) {
             <tr>
               <td style="padding:36px 40px 8px;">
                 <div style="font-size:13px;letter-spacing:3px;text-transform:uppercase;color:${MUTED};">Welcome to</div>
-                <div style="font-size:26px;font-weight:700;letter-spacing:1px;margin-top:6px;">TH-LABS</div>
+                <div style="font-size:26px;font-weight:700;letter-spacing:1px;margin-top:6px;">TH-Labs</div>
               </td>
             </tr>
             <tr>
               <td style="padding:20px 40px 8px;">
                 <h1 style="margin:0 0 16px;font-size:22px;font-weight:600;">Welcome, ${name}</h1>
-                <p style="margin:0 0 14px;font-size:15px;line-height:1.65;color:${TEXT};">Thank you for joining TH-LABS. Your registration has been successfully completed.</p>
+                <p style="margin:0 0 14px;font-size:15px;line-height:1.65;color:${TEXT};">Thank you for joining TH-Labs. Your registration has been successfully completed.</p>
                 <p style="margin:0 0 14px;font-size:15px;line-height:1.65;color:${MUTED};">You are now one of our early members and will receive exclusive product updates, early announcements, and launch notifications before our public release.</p>
               </td>
             </tr>
@@ -66,7 +66,7 @@ function welcomeHtml(name: string) {
                 <div style="border-top:1px solid ${BORDER};padding-top:22px;">
                   <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:${ACCENT};margin-bottom:10px;">Our Mission</div>
                   <p style="margin:0 0 12px;font-size:15px;line-height:1.65;color:${TEXT};">To break language barriers through artificial intelligence and make the future more accessible for everyone.</p>
-                  <p style="margin:0;font-size:14px;line-height:1.65;color:${MUTED};">Our team is actively developing TH-LABS. As an early member, you'll be among the first to be notified as soon as our AI dubbing system becomes available.</p>
+                  <p style="margin:0;font-size:14px;line-height:1.65;color:${MUTED};">Our team is actively developing TH-Labs. As an early member, you'll be among the first to be notified as soon as our AI dubbing system becomes available.</p>
                 </div>
               </td>
             </tr>
@@ -85,12 +85,12 @@ function welcomeHtml(name: string) {
             </tr>
             <tr>
               <td style="padding:26px 40px 36px;">
-                <p style="margin:0 0 4px;font-size:15px;color:${TEXT};">Thank you for supporting TH-LABS.</p>
-                <p style="margin:0;font-size:14px;color:${MUTED};">— TH-LABS Team</p>
+                <p style="margin:0 0 4px;font-size:15px;color:${TEXT};">Thank you for supporting TH-Labs.</p>
+                <p style="margin:0;font-size:14px;color:${MUTED};">— TH-Labs Team</p>
               </td>
             </tr>
           </table>
-          <p style="max-width:560px;margin:18px auto 0;padding:0 40px;font-size:12px;line-height:1.6;color:${MUTED};text-align:center;">This email was sent because you joined the TH-LABS early access community.</p>
+          <p style="max-width:560px;margin:18px auto 0;padding:0 40px;font-size:12px;line-height:1.6;color:${MUTED};text-align:center;">This email was sent because you joined the TH-Labs early access community.</p>
         </td>
       </tr>
     </table>
@@ -101,12 +101,12 @@ function welcomeHtml(name: string) {
 function welcomeText(name: string) {
   return `Welcome, ${name}
 
-Thank you for joining TH-LABS. Your registration has been successfully completed.
+Thank you for joining TH-Labs. Your registration has been successfully completed.
 
 You are now one of our early members and will receive exclusive product updates, early announcements, and launch notifications before our public release.
 
 OUR MISSION
-To break language barriers through artificial intelligence and make the future more accessible for everyone. Our team is actively developing TH-LABS. As an early member, you'll be among the first to be notified as soon as our AI dubbing system becomes available.
+To break language barriers through artificial intelligence and make the future more accessible for everyone. Our team is actively developing TH-Labs. As an early member, you'll be among the first to be notified as soon as our AI dubbing system becomes available.
 
 Contact
 Email     thethlabs.io@gmail.com
@@ -114,18 +114,18 @@ Website   th-labs-flame.vercel.app
 Instagram instagram.com/th_labs.io
 LinkedIn  Coming Soon
 
-Thank you for supporting TH-LABS.
-— TH-LABS Team
+Thank you for supporting TH-Labs.
+— TH-Labs Team
 
-This email was sent because you joined the TH-LABS early access community.`;
+This email was sent because you joined the TH-Labs early access community.`;
 }
 
 export async function sendWelcomeEmail(to: string, name: string) {
-  const from = SMTP_FROM ?? `TH-LABS <${SMTP_USER}>`;
+  const from = SMTP_FROM ?? `TH-Labs <${SMTP_USER}>`;
   await getTransport().sendMail({
     from,
     to,
-    subject: "Welcome to TH-LABS",
+    subject: "Welcome to TH-Labs",
     text: welcomeText(name),
     html: welcomeHtml(name),
   });
