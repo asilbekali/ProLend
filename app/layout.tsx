@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Outfit, Press_Start_2P } from "next/font/google";
+import { Archivo, Inter, JetBrains_Mono, Outfit } from "next/font/google";
 import QueryProvider from "@/components/providers/QueryProvider";
 import { THEME_INIT_SCRIPT } from "@/components/theme-toggle";
 import ClickSpark from "@/components/reactbits/ClickSpark/ClickSpark";
 import SmoothScroll from "@/components/smooth-scroll";
+import ParrotMascot from "@/components/parrot-mascot";
 import { FAQS } from "@/lib/faqs";
 import "./globals.css";
 
@@ -26,11 +27,13 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["400", "500", "600", "700"],
 });
 
-// The wordmark + step numbers only.
-const pressStart2P = Press_Start_2P({
-  variable: "--font-pixel",
+// The brand voice: the wordmark and the auth-card titles. A heavy grotesque
+// set tight, matching the cut letters on the office signage — the pixel face
+// that used to sit here never fit the mark beside it.
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["600", "700", "800"],
 });
 
 const SITE = "https://th-labs.uz";
@@ -134,7 +137,11 @@ const jsonLd = {
       logo: `${SITE}/logo.png`,
       description:
         "TH-Labs builds an AI dubbing and video translation system for natural multilingual voice conversion.",
-      sameAs: ["https://instagram.com/th_labs.io"],
+      sameAs: [
+        "https://instagram.com/th_labs.io",
+        "https://www.linkedin.com/company/thlabsio/",
+        "https://t.me/thlabsio",
+      ],
     },
     {
       "@type": "WebSite",
@@ -202,7 +209,7 @@ export default function RootLayout({
       // The theme script stamps data-theme on <html> before hydration, so the
       // server markup intentionally differs here.
       suppressHydrationWarning
-      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} ${pressStart2P.variable} h-full antialiased`}
+      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} ${archivo.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
@@ -223,6 +230,9 @@ export default function RootLayout({
             >
               {children}
             </ClickSpark>
+            {/* Mounted at the root, outside the scroller: the mascot is fixed
+                to the viewport and has to survive every section it flies past. */}
+            <ParrotMascot />
           </SmoothScroll>
         </QueryProvider>
       </body>

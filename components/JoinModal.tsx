@@ -3,7 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Check, Loader2, UserCheck, X } from "lucide-react";
-import { Press_Start_2P, Newsreader } from "next/font/google";
+import { Archivo, Newsreader } from "next/font/google";
 import { useJoinWaitlistMutation } from "@/lib/queries/useJoinWaitlistMutation";
 import { useRegisterMutation } from "@/lib/queries/useRegisterMutation";
 import { useLoginMutation } from "@/lib/queries/useLoginMutation";
@@ -11,10 +11,10 @@ import { useGoogleAuthMutation } from "@/lib/queries/useGoogleAuthMutation";
 import GoogleSignInButton from "@/components/GoogleSignInButton";
 import { completeAuthAndRedirect } from "@/lib/session";
 
-const pressStart2P = Press_Start_2P({
+const archivo = Archivo({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-pixel",
+  weight: ["600", "700"],
+  variable: "--font-archivo",
 });
 
 const newsreader = Newsreader({
@@ -214,8 +214,8 @@ function JoinModalCard({
             <Check className={`h-6 w-6 ${accent === "purple" ? "text-white" : "text-bg"}`} />
           </motion.div>
           <h2
-            className={`${pressStart2P.className} uppercase text-foreground`}
-            style={{ fontSize: "clamp(16px, 3vw, 20px)" }}
+            className={`${archivo.className} font-bold tracking-[-0.03em] text-foreground`}
+            style={{ fontSize: "clamp(22px, 4vw, 28px)" }}
           >
             {googleMutation.isSuccess
               ? "You're In"
@@ -247,8 +247,8 @@ function JoinModalCard({
             )}
           </motion.div>
           <h2
-            className={`${pressStart2P.className} uppercase text-foreground`}
-            style={{ fontSize: "clamp(16px, 3vw, 20px)" }}
+            className={`${archivo.className} font-bold tracking-[-0.03em] text-foreground`}
+            style={{ fontSize: "clamp(22px, 4vw, 28px)" }}
           >
             {alreadyAMember ? ALREADY_A_MEMBER.title : COMMUNITY_COPY.successTitle}
           </h2>
@@ -270,8 +270,8 @@ function JoinModalCard({
           </span>
           <h2
             id="join-modal-title"
-            className={`${pressStart2P.className} mt-3 text-balance uppercase leading-relaxed text-foreground`}
-            style={{ fontSize: "clamp(16px, 3vw, 20px)" }}
+            className={`${archivo.className} mt-3 text-balance font-bold leading-[1.15] tracking-[-0.03em] text-foreground`}
+            style={{ fontSize: "clamp(22px, 4vw, 28px)" }}
           >
             {copy.title}
           </h2>

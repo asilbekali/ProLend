@@ -37,11 +37,13 @@ const TABS = [
     chip: "bg-tint-violet-bg text-tint-violet-fg",
     grid: "grid-tint-violet",
     panel: <DubbingPanel />,
+    // Coordinates track the Studio setup screen: the four numbered steps run
+    // down the left, the route they add up to sits on the right.
     guide: [
-      { at: { x: 34, y: 22 }, caption: "Drop in your recording", hold: 1600 },
-      { at: { x: 36, y: 42 }, caption: "Clone the original voice", hold: 1600 },
-      { at: { x: 40, y: 72 }, caption: "Pick target languages", hold: 1600 },
-      { at: { x: 76, y: 74 }, caption: "Choose what ships", hold: 1600 },
+      { at: { x: 33, y: 28 }, caption: "Drop in your recording", hold: 1600 },
+      { at: { x: 33, y: 41 }, caption: "Pick the target language", hold: 1600 },
+      { at: { x: 33, y: 70 }, caption: "Choose the quality", hold: 1600 },
+      { at: { x: 70, y: 38 }, caption: "Watch the route build", hold: 1700 },
     ] satisfies GuideStep[],
   },
   {
@@ -52,10 +54,10 @@ const TABS = [
     grid: "grid-tint-orange",
     panel: <LivePanel />,
     guide: [
-      { at: { x: 32, y: 16 }, caption: "Go on air", hold: 1500 },
-      { at: { x: 40, y: 33 }, caption: "Point it at your stream", hold: 1600 },
-      { at: { x: 55, y: 55 }, caption: "Captions land live", hold: 1700 },
-      { at: { x: 38, y: 88 }, caption: "Push to every platform", hold: 1600 },
+      { at: { x: 25, y: 19 }, caption: "Go on air", hold: 1500 },
+      { at: { x: 40, y: 19 }, caption: "Point it at your stream", hold: 1600 },
+      { at: { x: 36, y: 64 }, caption: "Captions land live", hold: 1700 },
+      { at: { x: 72, y: 55 }, caption: "Every language, ~2s behind", hold: 1700 },
     ] satisfies GuideStep[],
   },
   {
@@ -66,10 +68,10 @@ const TABS = [
     grid: "grid-tint-blue",
     panel: <SubtitlePanel />,
     guide: [
-      { at: { x: 33, y: 16 }, caption: "Switch language", hold: 1500 },
-      { at: { x: 62, y: 42 }, caption: "Edit any line", hold: 1700 },
-      { at: { x: 45, y: 62 }, caption: "Timings stay aligned", hold: 1600 },
-      { at: { x: 50, y: 86 }, caption: "Scrub the waveform", hold: 1600 },
+      { at: { x: 26, y: 19 }, caption: "Switch language", hold: 1500 },
+      { at: { x: 36, y: 42 }, caption: "Edit any line", hold: 1700 },
+      { at: { x: 73, y: 45 }, caption: "Timings stay aligned", hold: 1600 },
+      { at: { x: 36, y: 84 }, caption: "Scrub the waveform", hold: 1600 },
     ] satisfies GuideStep[],
   },
 ] as const;

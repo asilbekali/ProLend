@@ -194,7 +194,7 @@ export default function Navbar() {
             className="flex items-center gap-2 rounded px-0.5 text-text outline-none focus-visible:ring-2 focus-visible:ring-accent/50 sm:gap-2.5"
           >
             <LogoMark className="h-5 w-5 shrink-0 sm:h-[22px] sm:w-[22px]" />
-            <Wordmark className="text-[11px] sm:text-[13px]" />
+            <Wordmark className="text-[15px] sm:text-[17px]" />
           </Link>
 
           {/* Desktop nav */}
@@ -290,7 +290,7 @@ export default function Navbar() {
             <div className="flex items-center justify-between gap-3">
               <span className="flex items-center gap-2 text-text">
                 <LogoMark className="h-5 w-5 shrink-0" />
-                <Wordmark className="text-[12px]" />
+                <Wordmark className="text-[16px]" />
               </span>
               <ThemeToggle className="ml-auto" />
               <button

@@ -36,8 +36,9 @@ type WordmarkProps = {
 };
 
 /**
- * The single source of truth for the "TH-Labs" wordmark — always the pixel font
- * (`font-pixel` → Press Start 2P). Never hardcode the wordmark elsewhere.
+ * The single source of truth for the "TH-Labs" wordmark — always the brand face
+ * (`font-brand` → Archivo 700), set tight and near-black so it reads as the same
+ * cut letters as the signage beside the mark. Never hardcode it elsewhere.
  *
  * Two modes:
  *  • default — static text, used in the navbar.
@@ -52,8 +53,10 @@ export default function Wordmark({
   charReveal = false,
   charClassName = "",
 }: WordmarkProps) {
-  // No `uppercase` here: the brand is cased "TH-Labs", not "TH-LABS".
-  const base = "font-pixel select-none leading-none tracking-[0.08em]";
+  // No `uppercase` here: the brand is cased "TH-Labs", not "TH-LABS". The
+  // negative tracking is what makes the hyphen sit inside the word rather than
+  // spacing it out — the pixel face needed the opposite.
+  const base = "font-brand font-bold select-none leading-none tracking-[-0.03em]";
 
   if (charReveal) {
     return (

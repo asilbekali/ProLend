@@ -1,10 +1,4 @@
-import {
-  GithubIcon,
-  InstagramIcon,
-  LinkedinIcon,
-  TelegramIcon,
-  YoutubeIcon,
-} from "./social-icons";
+import { SOCIAL_LINKS, YOUTUBE_LINK, isExternal } from "./social-icons";
 import Wordmark from "./wordmark";
 import LogoMark from "./logo-mark";
 import Frame, { Inner } from "./frame";
@@ -42,20 +36,17 @@ const COLUMNS = [
     links: [
       { label: "Join the community", href: "#community" },
       { label: "Instagram", href: "https://instagram.com/th_labs.io" },
-      { label: "Telegram", href: "#" },
-      { label: "GitHub", href: "#" },
+      { label: "Telegram", href: "https://t.me/thlabsio" },
+      { label: "LinkedIn", href: "https://www.linkedin.com/company/thlabsio/" },
       { label: "Contact", href: "#community" },
     ],
   },
 ];
 
-const SOCIALS = [
-  { label: "Instagram", href: "https://instagram.com/th_labs.io", icon: <InstagramIcon /> },
-  { label: "Telegram", href: "#", icon: <TelegramIcon /> },
-  { label: "GitHub", href: "#", icon: <GithubIcon /> },
-  { label: "LinkedIn", href: "#", icon: <LinkedinIcon /> },
-  { label: "YouTube", href: "#", icon: <YoutubeIcon /> },
-];
+// The brand presence strip: the real accounts, plus YouTube as an in-page jump
+// until that channel exists. Both come from social-icons so this row and the
+// CTA band cannot disagree again.
+const SOCIALS = [...SOCIAL_LINKS, YOUTUBE_LINK];
 
 export default function Footer() {
   return (
@@ -66,7 +57,7 @@ export default function Footer() {
           <div className="flex max-w-xs flex-col gap-4">
             <span className="flex items-center gap-2.5 text-text">
               <LogoMark className="h-6 w-6 shrink-0" />
-              <Wordmark className="text-[13px]" />
+              <Wordmark className="text-[18px]" />
             </span>
             <p className="text-sm leading-relaxed text-text-2">
               One recording, every language your audience speaks — voice-cloned,
@@ -78,9 +69,10 @@ export default function Footer() {
                   <a
                     href={s.href}
                     aria-label={s.label}
+                    {...(isExternal(s.href) ? { target: "_blank", rel: "noreferrer" } : {})}
                     className="flex h-9 w-9 items-center justify-center rounded-lg border border-line text-text-2 outline-none transition-colors hover:border-line-strong hover:text-text focus-visible:ring-2 focus-visible:ring-accent/40"
                   >
-                    {s.icon}
+                    <s.Icon />
                   </a>
                 </li>
               ))}

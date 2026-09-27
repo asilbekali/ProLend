@@ -1,18 +1,15 @@
 /**
- * Brand marks. lucide-react v1 removed its brand icon set, so the handful of
- * social glyphs the footer needs live here as plain paths. All of them inherit
- * `currentColor` and size from the `className` passed in.
+ * Brand marks, plus the one canonical list of where TH-Labs actually is.
+ *
+ * lucide-react v1 removed its brand icon set, so the social glyphs live here as
+ * plain paths. All of them inherit `currentColor` and size from `className`.
+ *
+ * The link list lives here too, beside the glyphs, because it was previously
+ * duplicated in the footer and the closing CTA band and the two drifted — one
+ * got the real URLs, the other kept dead `#` hrefs. One array, both consumers.
  */
 
 type IconProps = { className?: string };
-
-export function GithubIcon({ className = "h-4 w-4" }: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M12 .5a11.5 11.5 0 0 0-3.63 22.42c.57.1.78-.25.78-.55v-2.1c-3.2.7-3.87-1.37-3.87-1.37-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .3.2.66.79.55A11.5 11.5 0 0 0 12 .5Z" />
-    </svg>
-  );
-}
 
 export function LinkedinIcon({ className = "h-4 w-4" }: IconProps) {
   return (
@@ -45,3 +42,35 @@ export function TelegramIcon({ className = "h-4 w-4" }: IconProps) {
     </svg>
   );
 }
+
+export type SocialLink = {
+  label: string;
+  href: string;
+  Icon: (props: IconProps) => React.ReactElement;
+};
+
+/** The accounts that actually exist. Rendered everywhere socials appear. */
+export const SOCIAL_LINKS: SocialLink[] = [
+  { label: "Instagram", href: "https://instagram.com/th_labs.io", Icon: InstagramIcon },
+  { label: "Telegram", href: "https://t.me/thlabsio", Icon: TelegramIcon },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/thlabsio/",
+    Icon: LinkedinIcon,
+  },
+];
+
+/**
+ * There is no YouTube channel yet, so this returns to the top of the page
+ * rather than going nowhere. It belongs in the footer's brand row, which is a
+ * presence strip — never in the "join the community" band, where a link that
+ * does not reach a community is worse than an absent one.
+ */
+export const YOUTUBE_LINK: SocialLink = {
+  label: "YouTube",
+  href: "#top",
+  Icon: YoutubeIcon,
+};
+
+/** Off-site links open a tab; in-page jumps must not. */
+export const isExternal = (href: string) => href.startsWith("http");

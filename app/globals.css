@@ -155,7 +155,7 @@
   --font-sans: var(--font-inter);
   --font-display: var(--font-outfit);
   --font-mono: var(--font-jetbrains);
-  --font-pixel: var(--font-pixel);
+  --font-brand: var(--font-archivo);
 }
 
 /* ── Depth / z-index token scale ─────────────────────────────────────────────
@@ -274,8 +274,9 @@ body {
 }
 
 /* Headings take the geometric display face, set tight — the single loudest
-   signal of the reference's voice. The .font-pixel utility on the wordmark
-   still wins (higher-specificity utility layer), so TH-Labs stays pixel. */
+   signal of the reference's voice. The .font-brand utility on the wordmark
+   still wins (higher-specificity utility layer), so TH-Labs keeps the heavier
+   grotesque cut it shares with the signage. */
 h1,
 h2,
 h3,

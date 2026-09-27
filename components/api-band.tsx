@@ -1,7 +1,9 @@
 "use client";
 
-import { motion } from "motion/react";
+import Image from "next/image";
+import { motion, useReducedMotion } from "motion/react";
 import Frame, { Inner } from "./frame";
+import codingParrot from "@/public/parrot/coding.png";
 
 /* A minimal, deterministic token highlighter — the snippet is fixed, so each
    line carries its own spans rather than running a real tokenizer. */
@@ -30,6 +32,8 @@ const OUTPUT = [
 ] as const;
 
 export default function ApiBand() {
+  const reduce = useReducedMotion();
+
   return (
     <Frame as="section" bleed id="api" className="border-b border-line">
       <div className="relative overflow-hidden bg-[linear-gradient(135deg,#2e1065_0%,#4c1d95_55%,#3b1178_100%)]">
@@ -68,70 +72,98 @@ export default function ApiBand() {
             </a>
           </motion.div>
 
-          {/* Editor mock */}
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-15% 0px" }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden rounded-xl border border-white/15 bg-[#120a24] shadow-[0_40px_90px_-30px_rgba(0,0,0,0.7)]"
-          >
-            <div className="flex items-center gap-2 border-b border-white/10 px-3.5 py-2.5">
-              <span className="flex gap-1.5" aria-hidden="true">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-              </span>
-              <span className="ml-2 font-mono text-[11px] text-white/45">dub.ts</span>
-            </div>
+          {/* Editor mock, with the parrot perched on its corner */}
+          <div className="relative">
+            {/* The bird is the author of the snippet beside it. It perches on
+                the card's lower-*right* corner — the output row fills the left
+                of that strip, and the bird was sitting on the language chips.
+                It only breathes; anything livelier would pull attention off the
+                code, which is the actual pitch here. */}
+            <motion.div
+              aria-hidden="true"
+              initial={{ opacity: 0, y: 20, rotate: -6 }}
+              whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+              viewport={{ once: true, margin: "-15% 0px" }}
+              transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="pointer-events-none absolute -bottom-8 -right-3 z-10 w-[96px] sm:-bottom-10 sm:-right-7 sm:w-[124px]"
+            >
+              <motion.div
+                animate={reduce ? undefined : { y: [0, -6, 0] }}
+                transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <Image
+                  src={codingParrot}
+                  alt=""
+                  draggable={false}
+                  className="h-auto w-full select-none drop-shadow-[0_16px_28px_rgba(0,0,0,0.45)]"
+                />
+              </motion.div>
+            </motion.div>
 
-            <pre className="overflow-x-auto px-3.5 py-3.5 font-mono text-[11px] leading-[1.7] text-white/80 sm:text-[12px]">
-              <code>
-                {CODE.map((line, i) => (
-                  <span key={i} className="block whitespace-pre">
-                    {line.length === 0
-                      ? " "
-                      : line.map((tok, j) => (
-                          <span key={j} className={tok.c}>
-                            {tok.t}
-                          </span>
-                        ))}
-                  </span>
-                ))}
-              </code>
-            </pre>
+            <motion.div
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-15% 0px" }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="overflow-hidden rounded-xl border border-white/15 bg-[#120a24] shadow-[0_40px_90px_-30px_rgba(0,0,0,0.7)]"
+            >
+              <div className="flex items-center gap-2 border-b border-white/10 px-3.5 py-2.5">
+                <span className="flex gap-1.5" aria-hidden="true">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+                </span>
+                <span className="ml-2 font-mono text-[11px] text-white/45">dub.ts</span>
+              </div>
 
-            <div className="border-t border-white/10 px-3.5 py-3">
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/40">
-                Output
-              </p>
-              <ul className="mt-2 flex flex-wrap gap-1.5">
-                {OUTPUT.map((o) => (
-                  <li
-                    key={o.lang}
-                    className={`inline-flex items-center gap-1.5 rounded-md px-2 py-1 font-mono text-[10px] ${
-                      o.state === "done"
-                        ? "bg-emerald-400/15 text-emerald-300"
-                        : o.state === "running"
-                          ? "bg-orange-400/15 text-orange-300"
-                          : "bg-white/8 text-white/45"
-                    }`}
-                  >
-                    <span
-                      className={`h-1.5 w-1.5 rounded-full ${
+              <pre className="overflow-x-auto px-3.5 py-3.5 font-mono text-[11px] leading-[1.7] text-white/80 sm:text-[12px]">
+                <code>
+                  {CODE.map((line, i) => (
+                    <span key={i} className="block whitespace-pre">
+                      {line.length === 0
+                        ? " "
+                        : line.map((tok, j) => (
+                            <span key={j} className={tok.c}>
+                              {tok.t}
+                            </span>
+                          ))}
+                    </span>
+                  ))}
+                </code>
+              </pre>
+
+              <div className="border-t border-white/10 px-3.5 py-3">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/40">
+                  Output
+                </p>
+                <ul className="mt-2 flex flex-wrap gap-1.5">
+                  {OUTPUT.map((o) => (
+                    <li
+                      key={o.lang}
+                      className={`inline-flex items-center gap-1.5 rounded-md px-2 py-1 font-mono text-[10px] ${
                         o.state === "done"
-                          ? "bg-emerald-400"
+                          ? "bg-emerald-400/15 text-emerald-300"
                           : o.state === "running"
-                            ? "bg-orange-400"
-                            : "bg-white/40"
+                            ? "bg-orange-400/15 text-orange-300"
+                            : "bg-white/8 text-white/45"
                       }`}
-                    />
-                    {o.lang}.mp4
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
+                    >
+                      <span
+                        className={`h-1.5 w-1.5 rounded-full ${
+                          o.state === "done"
+                            ? "bg-emerald-400"
+                            : o.state === "running"
+                              ? "bg-orange-400"
+                              : "bg-white/40"
+                        }`}
+                      />
+                      {o.lang}.mp4
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          </div>
         </Inner>
       </div>
     </Frame>

@@ -3,28 +3,11 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "motion/react";
 import { Check } from "lucide-react";
-import {
-  GithubIcon,
-  InstagramIcon,
-  LinkedinIcon,
-  TelegramIcon,
-} from "./social-icons";
+import { SOCIAL_LINKS, isExternal } from "./social-icons";
 import Frame, { Inner } from "./frame";
 import { useJoinWaitlistMutation } from "@/lib/queries/useJoinWaitlistMutation";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-// Where the community actually lives, alongside the email signup.
-const CHANNELS = [
-  {
-    label: "Instagram",
-    href: "https://instagram.com/th_labs.io",
-    icon: <InstagramIcon className="h-3.5 w-3.5" />,
-  },
-  { label: "Telegram", href: "#", icon: <TelegramIcon className="h-3.5 w-3.5" /> },
-  { label: "GitHub", href: "#", icon: <GithubIcon className="h-3.5 w-3.5" /> },
-  { label: "LinkedIn", href: "#", icon: <LinkedinIcon className="h-3.5 w-3.5" /> },
-];
 
 export default function CtaBand() {
   const [name, setName] = useState("");
@@ -160,13 +143,17 @@ export default function CtaBand() {
           </div>
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-            {CHANNELS.map((c) => (
+            {/* Where the community actually lives, alongside the email signup.
+                No YouTube here: it has no channel yet, and a "join us" chip that
+                only scrolls back to the top is worse than one less chip. */}
+            {SOCIAL_LINKS.map((c) => (
               <a
                 key={c.label}
                 href={c.href}
+                {...(isExternal(c.href) ? { target: "_blank", rel: "noreferrer" } : {})}
                 className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-bg/80 px-3 py-2 text-xs text-text-2 shadow-sm backdrop-blur outline-none transition-colors hover:text-text focus-visible:ring-2 focus-visible:ring-accent/40"
               >
-                {c.icon}
+                <c.Icon className="h-3.5 w-3.5" />
                 {c.label}
               </a>
             ))}
