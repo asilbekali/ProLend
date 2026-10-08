@@ -90,9 +90,13 @@ export const metadata: Metadata = {
     languages: HOME_LANGUAGES,
   },
   // Ownership tokens for Google Search Console, Yandex Webmaster and Bing
-  // Webmaster Tools. Read at build time; an unset variable emits no tag.
+  // Webmaster Tools. Read at build time; an unset variable emits no tag. The
+  // Google token is public (it ships in the HTML), so it has a built-in
+  // fallback and works without the repository variable.
   verification: {
-    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    google:
+      process.env.GOOGLE_SITE_VERIFICATION ||
+      "YE4rPMB_e5HY2-MWumJ6shUp1LIBalSjzEwGx8C2Rvk",
     yandex: process.env.YANDEX_VERIFICATION || undefined,
     other: process.env.BING_SITE_VERIFICATION
       ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION }

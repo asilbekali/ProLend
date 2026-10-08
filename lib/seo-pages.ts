@@ -223,6 +223,118 @@ export const SEO_PAGES: SeoPage[] = [
     cta: "Translate a video free",
   },
   {
+    slug: "real-time-translation",
+    locale: "en",
+    title: "Real-Time Translation for Live Streams — AI Live Dubbing",
+    description:
+      "Real-time AI translation and dubbing for live streams, webinars and conferences in 40+ languages, at about two seconds of delay, in the speaker's own voice.",
+    keywords: [
+      ...BRAND_KEYWORDS,
+      "real-time translation",
+      "live translation",
+      "live stream translation",
+      "real-time dubbing",
+      "live dubbing",
+      "AI simultaneous translation",
+      "webinar translation",
+      "conference translation",
+    ],
+    h1: "Real-time translation for live streams",
+    lead: "TH-Labs translates and re-voices a live stream as it happens — about two seconds behind the speaker, in their own cloned voice, in 40+ languages at once.",
+    sections: [
+      {
+        h2: "Live dubbing, not just live captions",
+        body: [
+          "Live captions make a multilingual audience read along. TH-Labs gives each viewer an audio track in their own language, spoken in the presenter's voice, so they can simply watch and listen.",
+          "The pipeline runs continuously: speech is recognised, translated and voiced in a rolling window, keeping end-to-end delay at roughly two seconds.",
+        ],
+      },
+      {
+        h2: "Where it is used",
+        body: [
+          "Conferences and panels with an international audience, webinars and online lectures, product launches and broadcasts. Several target languages can run from the same stream, and subtitles are produced alongside the audio.",
+          "Developers can connect streams programmatically through the TH-Labs API.",
+        ],
+      },
+    ],
+    steps: {
+      h2: "How live translation works",
+      items: [
+        "Connect your live stream.",
+        "Choose the target languages.",
+        "TH-Labs transcribes, translates and voices the speech continuously.",
+        "Viewers hear the stream in their language about two seconds behind the original.",
+      ],
+    },
+    faqs: [
+      {
+        q: "How much delay does live translation add?",
+        a: "About two seconds end to end.",
+      },
+      {
+        q: "Can one stream be translated into several languages at once?",
+        a: "Yes. Pick as many of the 40+ supported languages as you need.",
+      },
+      {
+        q: "Does the translated voice sound like the speaker?",
+        a: "Yes. The speaker's voice is cloned from about three seconds of clean audio and used for every language.",
+      },
+    ],
+    cta: "Try live translation",
+  },
+  {
+    slug: "voice-cloning",
+    locale: "en",
+    title: "AI Voice Cloning for Dubbing — Your Voice in 40+ Languages",
+    description:
+      "Clone a voice from about three seconds of audio and use it to dub video into 40+ languages. Consistent, natural AI voice cloning with lip sync, by TH-Labs.",
+    keywords: [
+      ...BRAND_KEYWORDS,
+      "voice cloning",
+      "AI voice cloning",
+      "clone voice",
+      "voice clone AI",
+      "multilingual voice cloning",
+      "voice cloning for dubbing",
+    ],
+    h1: "AI voice cloning for multilingual dubbing",
+    lead: "TH-Labs clones a speaker's voice from about three seconds of clean audio, then uses it to speak their words in 40+ languages — so the audience hears the same person, not a stranger.",
+    sections: [
+      {
+        h2: "Why the voice matters",
+        body: [
+          "A voice carries identity. When a dub swaps it for a generic narrator, the audience loses the person they came to watch. Voice cloning keeps the timbre and character of the original speaker in every language.",
+        ],
+      },
+      {
+        h2: "Built for dubbing",
+        body: [
+          "The cloned voice stays consistent across a whole video and across languages. In interviews and panels, each detected speaker gets their own clone. Lip sync matches mouth movement to the new track, and subtitles are exported from the same run.",
+        ],
+      },
+    ],
+    steps: {
+      h2: "How voice cloning works in TH-Labs",
+      items: [
+        "Upload a video, or a few seconds of clean reference audio.",
+        "TH-Labs builds a clone of each speaker's voice.",
+        "The translated script is spoken with that clone in every target language.",
+        "Download the dubbed video, audio or subtitles.",
+      ],
+    },
+    faqs: [
+      {
+        q: "How much audio does voice cloning need?",
+        a: "About three seconds of clean reference audio.",
+      },
+      {
+        q: "Does the clone work in other languages?",
+        a: "Yes. The same voice speaks in any of the 40+ supported languages.",
+      },
+    ],
+    cta: "Clone your voice free",
+  },
+  {
     slug: "ru",
     locale: "ru",
     title: "ИИ-озвучка и перевод видео на 40+ языков",
