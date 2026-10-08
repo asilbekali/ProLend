@@ -2,6 +2,7 @@ import { SOCIAL_LINKS, YOUTUBE_LINK, isExternal } from "./social-icons";
 import Wordmark from "./wordmark";
 import LogoMark from "./logo-mark";
 import Frame, { Inner } from "./frame";
+import { SEO_PAGES } from "@/lib/seo-pages";
 
 const COLUMNS = [
   {
@@ -42,6 +43,10 @@ const COLUMNS = [
     ],
   },
 ];
+
+// Crawlable links to the search landing pages (lib/seo-pages). Without a link
+// from the home page, search engines treat those pages as orphans.
+const SOLUTIONS = SEO_PAGES.map((p) => ({ label: p.h1, href: `/${p.slug}`, lang: p.locale }));
 
 // The brand presence strip: the real accounts, plus YouTube as an in-page jump
 // until that channel exists. Both come from social-icons so this row and the
@@ -102,6 +107,22 @@ export default function Footer() {
             ))}
           </div>
         </div>
+
+        <nav aria-label="Solutions" className="border-t border-line py-6">
+          <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            {SOLUTIONS.map((l) => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  hrefLang={l.lang}
+                  className="text-text-2 outline-none transition-colors hover:text-text focus-visible:text-text focus-visible:ring-2 focus-visible:ring-accent/40"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         <div className="flex flex-col gap-3 border-t border-line py-6 text-xs text-text-3 sm:flex-row sm:items-center sm:justify-between">
           <span className="inline-flex items-center gap-2">

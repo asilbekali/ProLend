@@ -63,6 +63,9 @@ jobs:
           build-args: |
             NEXT_PUBLIC_MAIN_APP_URL=${{ vars.NEXT_PUBLIC_MAIN_APP_URL }}
             NEXT_PUBLIC_GOOGLE_CLIENT_ID=${{ vars.NEXT_PUBLIC_GOOGLE_CLIENT_ID }}
+            GOOGLE_SITE_VERIFICATION=${{ vars.GOOGLE_SITE_VERIFICATION }}
+            YANDEX_VERIFICATION=${{ vars.YANDEX_VERIFICATION }}
+            BING_SITE_VERIFICATION=${{ vars.BING_SITE_VERIFICATION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           # Avoids a phantom "unknown/unknown" platform row in the GHCR listing.
