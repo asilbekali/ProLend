@@ -29,7 +29,7 @@ import LogoMark from "./logo-mark";
 /* ── Studio chrome ───────────────────────────────────────────────────────────
    These panels are screenshots of the real TH-Labs Studio, so they carry the
    Studio's palette rather than the marketing site's tokens — warm near-black,
-   hairline cards, one violet accent. They stay dark in both site themes for
+   hairline cards, one blue accent. They stay dark in both site themes for
    the same reason a product screenshot in a press kit does: it is a picture of
    the app, not a surface of this page. The grid behind them supplies the
    contrast either way.
@@ -47,7 +47,7 @@ const STUDIO = {
   "--st-text": "#ece8e4",
   "--st-text-2": "#9b948d",
   "--st-text-3": "#6d6762",
-  "--st-accent": "#8b5cf6",
+  "--st-accent": "#3b82f6",
   "--st-amber": "#f5b544",
   "--st-green": "#4ade80",
 } as CSSProperties;
@@ -254,7 +254,7 @@ export function DubbingPanel() {
 
           {STEPS.map((s) => (
             <Card key={s.n} className="flex items-center gap-2.5 px-2.5 py-2">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[var(--st-card-2)] font-mono text-[10px] text-[var(--st-text-3)]">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[var(--st-card-2)] font-num text-[11px] text-[var(--st-text-3)]">
                 {s.n}
               </span>
               <span className="min-w-0">
@@ -306,7 +306,7 @@ export function DubbingPanel() {
 
           <div className="mt-auto hidden items-center gap-2 rounded-lg border border-[var(--st-line)] bg-[var(--st-card)] px-2.5 py-2 sm:flex">
             <CardLabel>This run</CardLabel>
-            <span className="ml-auto font-mono text-[11px] text-[var(--st-text-2)]">
+            <span className="ml-auto font-num text-[12px] text-[var(--st-text-2)]">
               10 <span className="text-[var(--st-text-3)]">/ 60 cr</span>
             </span>
           </div>

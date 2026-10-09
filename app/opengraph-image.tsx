@@ -6,7 +6,7 @@ export const contentType = "image/png";
 
 // Press Start 2P isn't loaded here (Satori would need the font binary), so the
 // OG wordmark uses a heavy monospaced system stack that still reads as the
-// technical/brand voice on a near-black field with a single violet accent.
+// technical/brand voice on a near-black field with a single blue accent.
 export default function OpengraphImage() {
   return new ImageResponse(
     (
@@ -53,7 +53,7 @@ export default function OpengraphImage() {
                 marginLeft: 24,
                 marginBottom: 8,
                 borderRadius: 999,
-                background: "#8b5cf6",
+                background: "#3b82f6",
                 display: "flex",
               }}
             />

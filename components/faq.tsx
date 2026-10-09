@@ -13,13 +13,13 @@ export default function Faq() {
 
   return (
     <Frame as="section" bleed id="faq" className="border-b border-line">
-      <Inner className="py-12 md:py-16">
+      <Inner className="py-10 md:py-16">
         <SectionHead
           title="Questions, answered plainly"
           sub="If yours isn't here, the community channels are the fastest way to reach us."
         />
 
-        <div className="mx-auto mt-10 max-w-3xl">
+        <div className="mx-auto mt-6 max-w-3xl sm:mt-10">
           {FAQS.map((f, i) => {
             const isOpen = open === i;
             return (

@@ -20,10 +20,14 @@ const THEME_EVENT = "th-labs-theme-change";
 export const THEME_INIT_SCRIPT = `
 (function() {
   try {
+    // First visit (nothing stored) is always light; after that the visitor's
+    // own pick is remembered, and only an explicit "system" follows the OS.
     var stored = localStorage.getItem('${THEME_STORAGE_KEY}');
-    var theme = stored === 'light' || stored === 'dark'
-      ? stored
-      : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var theme = stored === 'dark'
+      ? 'dark'
+      : stored === 'system'
+        ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+        : 'light';
     document.documentElement.setAttribute('data-theme', theme);
   } catch (e) {
     document.documentElement.setAttribute('data-theme', 'light');
@@ -57,10 +61,10 @@ function getSnapshot(): Theme {
   } catch {
     /* private mode */
   }
-  return "system";
+  return "light";
 }
 
-const getServerSnapshot = (): Theme => "system";
+const getServerSnapshot = (): Theme => "light";
 
 function applyTheme(next: Theme) {
   try {

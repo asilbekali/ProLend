@@ -8,12 +8,12 @@ import codingParrot from "@/public/parrot/coding.png";
 /* A minimal, deterministic token highlighter — the snippet is fixed, so each
    line carries its own spans rather than running a real tokenizer. */
 const CODE: { t: string; c?: string }[][] = [
-  [{ t: "import", c: "text-violet-300" }, { t: " { THLabs } " }, { t: "from", c: "text-violet-300" }, { t: " " }, { t: "\"@th-labs/sdk\"", c: "text-emerald-300" }],
+  [{ t: "import", c: "text-sky-300" }, { t: " { THLabs } " }, { t: "from", c: "text-sky-300" }, { t: " " }, { t: "\"@th-labs/sdk\"", c: "text-emerald-300" }],
   [],
-  [{ t: "const", c: "text-violet-300" }, { t: " th = " }, { t: "new", c: "text-violet-300" }, { t: " " }, { t: "THLabs", c: "text-sky-300" }, { t: "(process.env." }, { t: "TH_KEY", c: "text-orange-300" }, { t: ")" }],
+  [{ t: "const", c: "text-sky-300" }, { t: " th = " }, { t: "new", c: "text-sky-300" }, { t: " " }, { t: "THLabs", c: "text-sky-300" }, { t: "(process.env." }, { t: "TH_KEY", c: "text-orange-300" }, { t: ")" }],
   [],
   [{ t: "// One call — every language you asked for.", c: "text-white/35" }],
-  [{ t: "const", c: "text-violet-300" }, { t: " job = " }, { t: "await", c: "text-violet-300" }, { t: " th.dubs." }, { t: "create", c: "text-sky-300" }, { t: "({" }],
+  [{ t: "const", c: "text-sky-300" }, { t: " job = " }, { t: "await", c: "text-sky-300" }, { t: " th.dubs." }, { t: "create", c: "text-sky-300" }, { t: "({" }],
   [{ t: "  source:   " }, { t: "\"https://cdn.acme.com/ep-01.mp4\"", c: "text-emerald-300" }, { t: "," }],
   [{ t: "  targets:  [" }, { t: "\"es\"", c: "text-emerald-300" }, { t: ", " }, { t: "\"fr\"", c: "text-emerald-300" }, { t: ", " }, { t: "\"ja\"", c: "text-emerald-300" }, { t: ", " }, { t: "\"ko\"", c: "text-emerald-300" }, { t: "]," }],
   [{ t: "  voice:    " }, { t: "\"clone\"", c: "text-emerald-300" }, { t: "," }],
@@ -36,14 +36,14 @@ export default function ApiBand() {
 
   return (
     <Frame as="section" bleed id="api" className="border-b border-line">
-      <div className="relative overflow-hidden bg-[linear-gradient(135deg,#2e1065_0%,#4c1d95_55%,#3b1178_100%)]">
-        {/* A faint dot field keeps the flat purple from reading as a solid slab. */}
+      <div className="relative overflow-hidden bg-[linear-gradient(135deg,#0b1a3a_0%,#123a8a_55%,#0e2a66_100%)]">
+        {/* A faint dot field keeps the flat blue from reading as a solid slab. */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 opacity-[0.14] [background-image:radial-gradient(#fff_1px,transparent_1.2px)] [background-size:20px_20px]"
         />
 
-        <Inner className="relative grid items-center gap-10 py-14 md:grid-cols-2 md:gap-12 md:py-16">
+        <Inner className="relative grid items-center gap-10 py-10 md:grid-cols-2 md:gap-12 md:py-16">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -58,7 +58,7 @@ export default function ApiBand() {
               <br />
               Just call it.
             </h2>
-            <p className="mt-5 max-w-md text-[15px] leading-relaxed text-white/70">
+            <p className="mt-4 max-w-md text-[15px] sm:mt-5 leading-relaxed text-white/70">
               One endpoint takes a file or a live stream URL and returns dubbed audio,
               lip-synced video, and aligned subtitles. Webhooks fire as each language
               lands, so you can wire multilingual output into your own product in an
@@ -66,14 +66,15 @@ export default function ApiBand() {
             </p>
             <a
               href="#community"
-              className="mt-8 inline-flex h-11 items-center justify-center rounded-lg bg-white px-6 text-sm font-medium text-[#2e1065] outline-none transition-colors hover:bg-white/90 focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3b1178]"
+              className="mt-6 inline-flex h-11 items-center sm:mt-8 justify-center rounded-lg bg-white px-6 text-sm font-medium text-[#0b1a3a] outline-none transition-colors hover:bg-white/90 focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0e2a66]"
             >
               Get API access
             </a>
           </motion.div>
 
-          {/* Editor mock, with the parrot perched on its corner */}
-          <div className="relative">
+          {/* Editor mock, with the parrot perched on its corner. Desktop only — on a
+              phone a scrolling code block is a wall, and the copy + button carry it. */}
+          <div className="relative hidden md:block">
             {/* The bird is the author of the snippet beside it. It perches on
                 the card's lower-*right* corner — the output row fills the left
                 of that strip, and the bird was sitting on the language chips.
@@ -105,7 +106,7 @@ export default function ApiBand() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-15% 0px" }}
               transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="overflow-hidden rounded-xl border border-white/15 bg-[#120a24] shadow-[0_40px_90px_-30px_rgba(0,0,0,0.7)]"
+              className="overflow-hidden rounded-xl border border-white/15 bg-[#0a1226] shadow-[0_40px_90px_-30px_rgba(0,0,0,0.7)]"
             >
               <div className="flex items-center gap-2 border-b border-white/10 px-3.5 py-2.5">
                 <span className="flex gap-1.5" aria-hidden="true">

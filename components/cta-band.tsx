@@ -52,7 +52,7 @@ export default function CtaBand() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-15% 0px" }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto flex max-w-xl flex-col items-center py-16 text-center md:py-20"
+          className="mx-auto flex max-w-xl flex-col items-center py-12 text-center md:py-20"
         >
           <h2 className="text-[clamp(1.9rem,4.6vw,3.2rem)] font-medium leading-[1.06]">
             <span className="block text-balance text-text">Put your work in every language.</span>
@@ -122,7 +122,7 @@ export default function CtaBand() {
               <button
                 type="submit"
                 disabled={mutation.isPending}
-                className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-accent px-7 text-sm font-medium text-white shadow-[0_8px_24px_-10px_rgba(109,40,217,0.8)] outline-none transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 disabled:opacity-60"
+                className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-accent px-7 text-sm font-medium text-white shadow-[0_8px_24px_-10px_rgba(37,99,235,0.8)] outline-none transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 disabled:opacity-60"
               >
                 {mutation.isPending ? "Joining…" : "Join Community"}
               </button>

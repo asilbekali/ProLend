@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Inter, JetBrains_Mono, Outfit } from "next/font/google";
+import { Archivo, Gelasio, Inter, JetBrains_Mono, Outfit } from "next/font/google";
 import QueryProvider from "@/components/providers/QueryProvider";
 import { THEME_INIT_SCRIPT } from "@/components/theme-toggle";
 import ClickSpark from "@/components/reactbits/ClickSpark/ClickSpark";
@@ -34,6 +34,14 @@ const archivo = Archivo({
   variable: "--font-archivo",
   subsets: ["latin"],
   weight: ["600", "700", "800"],
+});
+
+// Numerals — Georgia's old-style figures. Georgia is a system font, so Gelasio
+// (its metric-matched open clone) stands in where it isn't installed.
+const gelasio = Gelasio({
+  variable: "--font-gelasio",
+  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 const SITE = "https://th-labs.uz";
@@ -153,7 +161,7 @@ export default function RootLayout({
       // The theme script stamps data-theme on <html> before hydration, so the
       // server markup intentionally differs here.
       suppressHydrationWarning
-      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} ${archivo.variable} h-full antialiased`}
+      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} ${archivo.variable} ${gelasio.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
@@ -162,7 +170,7 @@ export default function RootLayout({
         <QueryProvider>
           <SmoothScroll>
             <ClickSpark
-              sparkColor="#8b5cf6"
+              sparkColor="#3b82f6"
               sparkSize={9}
               sparkRadius={16}
               sparkCount={6}

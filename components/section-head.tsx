@@ -23,11 +23,11 @@ export default function SectionHead({
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className={`mx-auto max-w-2xl text-center ${className}`}
     >
-      <h2 className="text-balance text-[clamp(1.75rem,4vw,2.9rem)] font-medium leading-[1.08] text-text">
+      <h2 className="text-balance text-[clamp(1.6rem,4vw,2.9rem)] font-medium leading-[1.08] text-text">
         {title}
       </h2>
       {sub && (
-        <p className="mx-auto mt-4 max-w-lg text-pretty text-[15px] leading-relaxed text-text-2">
+        <p className="mx-auto mt-3 max-w-lg sm:mt-4 text-pretty text-[15px] leading-relaxed text-text-2">
           {sub}
         </p>
       )}

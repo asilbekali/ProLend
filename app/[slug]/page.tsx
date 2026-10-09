@@ -201,7 +201,7 @@ export default async function SeoLandingPage({
                   key={item}
                   className="flex gap-4 rounded-xl border border-line p-4 text-[15px] leading-relaxed text-text-2"
                 >
-                  <span className="font-mono text-accent">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="font-num text-accent">{String(i + 1).padStart(2, "0")}</span>
                   <span>{item}</span>
                 </li>
               ))}

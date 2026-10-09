@@ -33,7 +33,7 @@ const stagger: Variants = { hidden: {}, show: { transition: { staggerChildren: 0
 export default function AboutProject() {
   return (
     <Frame as="section" id="about" className="border-b border-line">
-      <div className="grid grid-cols-1 gap-10 py-14 md:grid-cols-[0.8fr_1.2fr] md:gap-16 md:py-18">
+      <div className="grid grid-cols-1 gap-6 py-10 md:grid-cols-[0.8fr_1.2fr] md:gap-16 md:py-18">
         {/* Left — sticky headline */}
         <div className="md:sticky md:top-28 md:self-start">
           <SectionMarker index="01" label="ABOUT THE PROJECT" />
@@ -49,14 +49,14 @@ export default function AboutProject() {
           whileInView="show"
           viewport={{ once: true, margin: "-12% 0px" }}
           variants={stagger}
-          className="flex flex-col gap-10"
+          className="flex flex-col gap-8 sm:gap-10"
         >
           <div className="flex flex-col gap-5">
             {PARAGRAPHS.map((p, i) => (
               <motion.p
                 key={i}
                 variants={reveal}
-                className="max-w-[62ch] text-[15px] leading-relaxed text-text-2"
+                className={`max-w-[62ch] text-[15px] leading-relaxed text-text-2 ${i > 0 ? "hidden sm:block" : ""}`}
               >
                 {p}
               </motion.p>
@@ -66,11 +66,11 @@ export default function AboutProject() {
           {/* Numbered principles */}
           <motion.ul
             variants={stagger}
-            className="grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2"
+            className="grid grid-cols-1 gap-x-10 gap-y-4 sm:grid-cols-2 sm:gap-y-6"
           >
             {PRINCIPLES.map((pr) => (
               <motion.li key={pr.n} variants={reveal} className="flex gap-4">
-                <span className="font-mono text-sm text-accent">{pr.n}</span>
+                <span className="font-num text-base text-accent">{pr.n}</span>
                 <div>
                   <h3 className="font-display text-[15px] font-medium text-text">
                     {pr.title}
@@ -89,7 +89,7 @@ export default function AboutProject() {
             {STATS.map((s) => (
               <div key={s.label} className="flex items-center gap-2">
                 <span className="text-text-3">{s.label}</span>
-                <span className="font-medium text-text">{s.value}</span>
+                <span className="font-num text-lg text-text">{s.value}</span>
               </div>
             ))}
           </motion.div>

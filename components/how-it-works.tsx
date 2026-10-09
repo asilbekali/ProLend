@@ -55,7 +55,7 @@ function FeatureRow({ row, flip }: { row: Row; flip: boolean }) {
 
   return (
     <div id={row.id} ref={ref} className="w-full border-b border-line last:border-b-0">
-      <Inner className="grid items-center gap-8 py-10 md:grid-cols-2 md:gap-12 md:py-12">
+      <Inner className="grid items-center gap-5 py-8 md:grid-cols-2 md:gap-12 md:py-12">
       {/* Copy */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
@@ -85,11 +85,14 @@ function FeatureRow({ row, flip }: { row: Row; flip: boolean }) {
 
         {/* Visual on its tinted grid */}
         <div
-          className={`field-grid ${row.grid} flex h-[300px] items-center justify-center overflow-hidden rounded-xl border border-line p-5 sm:h-[340px] ${
+          className={`field-grid ${row.grid} flex h-[220px] items-center justify-center overflow-hidden rounded-xl border border-line p-3 sm:h-[340px] sm:p-5 ${
             flip ? "md:order-1" : ""
           }`}
         >
-          {inView && row.visual}
+          {/* Phones get the same scene at ~78% — a shorter panel, nothing clipped. */}
+          <div className="flex w-full scale-[0.78] items-center justify-center sm:scale-100">
+            {inView && row.visual}
+          </div>
         </div>
       </Inner>
     </div>
@@ -130,7 +133,7 @@ export default function HowItWorks() {
     },
     {
       chip: "Dubbing",
-      chipClass: "bg-tint-violet-bg text-tint-violet-fg",
+      chipClass: "bg-tint-teal-bg text-tint-teal-fg",
       icon: <AudioLines className="h-3.5 w-3.5" />,
       title: (
         <>
@@ -140,7 +143,7 @@ export default function HowItWorks() {
       ),
       body: "Three seconds of reference audio is enough to clone a timbre. Lip sync realigns mouth movement to the new track, and the final mix sets it back against the original music and effects.",
       link: "Learn more about voice cloning",
-      grid: "grid-tint-violet",
+      grid: "grid-tint-teal",
       visual: <OutputScene />,
     },
     {
@@ -163,7 +166,7 @@ export default function HowItWorks() {
 
   return (
     <Frame as="section" bleed id="how-it-works" className="border-b border-line">
-      <Inner className="py-12 md:py-16">
+      <Inner className="py-10 md:py-16">
         <SectionHead
           title="The complete dubbing pipeline"
           sub="From raw upload to a lip-synced, subtitled, live-ready track — every stage handled, with no extra engineering."
@@ -326,7 +329,7 @@ function OutputScene() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 + i * 0.25 }}
-            className="flex items-center gap-1.5 rounded-full border border-tint-violet-fg/35 bg-tint-violet-bg px-2.5 py-1 font-mono text-[11px] text-text"
+            className="flex items-center gap-1.5 rounded-full border border-tint-teal-fg/35 bg-tint-teal-bg px-2.5 py-1 font-mono text-[11px] text-text"
           >
             <span className="text-accent">
               <Check size={10} />

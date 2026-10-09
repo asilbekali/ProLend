@@ -6,7 +6,7 @@ export const MEASURE = "mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-12";
 /**
  * A full-bleed page section.
  *
- * Backgrounds — the hero mesh, tinted product grids, the purple API band, the
+ * Backgrounds — the hero mesh, tinted product grids, the blue API band, the
  * hatch dividers — always run edge to edge, corner to corner, at every viewport
  * width. There are no side gutters and no vertical rules: the page never leaves
  * white margins on the left or right.

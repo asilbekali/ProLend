@@ -14,8 +14,8 @@ const FALLBACK_SUPPORTER_COUNT = 24;
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 const AVATARS = [
-  { initials: "A", from: "#a78bfa", to: "#5b3fd9" },
-  { initials: "G", from: "#6366f1", to: "#3730a3" },
+  { initials: "A", from: "#60a5fa", to: "#1d4ed8" },
+  { initials: "G", from: "#2dd4bf", to: "#0f766e" },
   { initials: "S", from: "#64748b", to: "#334155" },
   { initials: "J", from: "#a3a3a3", to: "#525252" },
 ];
@@ -34,8 +34,8 @@ const TABS = [
     id: "dubbing",
     label: "Dubbing",
     icon: <AudioLines className="h-3.5 w-3.5" />,
-    chip: "bg-tint-violet-bg text-tint-violet-fg",
-    grid: "grid-tint-violet",
+    chip: "bg-tint-teal-bg text-tint-teal-fg",
+    grid: "grid-tint-teal",
     panel: <DubbingPanel />,
     // Coordinates track the Studio setup screen: the four numbered steps run
     // down the left, the route they add up to sits on the right.
@@ -174,7 +174,7 @@ export default function Hero() {
               <button
                 type="button"
                 onClick={() => setCommunityOpen(true)}
-                className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-accent px-7 text-sm font-medium text-white shadow-[0_8px_24px_-10px_rgba(109,40,217,0.8)] outline-none transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 sm:w-auto"
+                className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-accent px-7 text-sm font-medium text-white shadow-[0_8px_24px_-10px_rgba(37,99,235,0.8)] outline-none transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 sm:w-auto"
               >
                 Join Community
               </button>
@@ -214,7 +214,7 @@ export default function Hero() {
               variants={item}
               role="tablist"
               aria-label="Product preview"
-              className="mt-10 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2"
+              className="mt-7 flex flex-wrap items-center justify-center gap-1.5 sm:mt-10 sm:gap-2"
             >
               {TABS.map((t) => {
                 const isActive = t.id === tab;
@@ -261,7 +261,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: reduce ? 0 : 0.4, ease: EASE }}
-                className="mx-auto h-[420px] max-w-4xl sm:h-[480px]"
+                className="mx-auto h-[410px] max-w-4xl sm:h-[480px]"
               >
                 <CursorGuide key={active.id} steps={active.guide} className="h-full">
                   {active.panel}
@@ -274,7 +274,7 @@ export default function Hero() {
 
       <JoinModal
         kind="community"
-        accent="purple"
+        accent="brand"
         open={communityOpen}
         onClose={() => setCommunityOpen(false)}
       />

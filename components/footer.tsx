@@ -57,7 +57,7 @@ export default function Footer() {
   return (
     <Frame as="footer" bleed>
       <Inner>
-        <div className="flex flex-col gap-12 py-14 md:flex-row md:justify-between md:gap-16 md:py-16">
+        <div className="flex flex-col gap-8 py-10 md:flex-row md:justify-between md:gap-16 md:py-16">
           {/* Brand */}
           <div className="flex max-w-xs flex-col gap-4">
             <span className="flex items-center gap-2.5 text-text">
@@ -85,13 +85,13 @@ export default function Footer() {
           </div>
 
           {/* Link columns — 2-up on mobile, 4-up from sm */}
-          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4 md:gap-12">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-4 sm:gap-y-10 md:gap-12">
             {COLUMNS.map((col) => (
               <nav key={col.heading} aria-label={col.heading} className="flex flex-col">
                 <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-text-3">
                   {col.heading}
                 </h2>
-                <ul className="mt-4 flex flex-col gap-1">
+                <ul className="mt-2.5 flex flex-col sm:mt-4 sm:gap-1">
                   {col.links.map((l) => (
                     <li key={l.label}>
                       <a
@@ -109,7 +109,7 @@ export default function Footer() {
         </div>
 
         <nav aria-label="Solutions" className="border-t border-line py-6">
-          <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+          <ul className="flex flex-wrap gap-x-5 gap-y-1.5 text-[13px] sm:gap-x-6 sm:gap-y-2 sm:text-sm">
             {SOLUTIONS.map((l) => (
               <li key={l.href}>
                 <a

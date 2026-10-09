@@ -89,26 +89,26 @@ export default function LanguageMarquee() {
 
   return (
     <Frame as="section" bleed id="languages" className="border-b border-line">
-      <Inner className="pb-8 pt-16 md:pt-20">
+      <Inner className="pb-6 pt-10 sm:pb-8 md:pt-20">
         <SectionHead
           title="Forty-plus languages, both directions"
           sub="With a specialism most dubbing tools don't have: the Turkic languages."
         />
 
         {/* Turkic specialism */}
-        <div className="mx-auto mt-8 max-w-3xl rounded-2xl border border-line bg-surface p-6 sm:p-7">
+        <div className="mx-auto mt-6 max-w-3xl rounded-2xl border border-line bg-surface p-4 sm:mt-8 sm:p-7">
           <div className="flex flex-wrap items-center justify-center gap-2">
             {TURKIC.map((t) => (
               <span
                 key={t.name}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-bg px-3 py-2 text-sm text-text shadow-sm"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-bg px-2.5 py-1.5 text-sm text-text shadow-sm sm:px-3 sm:py-2"
               >
                 <span aria-hidden="true">{t.flag}</span>
                 {t.name}
               </span>
             ))}
           </div>
-          <p className="mx-auto mt-5 max-w-xl text-center text-[15px] leading-relaxed text-text-2">
+          <p className="mx-auto mt-5 hidden max-w-xl text-center text-[15px] leading-relaxed text-text-2 sm:block">
             Turkic languages are where TH-Labs is strongest. Vowel harmony, heavy
             agglutination, and word order that moves the verb to the end all break the
             timing of a naive dub — so we train and tune for them directly. Uzbek,
@@ -118,7 +118,7 @@ export default function LanguageMarquee() {
         </div>
       </Inner>
 
-      <div className="flex flex-col gap-3 bg-surface/60 py-8 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+      <div className="flex flex-col gap-3 bg-surface/60 py-6 sm:py-8 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
         <Row items={ROW_A} direction={up ? "reverse" : "normal"} />
         <Row items={ROW_B} direction={up ? "normal" : "reverse"} />
       </div>

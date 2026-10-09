@@ -289,7 +289,7 @@ export default function ParrotMascot() {
         tilt={tilt}
         wave={wave}
         breath={breath}
-        className="h-[96px] w-[98px] drop-shadow-[0_12px_26px_rgba(17,12,40,0.2)] sm:h-[126px] sm:w-[129px]"
+        className="h-[64px] w-[65px] drop-shadow-[0_12px_26px_rgba(17,12,40,0.2)] sm:h-[126px] sm:w-[129px]"
       />
     </motion.div>
   );
@@ -362,7 +362,7 @@ export default function ParrotMascot() {
           so the bird lands the visitor in exactly one flow, not a second one. */}
       <JoinModal
         kind="register"
-        accent="purple"
+        accent="brand"
         open={authOpen}
         onClose={() => setAuthOpen(false)}
       />

@@ -33,10 +33,10 @@ function getTransport() {
   return transporter;
 }
 
-const ACCENT = "#8b5cf6";
+const ACCENT = "#3b82f6";
 const BG = "#0a0a0f";
-const SURFACE = "#120f17";
-const BORDER = "#221f2b";
+const SURFACE = "#121317";
+const BORDER = "#22242b";
 const TEXT = "#f5f5f7";
 const MUTED = "#9a99a6";
 

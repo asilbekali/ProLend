@@ -18,11 +18,11 @@
   --text: #0b0b0c;
   --text-2: #5f6066;
   --text-3: #9a9ba1;
-  --accent: #6d28d9;
-  --accent-strong: #5b21b6;
-  --accent-bright: #8b5cf6;
-  --accent-soft: #f3eeff;
-  --accent-dim: rgba(109, 40, 217, 0.1);
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --accent-bright: #3b82f6;
+  --accent-soft: #eef4ff;
+  --accent-dim: rgba(37, 99, 235, 0.1);
   --live: #e0322b;
 
   /* Category colors for the solid pill rows + feature-row chips. Flat and
@@ -40,8 +40,8 @@
   --tint-green-fg: #15803d;
   --tint-blue-bg: #eff6ff;
   --tint-blue-fg: #1d4ed8;
-  --tint-violet-bg: #f5f1ff;
-  --tint-violet-fg: #6d28d9;
+  --tint-teal-bg: #effcf9;
+  --tint-teal-fg: #0f766e;
   --tint-orange-bg: #fff4ec;
   --tint-orange-fg: #c2410c;
   --tint-rose-bg: #fff1f2;
@@ -51,7 +51,7 @@
 
   /* The hero / CTA pastel wash, as one swappable value. */
   --mesh:
-    radial-gradient(48% 58% at 12% 18%, rgba(167, 139, 250, 0.34), transparent 62%),
+    radial-gradient(48% 58% at 12% 18%, rgba(94, 234, 212, 0.34), transparent 62%),
     radial-gradient(44% 52% at 88% 12%, rgba(125, 211, 252, 0.3), transparent 62%),
     radial-gradient(52% 48% at 72% 86%, rgba(244, 114, 182, 0.2), transparent 64%),
     radial-gradient(40% 44% at 26% 92%, rgba(253, 186, 116, 0.22), transparent 62%);
@@ -66,7 +66,7 @@
 
 /* ── Dark theme ──────────────────────────────────────────────────────────────
    Not a simple inversion: surfaces stay slightly warm-neutral, the accent is
-   lifted to a brighter violet so it still reads on a dark field, and the tint
+   lifted to a brighter blue so it still reads on a dark field, and the tint
    pairs become low-alpha washes of their own hue rather than pale pastels. */
 [data-theme="dark"] {
   --bg: #0a0a0c;
@@ -78,11 +78,11 @@
   --text-2: #a3a3ae;
   --text-3: #71717f;
 
-  --accent: #a78bfa;
-  --accent-strong: #c4b5fd;
-  --accent-bright: #c4b5fd;
-  --accent-soft: rgba(167, 139, 250, 0.14);
-  --accent-dim: rgba(167, 139, 250, 0.1);
+  --accent: #60a5fa;
+  --accent-strong: #93c5fd;
+  --accent-bright: #93c5fd;
+  --accent-soft: rgba(96, 165, 250, 0.14);
+  --accent-dim: rgba(96, 165, 250, 0.1);
   --live: #ff5f57;
 
   --cat-voice: #15803d;
@@ -94,8 +94,8 @@
   --tint-green-fg: #4ade80;
   --tint-blue-bg: rgba(59, 130, 246, 0.14);
   --tint-blue-fg: #60a5fa;
-  --tint-violet-bg: rgba(167, 139, 250, 0.16);
-  --tint-violet-fg: #c4b5fd;
+  --tint-teal-bg: rgba(20, 184, 166, 0.14);
+  --tint-teal-fg: #2dd4bf;
   --tint-orange-bg: rgba(249, 115, 22, 0.14);
   --tint-orange-fg: #fb923c;
   --tint-rose-bg: rgba(244, 63, 94, 0.14);
@@ -104,7 +104,7 @@
   --tint-amber-fg: #fbbf24;
 
   --mesh:
-    radial-gradient(48% 58% at 12% 18%, rgba(139, 92, 246, 0.3), transparent 62%),
+    radial-gradient(48% 58% at 12% 18%, rgba(20, 184, 166, 0.22), transparent 62%),
     radial-gradient(44% 52% at 88% 12%, rgba(56, 189, 248, 0.18), transparent 62%),
     radial-gradient(52% 48% at 72% 86%, rgba(236, 72, 153, 0.16), transparent 64%),
     radial-gradient(40% 44% at 26% 92%, rgba(249, 115, 22, 0.14), transparent 62%);
@@ -137,8 +137,8 @@
   --color-tint-green-fg: var(--tint-green-fg);
   --color-tint-blue-bg: var(--tint-blue-bg);
   --color-tint-blue-fg: var(--tint-blue-fg);
-  --color-tint-violet-bg: var(--tint-violet-bg);
-  --color-tint-violet-fg: var(--tint-violet-fg);
+  --color-tint-teal-bg: var(--tint-teal-bg);
+  --color-tint-teal-fg: var(--tint-teal-fg);
   --color-tint-orange-bg: var(--tint-orange-bg);
   --color-tint-orange-fg: var(--tint-orange-fg);
   --color-tint-rose-bg: var(--tint-rose-bg);
@@ -156,6 +156,7 @@
   --font-display: var(--font-outfit);
   --font-mono: var(--font-jetbrains);
   --font-brand: var(--font-archivo);
+  --font-num: Georgia, var(--font-gelasio), "Times New Roman", serif;
 }
 
 /* ── Depth / z-index token scale ─────────────────────────────────────────────
@@ -174,6 +175,16 @@
 /* Safe-area padding helpers for notched devices. */
 @utility pt-safe { padding-top: env(safe-area-inset-top); }
 @utility pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+/* Numerals — the old-style serif figures (Georgia, with Gelasio as the
+   metric-matched fallback where Georgia isn't installed). Used for every
+   displayed number: stats, credits, prices, step indices. */
+@utility font-num {
+  font-family: var(--font-num);
+  font-variant-numeric: oldstyle-nums proportional-nums;
+  font-feature-settings: "onum" 1, "pnum" 1;
+  letter-spacing: 0;
+}
 
 /* Halftone / dither dot field. `currentColor` drives its intensity so the
    <Dither/> component can tint + mask it. */
@@ -214,10 +225,10 @@
 
 /* Per-category tints for `field-grid`. Plain classes rather than @utility so
    the dark overrides can live right beside them. Pair with `field-grid`:
-   <div class="field-grid grid-tint-violet">. */
-.grid-tint-violet {
-  --grid-fill: #faf7ff;
-  --grid-line: rgba(139, 92, 246, 0.16);
+   <div class="field-grid grid-tint-teal">. */
+.grid-tint-teal {
+  --grid-fill: #f3fcfa;
+  --grid-line: rgba(13, 148, 136, 0.15);
 }
 .grid-tint-blue {
   --grid-fill: #f6fbff;
@@ -238,8 +249,8 @@
 [data-theme="dark"] .field-grid {
   background-image: none;
 }
-[data-theme="dark"] .grid-tint-violet {
-  --grid-fill: #131020;
+[data-theme="dark"] .grid-tint-teal {
+  --grid-fill: #0c1716;
 }
 [data-theme="dark"] .grid-tint-blue {
   --grid-fill: #0e1420;
@@ -288,7 +299,7 @@ h6 {
 }
 
 ::selection {
-  background: rgba(139, 92, 246, 0.22);
+  background: rgba(37, 99, 235, 0.2);
   color: var(--text);
 }
 

@@ -55,7 +55,7 @@ const NAV: NavItem[] = [
       {
         heading: "Learn",
         icon: <BookOpen className="h-3.5 w-3.5" />,
-        tint: "bg-tint-violet-bg text-tint-violet-fg",
+        tint: "bg-tint-teal-bg text-tint-teal-fg",
         links: [
           { label: "About the project", href: "#about" },
           { label: "Use cases", href: "#use-cases" },
@@ -245,7 +245,9 @@ export default function Navbar() {
           </ul>
 
           <div className="flex items-center gap-2">
-            <ThemeToggle className="hidden sm:inline-flex" />
+            <div className="hidden sm:block">
+              <ThemeToggle />
+            </div>
             <button
               type="button"
               onClick={() => setRegisterOpen(true)}
@@ -360,7 +362,7 @@ export default function Navbar() {
 
       <JoinModal
         kind="register"
-        accent="purple"
+        accent="brand"
         open={registerOpen}
         onClose={() => setRegisterOpen(false)}
       />

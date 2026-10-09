@@ -31,7 +31,7 @@ const newsreader = Newsreader({
 // (the "Join Community" CTAs). Still posts to the existing /api/waitlist
 // endpoint — only the user-facing framing changed.
 export type JoinModalKind = "register" | "community";
-export type JoinModalAccent = "white" | "purple";
+export type JoinModalAccent = "white" | "brand";
 
 type AuthMode = "register" | "login";
 
@@ -86,7 +86,7 @@ function JoinModalCard({
 }) {
   const isAuth = kind === "register";
   const accentClasses =
-    accent === "purple"
+    accent === "brand"
       ? "bg-accent hover:bg-accent-strong text-white"
       : "bg-text hover:bg-text/90 text-bg";
 
@@ -211,7 +211,7 @@ function JoinModalCard({
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
             className={`mb-5 flex h-14 w-14 items-center justify-center rounded-full ${accentClasses}`}
           >
-            <Check className={`h-6 w-6 ${accent === "purple" ? "text-white" : "text-bg"}`} />
+            <Check className={`h-6 w-6 ${accent === "brand" ? "text-white" : "text-bg"}`} />
           </motion.div>
           <h2
             className={`${archivo.className} font-bold tracking-[-0.03em] text-foreground`}
@@ -242,7 +242,7 @@ function JoinModalCard({
               <UserCheck className="h-6 w-6 text-foreground" />
             ) : (
               <Check
-                className={`h-6 w-6 ${accent === "purple" ? "text-white" : "text-bg"}`}
+                className={`h-6 w-6 ${accent === "brand" ? "text-white" : "text-bg"}`}
               />
             )}
           </motion.div>

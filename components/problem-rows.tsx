@@ -23,7 +23,7 @@ const bar: Variants = {
 export default function ProblemRows() {
   return (
     <Frame as="section" bleed className="border-b border-line">
-      <Inner className="grid items-center gap-10 py-14 md:grid-cols-2 md:gap-14 md:py-18">
+      <Inner className="grid items-center gap-6 py-10 md:grid-cols-2 md:gap-14 md:py-18">
         {/* Copy — the two-tone headline: statement in ink, question in grey. */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
