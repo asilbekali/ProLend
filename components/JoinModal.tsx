@@ -9,7 +9,7 @@ import { useRegisterMutation } from "@/lib/queries/useRegisterMutation";
 import { useLoginMutation } from "@/lib/queries/useLoginMutation";
 import { useGoogleAuthMutation } from "@/lib/queries/useGoogleAuthMutation";
 import GoogleSignInButton from "@/components/GoogleSignInButton";
-import { completeAuthAndRedirect } from "@/lib/session";
+import { completeAuthAndRedirect, warmStudio } from "@/lib/session";
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -375,6 +375,12 @@ export default function JoinModal({
   open: boolean;
   onClose: () => void;
 }) {
+  // Sign-in ends in a redirect to the Studio; start it booting now so that
+  // redirect does not wait out a cold start (see warmStudio).
+  useEffect(() => {
+    if (open && kind === "register") warmStudio();
+  }, [open, kind]);
+
   useEffect(() => {
     if (!open) return;
     function handleKey(e: KeyboardEvent) {

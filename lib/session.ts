@@ -49,6 +49,19 @@ export function studioUrlWithCode(code: string): string {
   return url.toString();
 }
 
+// The Studio runs on a GPU container that Modal stops after 5 idle minutes,
+// and starting one takes ~15 s, over a minute when GPUs are scarce. The
+// redirect after sign-in used to wait all of that out on this page, under
+// "Taking you to TH-Labs…". So the sign-in modal wakes the Studio the moment it
+// opens: by the time a password is typed, it is usually up. The response is
+// opaque (no-cors) and ignored — the request is the point. Once per page load.
+let studioWarmed = false;
+export function warmStudio() {
+  if (typeof window === "undefined" || studioWarmed) return;
+  studioWarmed = true;
+  fetch(MAIN_APP_URL, { mode: "no-cors", cache: "no-store" }).catch(() => {});
+}
+
 export function buildHandoffUrl(handoff: AuthHandoff): string {
   return studioUrlWithCode(handoff.code);
 }
