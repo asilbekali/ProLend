@@ -186,12 +186,12 @@ export default function Navbar() {
       <header className="z-nav sticky top-0 border-b border-line bg-bg/85 backdrop-blur-xl pt-safe">
         <nav
           aria-label="Primary"
-          className={`${MEASURE} flex h-16 items-center justify-between gap-4`}
+          className={`${MEASURE} flex h-16 items-center justify-between gap-3`}
         >
           <Link
             href="#top"
             aria-label="TH-Labs — home"
-            className="flex items-center gap-2 rounded px-0.5 text-text outline-none focus-visible:ring-2 focus-visible:ring-accent/50 sm:gap-2.5"
+            className="flex min-w-0 items-center gap-2 rounded px-0.5 text-text outline-none focus-visible:ring-2 focus-visible:ring-accent/50 sm:gap-2.5"
           >
             <LogoMark className="h-5 w-5 shrink-0 sm:h-[22px] sm:w-[22px]" />
             <Wordmark className="text-[15px] sm:text-[17px]" />
@@ -244,7 +244,7 @@ export default function Navbar() {
             ))}
           </ul>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <div className="hidden sm:block">
               <ThemeToggle />
             </div>
@@ -256,6 +256,15 @@ export default function Navbar() {
               Login
             </button>
 
+            {/* Mobile primary CTA: always visible in the top bar */}
+            <button
+              type="button"
+              onClick={() => setRegisterOpen(true)}
+              className="inline-flex h-9 items-center justify-center whitespace-nowrap rounded-full bg-text px-4 text-sm font-semibold text-bg shadow-sm outline-none transition-transform active:scale-95 focus-visible:ring-2 focus-visible:ring-accent/50 md:hidden"
+            >
+              Get Started
+            </button>
+
             {/* Hamburger (mobile) */}
             <button
               type="button"
@@ -263,7 +272,7 @@ export default function Navbar() {
               aria-label="Open menu"
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
-              className="flex h-10 w-10 items-center justify-center rounded-lg text-text outline-none focus-visible:ring-2 focus-visible:ring-accent/50 md:hidden"
+              className="-mr-2 flex h-10 w-10 items-center justify-center rounded-lg text-text outline-none focus-visible:ring-2 focus-visible:ring-accent/50 md:hidden"
             >
               <span className="relative block h-3.5 w-5">
                 <span className="absolute left-0 top-0 h-0.5 w-full bg-current" />
@@ -287,7 +296,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.22 }}
-            className="z-overlay fixed inset-0 flex flex-col overflow-y-auto bg-bg px-6 pb-safe pt-6 md:hidden"
+            className="z-overlay fixed inset-0 flex flex-col overflow-y-auto bg-bg px-6 pt-6 md:hidden"
           >
             <div className="flex items-center justify-between gap-3">
               <span className="flex items-center gap-2 text-text">
@@ -310,7 +319,7 @@ export default function Navbar() {
               initial="hidden"
               animate="show"
               exit="exit"
-              className="mt-10 flex flex-col gap-1 pb-10"
+              className="mt-6 flex flex-col gap-1 pb-6"
             >
               {NAV.map((item) =>
                 item.groups ? (
@@ -346,16 +355,18 @@ export default function Navbar() {
                   </motion.li>
                 ),
               )}
-              <motion.li variants={menuItem} className="mt-8">
-                <button
-                  type="button"
-                  onClick={openRegister}
-                  className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-text text-base font-medium text-bg outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
-                >
-                  Get Started
-                </button>
-              </motion.li>
             </motion.ul>
+
+            {/* Pinned CTA: always on screen, no scrolling to find it */}
+            <div className="sticky bottom-0 mt-auto border-t border-line bg-bg pb-safe pt-4">
+              <button
+                type="button"
+                onClick={openRegister}
+                className="mb-4 inline-flex h-12 w-full items-center justify-center rounded-xl bg-text text-base font-semibold text-bg outline-none transition-transform active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent/50"
+              >
+                Get Started
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
