@@ -10,6 +10,15 @@
    are warm-neutral greys (never pure #f00 cool) so product panels sit quietly
    against the white without looking like disabled UI. */
 :root {
+  /* Font stacks — the faces themselves are self-hosted in app/fonts.css. */
+  --font-inter: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-outfit: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-jetbrains: "JetBrains Mono", ui-monospace, monospace;
+  --font-archivo: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-gelasio: "Gelasio";
+  --font-onest: "Onest", ui-sans-serif, system-ui, sans-serif;
+  --font-newsreader: "Newsreader", Georgia, serif;
+
   --bg: #ffffff;
   --surface: #f7f7f5;
   --surface-2: #efefec;

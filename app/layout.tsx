@@ -1,62 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import {
-  Archivo,
-  Gelasio,
-  Inter,
-  JetBrains_Mono,
-  Onest,
-  Outfit,
-} from "next/font/google";
 import QueryProvider from "@/components/providers/QueryProvider";
 import { THEME_INIT_SCRIPT } from "@/components/theme-toggle";
 import ClickSpark from "@/components/reactbits/ClickSpark/ClickSpark";
 import SmoothScroll from "@/components/smooth-scroll";
 import { HOME_LANGUAGES } from "@/lib/seo-pages";
+import "./fonts.css";
 import "./globals.css";
 
-// Body / long-form prose.
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-// Every heading — the geometric display voice, set tight and near-black.
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-});
-
-// Eyebrows, labels, stats, code — the technical-mono voice.
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-// The brand voice: the wordmark and the auth-card titles. A heavy grotesque
-// set tight, matching the cut letters on the office signage — the pixel face
-// that used to sit here never fit the mark beside it.
-const archivo = Archivo({
-  variable: "--font-archivo",
-  subsets: ["latin"],
-  weight: ["600", "700", "800"],
-});
-
-// Numerals — Georgia's old-style figures. Georgia is a system font, so Gelasio
-// (its metric-matched open clone) stands in where it isn't installed.
-const gelasio = Gelasio({
-  variable: "--font-gelasio",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-});
-
-// The landing page's voice: a friendly, rounded grotesque for headlines and
-// body alike, with Cyrillic for the Russian and Uzbek copy.
-const onest = Onest({
-  variable: "--font-onest",
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600"],
-});
+// Fonts are self-hosted (app/fonts.css → public/fonts) and named through
+// CSS variables in globals.css: Inter for body text, Outfit for headings,
+// JetBrains Mono for labels, Archivo for the wordmark, Gelasio as Georgia's
+// stand-in for numerals, and Onest for the landing page.
 
 const SITE = "https://th-labs.uz";
 
@@ -175,7 +129,7 @@ export default function RootLayout({
       // The theme script stamps data-theme on <html> before hydration, so the
       // server markup intentionally differs here.
       suppressHydrationWarning
-      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} ${archivo.variable} ${gelasio.variable} ${onest.variable} h-full antialiased`}
+      className="h-full antialiased"
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />

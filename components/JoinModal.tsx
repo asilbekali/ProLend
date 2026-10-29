@@ -3,7 +3,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Check, Loader2, UserCheck, X } from "lucide-react";
-import { Archivo, Newsreader } from "next/font/google";
 import { useJoinWaitlistMutation } from "@/lib/queries/useJoinWaitlistMutation";
 import { useRegisterMutation } from "@/lib/queries/useRegisterMutation";
 import { useLoginMutation } from "@/lib/queries/useLoginMutation";
@@ -11,17 +10,10 @@ import { useGoogleAuthMutation } from "@/lib/queries/useGoogleAuthMutation";
 import GoogleSignInButton from "@/components/GoogleSignInButton";
 import { completeAuthAndRedirect, warmStudio } from "@/lib/session";
 
-const archivo = Archivo({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-  variable: "--font-archivo",
-});
-
-const newsreader = Newsreader({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-newsreader",
-});
+// The card's two faces, self-hosted (app/fonts.css): Archivo for titles,
+// Newsreader for the body copy.
+const archivo = { className: "font-brand" };
+const newsreader = { className: "font-[family-name:var(--font-newsreader)]" };
 
 // "register" = full account auth against the backend. The card shows a
 // Register / Login toggle (name+email+password to create, email+password to
