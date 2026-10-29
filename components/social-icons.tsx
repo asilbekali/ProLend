@@ -51,6 +51,7 @@ export type SocialLink = {
 
 /** The accounts that actually exist. Rendered everywhere socials appear. */
 export const SOCIAL_LINKS: SocialLink[] = [
+  { label: "YouTube", href: "https://www.youtube.com/@th_labs_i", Icon: YoutubeIcon },
   { label: "Instagram", href: "https://instagram.com/th_labs.io", Icon: InstagramIcon },
   { label: "Telegram", href: "https://t.me/thlabsio", Icon: TelegramIcon },
   {
@@ -59,18 +60,6 @@ export const SOCIAL_LINKS: SocialLink[] = [
     Icon: LinkedinIcon,
   },
 ];
-
-/**
- * There is no YouTube channel yet, so this returns to the top of the page
- * rather than going nowhere. It belongs in the footer's brand row, which is a
- * presence strip — never in the "join the community" band, where a link that
- * does not reach a community is worse than an absent one.
- */
-export const YOUTUBE_LINK: SocialLink = {
-  label: "YouTube",
-  href: "#top",
-  Icon: YoutubeIcon,
-};
 
 /** Off-site links open a tab; in-page jumps must not. */
 export const isExternal = (href: string) => href.startsWith("http");

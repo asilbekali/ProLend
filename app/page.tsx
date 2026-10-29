@@ -1,14 +1,13 @@
-import Hero from "@/components/Hero";
-import LogoStrip from "@/components/logo-strip";
-import ProblemRows from "@/components/problem-rows";
-import HowItWorks from "@/components/how-it-works";
-import FeaturesBento from "@/components/features-bento";
-import ApiBand from "@/components/api-band";
-import AboutProject from "@/components/about-project";
-import LanguageMarquee from "@/components/language-marquee";
-import UseCasesStack from "@/components/use-cases-stack";
+import TopNav from "@/components/landing/top-nav";
+import Hero from "@/components/landing/hero";
+import GatherScene from "@/components/landing/gather-scene";
+import InspectScene from "@/components/landing/inspect-scene";
+import Clusters from "@/components/landing/clusters";
+import StudioScene from "@/components/landing/studio-scene";
+import LiveScene from "@/components/landing/live-scene";
+import Pricing from "@/components/landing/pricing";
+import Languages from "@/components/landing/languages";
 import Faq from "@/components/faq";
-import CtaBand from "@/components/cta-band";
 import Footer from "@/components/footer";
 import StudioResume from "@/components/studio-resume";
 import { FAQS } from "@/lib/faqs";
@@ -38,6 +37,7 @@ const jsonLd = {
         "https://instagram.com/th_labs.io",
         "https://www.linkedin.com/company/thlabsio/",
         "https://t.me/thlabsio",
+        "https://www.youtube.com/@th_labs_i",
       ],
     },
     {
@@ -53,7 +53,7 @@ const jsonLd = {
       "@type": "WebPage",
       "@id": `${SITE}/#webpage`,
       url: SITE,
-      name: "AI Video Dubbing & Real-Time Translation in 40+ Languages",
+      name: "AI Video Dubbing & Real-Time Translation in 42+ Languages",
       isPartOf: { "@id": `${SITE}/#website` },
       about: { "@id": `${SITE}/#software` },
       primaryImageOfPage: `${SITE}/opengraph-image`,
@@ -69,9 +69,9 @@ const jsonLd = {
       applicationSubCategory: "AI video dubbing and translation",
       operatingSystem: "Web",
       description:
-        "AI dubbing system for natural multilingual voice conversion. Upload video, audio, or a live stream and get voice-cloned, lip-synced output in 40+ languages — in real time.",
+        "AI dubbing system for natural multilingual voice conversion. Upload video, audio, or a live stream and get voice-cloned, lip-synced output in 42+ languages — in real time.",
       featureList: [
-        "AI video dubbing in 40+ languages",
+        "AI video dubbing in 42+ languages",
         "Voice cloning from about three seconds of reference audio",
         "Lip sync matched to the dubbed track",
         "Real-time live stream dubbing at roughly two seconds of latency",
@@ -97,24 +97,25 @@ const jsonLd = {
 
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col">
+    // The landing page is always the dark editorial canvas, whatever theme the
+    // visitor picked elsewhere — see the `.mare` scope in globals.css.
+    <main data-theme="dark" className="mare flex flex-1 flex-col overflow-x-clip">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* Renders nothing unless the Studio sent the user back with ?studio=1. */}
       <StudioResume />
+      <TopNav />
       <Hero />
-      <LogoStrip />
-      <ProblemRows />
-      <HowItWorks />
-      <FeaturesBento />
-      <ApiBand />
-      <AboutProject />
-      <LanguageMarquee />
-      <UseCasesStack />
+      <GatherScene />
+      <InspectScene />
+      <Clusters />
+      <StudioScene />
+      <LiveScene />
+      <Languages />
+      <Pricing />
       <Faq />
-      <CtaBand />
       <Footer />
     </main>
   );

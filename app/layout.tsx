@@ -1,10 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Gelasio, Inter, JetBrains_Mono, Outfit } from "next/font/google";
+import {
+  Archivo,
+  Gelasio,
+  IBM_Plex_Sans,
+  IBM_Plex_Serif,
+  Inter,
+  JetBrains_Mono,
+  Outfit,
+} from "next/font/google";
 import QueryProvider from "@/components/providers/QueryProvider";
 import { THEME_INIT_SCRIPT } from "@/components/theme-toggle";
 import ClickSpark from "@/components/reactbits/ClickSpark/ClickSpark";
 import SmoothScroll from "@/components/smooth-scroll";
-import ParrotMascot from "@/components/parrot-mascot";
 import { HOME_LANGUAGES } from "@/lib/seo-pages";
 import "./globals.css";
 
@@ -44,6 +51,20 @@ const gelasio = Gelasio({
   weight: ["400", "500"],
 });
 
+// The landing page's voice: a light editorial serif for every headline, with
+// Plex Sans as its body companion.
+const plexSerif = IBM_Plex_Serif({
+  variable: "--font-plex-serif",
+  subsets: ["latin", "cyrillic"],
+  weight: ["300", "400"],
+});
+
+const plexSans = IBM_Plex_Sans({
+  variable: "--font-plex-sans",
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500"],
+});
+
 const SITE = "https://th-labs.uz";
 
 export const metadata: Metadata = {
@@ -51,11 +72,11 @@ export const metadata: Metadata = {
   title: {
     // Non-brand queries are the ones worth competing for, so the title leads
     // with what people actually type and keeps the brand as the suffix.
-    default: "AI Video Dubbing & Real-Time Translation in 40+ Languages — TH-Labs",
+    default: "AI Video Dubbing & Real-Time Translation in 42+ Languages — TH-Labs",
     template: "%s — TH-Labs",
   },
   description:
-    "Dub and translate video into 40+ languages with cloned voices and matched lip sync. Real-time dubbing for live streams at ~2s latency. TH-Labs (TH Labs) — free tier to start.",
+    "Dub and translate video into 42+ languages with cloned voices and matched lip sync. Real-time dubbing for live streams at ~2s latency. TH-Labs (TH Labs) — free tier to start.",
   keywords: [
     // Russian and Uzbek phrasings — Yandex is a large share of search in
     // Uzbekistan. The /ru and /uz pages carry the full sets.
@@ -124,9 +145,9 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "AI Video Dubbing & Real-Time Translation in 40+ Languages",
+    title: "AI Video Dubbing & Real-Time Translation in 42+ Languages",
     description:
-      "Voice-cloned, lip-synced dubbing in 40+ languages. Real time on live streams, ~2s delay.",
+      "Voice-cloned, lip-synced dubbing in 42+ languages. Real time on live streams, ~2s delay.",
     url: SITE,
     siteName: "TH-Labs",
     type: "website",
@@ -134,9 +155,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Video Dubbing & Real-Time Translation in 40+ Languages",
+    title: "AI Video Dubbing & Real-Time Translation in 42+ Languages",
     description:
-      "Voice-cloned, lip-synced dubbing in 40+ languages. Real time on live streams, ~2s delay.",
+      "Voice-cloned, lip-synced dubbing in 42+ languages. Real time on live streams, ~2s delay.",
   },
 };
 
@@ -161,7 +182,7 @@ export default function RootLayout({
       // The theme script stamps data-theme on <html> before hydration, so the
       // server markup intentionally differs here.
       suppressHydrationWarning
-      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} ${archivo.variable} ${gelasio.variable} h-full antialiased`}
+      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} ${archivo.variable} ${gelasio.variable} ${plexSerif.variable} ${plexSans.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
@@ -178,9 +199,6 @@ export default function RootLayout({
             >
               {children}
             </ClickSpark>
-            {/* Mounted at the root, outside the scroller: the mascot is fixed
-                to the viewport and has to survive every section it flies past. */}
-            <ParrotMascot />
           </SmoothScroll>
         </QueryProvider>
       </body>
