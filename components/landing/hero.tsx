@@ -1,436 +1,298 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
 import {
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-  type MotionValue,
-} from "motion/react";
-import { TileView, type Tile } from "./tiles";
-import { V, type Video } from "./media";
-import { StartButton } from "./primitives";
+  ArrowRight,
+  ArrowUp,
+  ChevronDown,
+  Clapperboard,
+  Link2,
+  Mic,
+  Play,
+  Upload,
+  Radio,
+  type LucideIcon,
+} from "lucide-react";
+import { StartButton, useCycle } from "./primitives";
+import ContactButton from "./contact-button";
 
-type Placed = {
-  tile: Tile;
-  caption: string;
-  /** Centre of the card on desktop, in % of the hero. */
-  x: number;
-  y: number;
-  /** Centre on phones — the title takes the middle band there. */
-  mx: number;
-  my: number;
-  /** Width in px at desktop scale. */
-  w: number;
-  /** Parallax depth: how far the card follows the pointer. */
-  d: number;
-  /** Cards left out on phones, where there is less room around the title. */
-  wide?: boolean;
-};
+const EASE = [0.16, 1, 0.3, 1] as const;
 
-const yt = (video: Video, badge: string, line?: string): Tile => ({
-  kind: "video",
-  video,
-  badge,
-  line,
-});
-
-// Hand-placed so the centre stays clear for the title. Captions read like the
-// reference's "Artist — Work" labels: whose video it is, and where it went.
-const CARDS: Placed[] = [
-  {
-    x: 8,
-    y: 13,
-    mx: 16,
-    my: 8,
-    w: 132,
-    d: 1.2,
-    caption: "MrBeast — Escape 100 Cops",
-    tile: yt(V.beastCops, "EN → UZ", "100 ta politsiyadan qoching"),
-  },
-  {
-    x: 22,
-    y: 7,
-    mx: 50,
-    my: 6,
-    w: 112,
-    d: 0.6,
-    caption: "Mark Rober — Every Board Game",
-    tile: yt(V.roberBoard, "EN → RU"),
-  },
-  {
-    x: 36,
-    y: 10,
-    mx: 84,
-    my: 9,
-    w: 104,
-    d: 0.9,
-    caption: "TED — Why It's Hard to Listen",
-    tile: yt(V.tedListen, "EN → ES"),
-  },
-  {
-    x: 63,
-    y: 8,
-    mx: 30,
-    my: 20,
-    w: 124,
-    d: 0.7,
-    wide: true,
-    caption: "Lex Fridman Podcast #503",
-    tile: yt(V.lexMath, "EN → TR"),
-  },
-  {
-    x: 79,
-    y: 12,
-    mx: 72,
-    my: 21,
-    w: 110,
-    d: 1.1,
-    caption: "Online class — live",
-    tile: { kind: "photo", photo: "classVideo", badge: "LIVE · RU → UZ" },
-  },
-  {
-    x: 93,
-    y: 18,
-    mx: 50,
-    my: 30,
-    w: 118,
-    d: 0.8,
-    wide: true,
-    caption: "MrBeast — Last To Leave Mansion",
-    tile: yt(V.beastMansion, "EN → AR"),
-  },
-  {
-    x: 6,
-    y: 37,
-    mx: 7,
-    my: 36,
-    w: 104,
-    d: 0.9,
-    caption: "Veritasium — Fiber Optics",
-    tile: yt(V.veritasiumFiber, "EN → KK"),
-  },
-  {
-    x: 20,
-    y: 30,
-    mx: 0,
-    my: 0,
-    w: 96,
-    d: 1.3,
-    wide: true,
-    caption: "CS50 — Seconds on Binary",
-    tile: yt(V.cs50Binary, "EN → UZ"),
-  },
-  {
-    x: 78,
-    y: 32,
-    mx: 0,
-    my: 0,
-    w: 100,
-    d: 1.2,
-    wide: true,
-    caption: "Dude Perfect — Rocket League",
-    tile: yt(V.dudeRocket, "EN → FR"),
-  },
-  {
-    x: 93,
-    y: 40,
-    mx: 93,
-    my: 38,
-    w: 124,
-    d: 0.7,
-    caption: "Team call — live",
-    tile: { kind: "photo", photo: "callGallery", badge: "LIVE · EN → UZ" },
-  },
-  {
-    x: 9,
-    y: 58,
-    mx: 7,
-    my: 63,
-    w: 120,
-    d: 0.8,
-    caption: "Apple — New MacBook Pro",
-    tile: yt(V.appleEvent, "EN → JA"),
-  },
-  {
-    x: 22,
-    y: 50,
-    mx: 0,
-    my: 0,
-    w: 104,
-    d: 1.1,
-    wide: true,
-    caption: "Kurzgesagt — Only Like Half",
-    tile: yt(V.kurzgesagtHalf, "EN → DE"),
-  },
-  {
-    x: 79,
-    y: 55,
-    mx: 0,
-    my: 0,
-    w: 100,
-    d: 1,
-    wide: true,
-    caption: "Khan Academy — Physics",
-    tile: yt(V.khanPhysics, "EN → UZ"),
-  },
-  {
-    x: 93,
-    y: 62,
-    mx: 93,
-    my: 65,
-    w: 112,
-    d: 1.3,
-    caption: "MrBeast — Grocery Store",
-    tile: yt(V.beastGrocery, "EN → RU"),
-  },
-  {
-    x: 7,
-    y: 81,
-    mx: 28,
-    my: 76,
-    w: 128,
-    d: 1,
-    caption: "Marques Brownlee — iPhone Duo",
-    tile: yt(V.mkbhdPhone, "EN → HI"),
-  },
-  {
-    x: 21,
-    y: 72,
-    mx: 0,
-    my: 0,
-    w: 96,
-    d: 0.7,
-    wide: true,
-    caption: "Client meeting — live",
-    tile: { kind: "photo", photo: "callLaptop", badge: "LIVE · UZ → EN" },
-  },
-  {
-    x: 34,
-    y: 90,
-    mx: 72,
-    my: 77,
-    w: 116,
-    d: 1.2,
-    caption: "Mark Rober — Car Thieves",
-    tile: yt(V.roberThieves, "EN → TR"),
-  },
-  {
-    x: 50,
-    y: 93,
-    mx: 14,
-    my: 90,
-    w: 128,
-    d: 0.6,
-    caption: "MrBeast — I Built A City",
-    tile: yt(V.beastCity, "EN → UZ", "Men shahar qurdim"),
-  },
-  {
-    x: 65,
-    y: 87,
-    mx: 50,
-    my: 88,
-    w: 112,
-    d: 1.1,
-    caption: "Google — Accessibility",
-    tile: yt(V.googleAccess, "EN → AZ"),
-  },
-  {
-    x: 79,
-    y: 77,
-    mx: 0,
-    my: 0,
-    w: 100,
-    d: 0.9,
-    wide: true,
-    caption: "Dude Perfect — Overtime 52",
-    tile: yt(V.dudeOvertime, "EN → PT"),
-  },
-  {
-    x: 92,
-    y: 83,
-    mx: 86,
-    my: 92,
-    w: 122,
-    d: 0.8,
-    caption: "Veritasium — Einstein",
-    tile: yt(V.veritasiumEinstein, "EN → KO"),
-  },
+// What gets dubbed, from what, into what — the chips in the headline swap
+// through real jobs people bring to TH-Labs.
+const JOBS: {
+  Icon: LucideIcon;
+  what: string;
+  from: [string, string];
+  to: [string, string];
+}[] = [
+  { Icon: Play, what: "your vlog", from: ["EN", "English"], to: ["UZ", "O'zbek"] },
+  { Icon: Mic, what: "your podcast", from: ["RU", "Русский"], to: ["EN", "English"] },
+  { Icon: Clapperboard, what: "your short film", from: ["UZ", "O'zbek"], to: ["ES", "Español"] },
+  { Icon: Radio, what: "your live stream", from: ["EN", "English"], to: ["TR", "Türkçe"] },
 ];
 
-function HeroCard({
-  card,
-  index,
-  progress,
-  mx,
-  my,
-}: {
-  card: Placed;
-  index: number;
-  progress: MotionValue<number>;
-  mx: MotionValue<number>;
-  my: MotionValue<number>;
-}) {
-  // Scrolling pushes every card out along its own ray from the centre and lets
-  // it go soft, so the page "opens" into the next scene.
-  const dx = (card.x - 50) / 50;
-  const dy = (card.y - 50) / 50;
-  const sx = useTransform(progress, [0, 1], [0, dx * 320]);
-  const sy = useTransform(progress, [0, 1], [0, dy * 260]);
-  const opacity = useTransform(progress, [0, 0.25, 0.9], [1, 1, 0]);
-  const scale = useTransform(progress, [0, 1], [1, 0.82]);
-  const filter = useTransform(progress, [0.2, 1], ["blur(0px)", "blur(6px)"]);
-  const px = useTransform(mx, (v) => v * card.d * 16);
-  const py = useTransform(my, (v) => v * card.d * 12);
+const LINKS = [
+  "https://youtu.be/your-vlog",
+  "https://vimeo.com/your-short-film",
+  "https://drive.google.com/podcast-ep-12.mp4",
+];
 
+const LANGUAGES = [
+  "O'zbek",
+  "English",
+  "Русский",
+  "Türkçe",
+  "Қазақша",
+  "Azərbaycanca",
+  "Кыргызча",
+  "Türkmençe",
+  "Español",
+  "Français",
+  "Deutsch",
+  "Português",
+  "العربية",
+  "हिन्दी",
+  "中文",
+  "日本語",
+  "한국어",
+  "Italiano",
+];
+
+// Tinted like the reference's chips: the job in orange, the source neutral,
+// the target in green.
+const TINTS = {
+  orange: "bg-[rgba(255,122,26,0.16)] border-[rgba(255,122,26,0.35)] text-[#ffd3b0]",
+  neutral: "bg-white/[0.07] border-white/15 text-white",
+  green: "bg-[rgba(25,195,125,0.16)] border-[rgba(25,195,125,0.4)] text-[#b6f5d8]",
+} as const;
+
+function Chip({
+  children,
+  Icon,
+  code,
+  tint,
+}: {
+  children: React.ReactNode;
+  Icon?: LucideIcon;
+  code?: string;
+  tint: keyof typeof TINTS;
+}) {
   return (
-    <div
-      className={`absolute left-[var(--mx)] top-[var(--my)] -translate-x-1/2 -translate-y-1/2 md:left-[var(--x)] md:top-[var(--y)] ${card.wide ? "hidden md:block" : ""}`}
-      style={{
-        ["--x" as string]: `${card.x}%`,
-        ["--y" as string]: `${card.y}%`,
-        ["--mx" as string]: `${card.mx}%`,
-        ["--my" as string]: `${card.my}%`,
-        width: `calc(${card.w}px * var(--ts))`,
-        fontSize: `calc(${card.w}px * var(--ts) * 0.15)`,
-      }}
+    <span
+      className={`mx-[0.08em] inline-flex items-center gap-[0.28em] rounded-[0.45em] border px-[0.32em] py-[0.02em] align-middle backdrop-blur ${TINTS[tint]}`}
     >
-      <motion.div style={{ x: sx, y: sy, opacity, scale, filter }}>
-        <motion.div style={{ x: px, y: py }}>
-          <motion.figure
-            initial={{ opacity: 0, y: 18, scale: 0.94 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.15 + index * 0.035, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {/* The idle bob lives on its own layer: a CSS animation and a
-                motion transform on one element would overwrite each other. */}
-            <div
-              className="animate-float"
-              style={
-                {
-                  "--float-distance": `${-4 - (index % 4) * 2}px`,
-                  "--float-duration": `${6 + (index % 5)}s`,
-                  "--float-delay": `${-(index % 7)}s`,
-                } as React.CSSProperties
-              }
-            >
-              <div className="shadow-[0_18px_40px_-18px_rgba(0,0,0,0.9)]">
-                <TileView
-                  tile={card.tile}
-                  sizes="(max-width: 768px) 96px, 160px"
-                  priority={index < 8}
-                />
-              </div>
-              <figcaption className="mt-1.5 hidden text-center text-[10px] leading-tight text-white/45 sm:block">
-                {card.caption}
-              </figcaption>
-            </div>
-          </motion.figure>
-        </motion.div>
-      </motion.div>
-    </div>
+      {Icon ? <Icon className="h-[0.68em] w-[0.68em]" strokeWidth={2.2} /> : null}
+      {code ? (
+        <span className="rounded-[0.25em] bg-white/15 px-[0.22em] font-mono text-[0.42em] leading-[1.5] tracking-wide">
+          {code}
+        </span>
+      ) : null}
+      {children}
+    </span>
   );
 }
 
-export default function Hero() {
-  const ref = useRef<HTMLElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+function Swap({ k, children }: { k: string; children: React.ReactNode }) {
+  return (
+    <AnimatePresence mode="popLayout" initial={false}>
+      <motion.span
+        key={k}
+        initial={{ opacity: 0, filter: "blur(8px)", y: 6 }}
+        animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+        exit={{ opacity: 0, filter: "blur(8px)", y: -6 }}
+        transition={{ duration: 0.45, ease: EASE }}
+        className="inline-block"
+      >
+        {children}
+      </motion.span>
+    </AnimatePresence>
+  );
+}
 
-  const rawX = useMotionValue(0);
-  const rawY = useMotionValue(0);
-  const mx = useSpring(rawX, { stiffness: 60, damping: 18, mass: 0.6 });
-  const my = useSpring(rawY, { stiffness: 60, damping: 18, mass: 0.6 });
-
+/** Types a link out, holds it, clears it, moves to the next. */
+function useTypedLink() {
+  const [state, setState] = useState({ i: 0, n: 0, hold: 0 });
   useEffect(() => {
-    if (reduce) return;
-    const onMove = (e: PointerEvent) => {
-      rawX.set((e.clientX / window.innerWidth) * 2 - 1);
-      rawY.set((e.clientY / window.innerHeight) * 2 - 1);
-    };
-    window.addEventListener("pointermove", onMove, { passive: true });
-    return () => window.removeEventListener("pointermove", onMove);
-  }, [reduce, rawX, rawY]);
+    const id = setInterval(() => {
+      setState(({ i, n, hold }) => {
+        const full = LINKS[i].length;
+        if (n < full) return { i, n: n + 1, hold };
+        if (hold < 28) return { i, n, hold: hold + 1 };
+        return { i: (i + 1) % LINKS.length, n: 0, hold: 0 };
+      });
+    }, 55);
+    return () => clearInterval(id);
+  }, []);
+  return LINKS[state.i].slice(0, state.n);
+}
 
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
-  const titleY = useTransform(scrollYProgress, [0, 0.45], [0, -36]);
+export default function Hero() {
+  const [job] = useCycle(JOBS.length, 2800);
+  const j = JOBS[job];
+  const typed = useTypedLink();
+  const [tab, setTab] = useState<"link" | "file">("link");
+  // The hero sinks into the dark as the next scene arrives.
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const sink = useTransform(scrollYProgress, [0, 0.7], [1, 0.94]);
 
   return (
-    <section ref={ref} id="top" className="relative h-[170svh]">
-      <div className="sticky top-0 h-svh overflow-hidden [--ts:0.76] sm:[--ts:0.82] lg:[--ts:1]">
-        <div aria-hidden="true" className="absolute inset-0">
-          {CARDS.map((c, i) => (
-            <HeroCard
-              key={c.caption}
-              card={c}
-              index={i}
-              progress={scrollYProgress}
-              mx={mx}
-              my={my}
-            />
-          ))}
-        </div>
+    <section
+      ref={ref}
+      id="top"
+      className="relative flex min-h-svh flex-col px-4 pt-24 sm:px-6 sm:pt-28"
+    >
+      <motion.div
+        style={{ opacity: fade, scale: sink }}
+        className="mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center text-center"
+      >
+        {/* Stacked one phrase per line on phones, one sentence from lg up —
+            as the reference does it. */}
+        <motion.h1
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: EASE }}
+          className="text-[clamp(1.9rem,3.4vw,2.6rem)] leading-[1.22] text-white/40"
+        >
+          <span className="block lg:inline">
+            Dub{" "}
+            <Swap k={j.what}>
+              <Chip Icon={j.Icon} tint="orange">
+                {j.what}
+              </Chip>
+            </Swap>
+          </span>{" "}
+          <span className="block lg:inline">
+            from{" "}
+            <Swap k={j.from[1] + job}>
+              <Chip code={j.from[0]} tint="neutral">
+                {j.from[1]}
+              </Chip>
+            </Swap>
+          </span>{" "}
+          <span className="block lg:inline">
+            into{" "}
+            <Swap k={j.to[1] + job}>
+              <Chip code={j.to[0]} tint="green">
+                {j.to[1]}
+              </Chip>
+            </Swap>
+          </span>
+          <span className="mt-1 block text-white">In your own voice. Every time.</span>
+        </motion.h1>
 
-        {/* A pool of black behind the title so the cards never fight it. */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-[min(760px,92%)] -translate-x-1/2 -translate-y-1/2"
-          style={{ background: "radial-gradient(closest-side, #000 55%, transparent)" }}
-        />
+        {/* The Studio's own first screen: paste a link or upload a file,
+            pick a language, go. */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
+          className="panel mt-8 w-full max-w-xl rounded-2xl p-2 text-left shadow-[0_30px_80px_-30px_rgba(255,120,30,0.35)] sm:mt-10"
+        >
+          <div className="flex gap-1 p-1">
+            {(
+              [
+                { id: "link", label: "Paste a link", Icon: Link2 },
+                { id: "file", label: "Upload a file", Icon: Upload },
+              ] as const
+            ).map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => setTab(t.id)}
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] transition-colors ${
+                  tab === t.id ? "bg-white/10 text-white" : "text-white/45 hover:text-white/75"
+                }`}
+              >
+                <t.Icon className="h-3.5 w-3.5" />
+                {t.label}
+              </button>
+            ))}
+          </div>
+          <div className="min-h-[72px] px-3 pb-2 pt-2 text-[15px]">
+            {tab === "link" ? (
+              <p className="break-all text-white/85">
+                {typed}
+                <span className="ml-px inline-block h-[1.05em] w-px translate-y-[3px] animate-pulse bg-[var(--orange)]" />
+              </p>
+            ) : (
+              <p className="flex items-center gap-2 text-white/55">
+                <Upload className="h-4 w-4" /> Drop a video or audio file · MP4, MOV, WAV, MP3
+              </p>
+            )}
+            <p className="mt-1 text-[12px] text-white/35">
+              The Studio takes it from here: source language, voice cloning and quality.
+            </p>
+          </div>
+          <div className="flex items-center justify-between gap-2 border-t border-white/[0.07] px-2 pt-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-3 py-1.5 text-[12px] text-white/80">
+              <span className="font-mono text-[10px] text-[var(--orange)]">UZ</span>
+              O&rsquo;zbek
+              <ChevronDown className="h-3.5 w-3.5 text-white/40" />
+            </span>
+            <StartButton tone="orange" size="sm" className="!w-9 !px-0" label="Start dubbing">
+              <ArrowUp className="h-4 w-4" />
+            </StartButton>
+          </div>
+        </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="mt-4 max-w-md text-[12px] leading-relaxed text-white/40"
+        >
+          Paste a link or upload a file. TH-Labs transcribes it, translates it, clones the
+          speaker&rsquo;s voice and syncs the lips — in 42+ languages.
+        </motion.p>
 
         <motion.div
-          style={{ opacity: titleOpacity, y: titleY }}
-          className="z-content absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.35, ease: EASE }}
+          className="mt-6 flex flex-wrap justify-center gap-3"
         >
-          <motion.h1
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[clamp(3.6rem,11vw,7.5rem)] leading-[0.95] text-white"
-            style={{ fontWeight: 300 }}
-          >
-            TH-Labs
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-5 text-[clamp(1.05rem,2vw,1.3rem)] text-white/85"
-          >
-            Speak once. Be heard in every language.
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-3 max-w-sm text-[14px] text-white/45"
-          >
-            AI dubbing for videos, classes and live calls — in your own voice, in 42+ languages.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-8"
-          >
-            <StartButton />
-          </motion.div>
-          <motion.a
-            href="#gather"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="mt-10 flex flex-col items-center gap-2 text-[11px] text-white/35 outline-none hover:text-white/60 focus-visible:text-white/70"
-          >
-            <span className="flex h-6 w-4 justify-center rounded-full border border-white/30 pt-1">
-              <span className="animate-scroll-dot block h-1.5 w-[2px] rounded-full bg-white/60" />
-            </span>
-            Scroll to explore
-          </motion.a>
+          <StartButton>Get started</StartButton>
+          <ContactButton />
         </motion.div>
+
+        <a
+          href="#outputs"
+          className="mt-10 flex flex-col items-center gap-1 text-[12px] text-white/35 hover:text-white/60"
+        >
+          <ArrowRight className="h-3.5 w-3.5 rotate-90" />
+          Scroll down to explore
+        </a>
+      </motion.div>
+
+      {/* Bottom bar: the demo, the languages scrolling past, the count. */}
+      <div className="mx-auto mt-8 flex w-full max-w-[1280px] items-center gap-4 border-t border-white/[0.07] py-4">
+        <a
+          href="https://www.youtube.com/@th_labs_i"
+          target="_blank"
+          rel="noreferrer"
+          className="hidden shrink-0 items-center gap-2 text-[12px] text-white/50 hover:text-white sm:flex"
+        >
+          <span className="pill-dark flex h-7 w-9 items-center justify-center rounded-lg">
+            <Play className="h-3 w-3 fill-white" />
+          </span>
+          Watch TH-Labs on YouTube
+        </a>
+        <div className="relative min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
+          <ul className="animate-marquee-x flex w-max gap-8 text-[14px] font-medium text-white/45">
+            {[...LANGUAGES, ...LANGUAGES].map((l, i) => (
+              <li key={i} aria-hidden={i >= LANGUAGES.length}>
+                {l}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <span className="hidden shrink-0 text-[12px] text-white/50 sm:block">
+          <span className="font-num text-white">42</span>+ languages · and counting
+        </span>
       </div>
     </section>
   );

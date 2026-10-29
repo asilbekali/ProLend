@@ -2,10 +2,9 @@ import type { Metadata, Viewport } from "next";
 import {
   Archivo,
   Gelasio,
-  IBM_Plex_Sans,
-  IBM_Plex_Serif,
   Inter,
   JetBrains_Mono,
+  Onest,
   Outfit,
 } from "next/font/google";
 import QueryProvider from "@/components/providers/QueryProvider";
@@ -51,18 +50,12 @@ const gelasio = Gelasio({
   weight: ["400", "500"],
 });
 
-// The landing page's voice: a light editorial serif for every headline, with
-// Plex Sans as its body companion.
-const plexSerif = IBM_Plex_Serif({
-  variable: "--font-plex-serif",
+// The landing page's voice: a friendly, rounded grotesque for headlines and
+// body alike, with Cyrillic for the Russian and Uzbek copy.
+const onest = Onest({
+  variable: "--font-onest",
   subsets: ["latin", "cyrillic"],
-  weight: ["300", "400"],
-});
-
-const plexSans = IBM_Plex_Sans({
-  variable: "--font-plex-sans",
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600"],
 });
 
 const SITE = "https://th-labs.uz";
@@ -182,7 +175,7 @@ export default function RootLayout({
       // The theme script stamps data-theme on <html> before hydration, so the
       // server markup intentionally differs here.
       suppressHydrationWarning
-      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} ${archivo.variable} ${gelasio.variable} ${plexSerif.variable} ${plexSans.variable} h-full antialiased`}
+      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} ${archivo.variable} ${gelasio.variable} ${onest.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />

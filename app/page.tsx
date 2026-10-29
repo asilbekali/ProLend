@@ -1,12 +1,13 @@
 import TopNav from "@/components/landing/top-nav";
+import Aurora from "@/components/landing/aurora";
 import Hero from "@/components/landing/hero";
-import GatherScene from "@/components/landing/gather-scene";
-import InspectScene from "@/components/landing/inspect-scene";
-import Clusters from "@/components/landing/clusters";
-import StudioScene from "@/components/landing/studio-scene";
-import LiveScene from "@/components/landing/live-scene";
+import Outputs from "@/components/landing/outputs";
+import HowItWorks from "@/components/landing/how-it-works";
+import Difference from "@/components/landing/difference";
+import Track from "@/components/landing/track";
+import Audiences from "@/components/landing/audiences";
 import Pricing from "@/components/landing/pricing";
-import Languages from "@/components/landing/languages";
+import Ribbon from "@/components/landing/ribbon";
 import Faq from "@/components/faq";
 import Footer from "@/components/footer";
 import StudioResume from "@/components/studio-resume";
@@ -33,6 +34,13 @@ const jsonLd = {
       logo: `${SITE}/logo.png`,
       description:
         "TH-Labs builds an AI dubbing and video translation system for natural multilingual voice conversion.",
+      email: "thethlabs.io@gmail.com",
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "sales",
+        email: "thethlabs.io@gmail.com",
+        url: "https://t.me/th_labs",
+      },
       sameAs: [
         "https://instagram.com/th_labs.io",
         "https://www.linkedin.com/company/thlabsio/",
@@ -97,26 +105,30 @@ const jsonLd = {
 
 export default function Home() {
   return (
-    // The landing page is always the dark editorial canvas, whatever theme the
-    // visitor picked elsewhere — see the `.mare` scope in globals.css.
-    <main data-theme="dark" className="mare flex flex-1 flex-col overflow-x-clip">
+    // The landing page is always the dark canvas, whatever theme the visitor
+    // picked elsewhere — see the `.landing` scope in globals.css.
+    <main data-theme="dark" className="landing relative flex flex-1 flex-col overflow-x-clip">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* Renders nothing unless the Studio sent the user back with ?studio=1. */}
       <StudioResume />
+      <Aurora />
       <TopNav />
-      <Hero />
-      <GatherScene />
-      <InspectScene />
-      <Clusters />
-      <StudioScene />
-      <LiveScene />
-      <Languages />
-      <Pricing />
-      <Faq />
-      <Footer />
+      <div className="relative z-10">
+        <Hero />
+        <Outputs />
+        <HowItWorks />
+        <Ribbon>
+          <Difference />
+        </Ribbon>
+        <Track />
+        <Audiences />
+        <Pricing />
+        <Faq />
+        <Footer />
+      </div>
     </main>
   );
 }
