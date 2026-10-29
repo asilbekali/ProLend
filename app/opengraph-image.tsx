@@ -59,7 +59,7 @@ export default function OpengraphImage() {
             />
           </div>
           <div style={{ display: "flex", fontSize: 34, color: "rgba(255,255,255,0.62)" }}>
-            Natural multilingual voice conversion — 40+ languages, in real time.
+            Natural multilingual voice conversion — 42+ languages, in real time.
           </div>
         </div>
 

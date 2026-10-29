@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "TH-Labs — AI Video Dubbing & Translation",
     short_name: "TH-Labs",
     description:
-      "Voice-cloned, lip-synced AI video dubbing and translation in 40+ languages.",
+      "Voice-cloned, lip-synced AI video dubbing and translation in 42+ languages.",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",

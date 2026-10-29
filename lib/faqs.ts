@@ -11,7 +11,7 @@ export type Faq = { q: string; a: string };
 export const FAQS: Faq[] = [
   {
     q: "Which languages are supported?",
-    a: "Over forty today, in both directions, with more added regularly. If you need a specific pair, ask and we'll tell you exactly where it stands.",
+    a: "More than forty-two today, in both directions, and we keep adding more. If you need a specific pair, ask and we'll tell you exactly where it stands.",
   },
   {
     q: "How long does processing take?",

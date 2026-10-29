@@ -40,9 +40,9 @@ export const SEO_PAGES: SeoPage[] = [
   {
     slug: "ai-dubbing",
     locale: "en",
-    title: "AI Dubbing — Voice-Cloned Dubbing in 40+ Languages",
+    title: "AI Dubbing — Voice-Cloned Dubbing in 42+ Languages",
     description:
-      "AI dubbing that keeps the original speaker's voice. Upload a video and get a natural, lip-synced dub in 40+ languages in minutes. Free tier to start.",
+      "AI dubbing that keeps the original speaker's voice. Upload a video and get a natural, lip-synced dub in 42+ languages in minutes. Free tier to start.",
     keywords: [
       ...BRAND_KEYWORDS,
       "AI dubbing",
@@ -82,7 +82,7 @@ export const SEO_PAGES: SeoPage[] = [
       h2: "How it works",
       items: [
         "Upload a video or audio file, or connect a live stream.",
-        "Choose one or more of 40+ target languages.",
+        "Choose one or more of 42+ target languages.",
         "TH-Labs transcribes, translates and re-voices it with a clone of the original speaker.",
         "Download the dubbed video, the audio track or the subtitles.",
       ],
@@ -90,7 +90,7 @@ export const SEO_PAGES: SeoPage[] = [
     faqs: [
       {
         q: "How many languages does the AI dubbing support?",
-        a: "Over forty, in both directions, with more added regularly.",
+        a: "More than forty-two, in both directions, and we keep adding more.",
       },
       {
         q: "Does the dub use my own voice?",
@@ -108,7 +108,7 @@ export const SEO_PAGES: SeoPage[] = [
     locale: "en",
     title: "Video Dubbing Online — Dub Any Video with AI",
     description:
-      "Dub video online into 40+ languages. TH-Labs clones the speaker's voice, translates the speech and matches lip sync — no studio, no voice actors.",
+      "Dub video online into 42+ languages. TH-Labs clones the speaker's voice, translates the speech and matches lip sync — no studio, no voice actors.",
     keywords: [
       ...BRAND_KEYWORDS,
       "video dubbing",
@@ -120,7 +120,7 @@ export const SEO_PAGES: SeoPage[] = [
       "YouTube video dubbing",
       "lip sync dubbing",
     ],
-    h1: "Dub any video into 40+ languages",
+    h1: "Dub any video into 42+ languages",
     lead: "Online video dubbing with AI. Upload a file and TH-Labs returns a dubbed version in every language you choose — the speaker's own voice, translated, with lip sync to match.",
     sections: [
       {
@@ -166,9 +166,9 @@ export const SEO_PAGES: SeoPage[] = [
   {
     slug: "video-translation",
     locale: "en",
-    title: "Video Translation with AI — Translate Video to 40+ Languages",
+    title: "Video Translation with AI — Translate Video to 42+ Languages",
     description:
-      "Translate video with AI into 40+ languages: voice-over in the original speaker's voice, lip sync and subtitles. Real-time translation for live streams.",
+      "Translate video with AI into 42+ languages: voice-over in the original speaker's voice, lip sync and subtitles. Real-time translation for live streams.",
     keywords: [
       ...BRAND_KEYWORDS,
       "video translation",
@@ -180,7 +180,7 @@ export const SEO_PAGES: SeoPage[] = [
       "live translation",
       "real-time translation",
     ],
-    h1: "Translate video into 40+ languages",
+    h1: "Translate video into 42+ languages",
     lead: "AI video translation that goes beyond subtitles: TH-Labs translates what is said and speaks it back in the original speaker's voice, with lip sync and captions included.",
     sections: [
       {
@@ -209,7 +209,7 @@ export const SEO_PAGES: SeoPage[] = [
     faqs: [
       {
         q: "Which languages can I translate a video into?",
-        a: "Over forty, in both directions. If you need a specific pair, ask and we'll tell you exactly where it stands.",
+        a: "More than forty-two, in both directions, and we keep adding more. If you need a specific pair, ask and we'll tell you exactly where it stands.",
       },
       {
         q: "Can I translate a live stream?",
@@ -227,7 +227,7 @@ export const SEO_PAGES: SeoPage[] = [
     locale: "en",
     title: "Real-Time Translation for Live Streams — AI Live Dubbing",
     description:
-      "Real-time AI translation and dubbing for live streams, webinars and conferences in 40+ languages, at about two seconds of delay, in the speaker's own voice.",
+      "Real-time AI translation and dubbing for live streams, webinars and conferences in 42+ languages, at about two seconds of delay, in the speaker's own voice.",
     keywords: [
       ...BRAND_KEYWORDS,
       "real-time translation",
@@ -240,7 +240,7 @@ export const SEO_PAGES: SeoPage[] = [
       "conference translation",
     ],
     h1: "Real-time translation for live streams",
-    lead: "TH-Labs translates and re-voices a live stream as it happens — about two seconds behind the speaker, in their own cloned voice, in 40+ languages at once.",
+    lead: "TH-Labs translates and re-voices a live stream as it happens — about two seconds behind the speaker, in their own cloned voice, in 42+ languages at once.",
     sections: [
       {
         h2: "Live dubbing, not just live captions",
@@ -273,7 +273,7 @@ export const SEO_PAGES: SeoPage[] = [
       },
       {
         q: "Can one stream be translated into several languages at once?",
-        a: "Yes. Pick as many of the 40+ supported languages as you need.",
+        a: "Yes. Pick as many of the 42+ supported languages as you need.",
       },
       {
         q: "Does the translated voice sound like the speaker?",
@@ -285,9 +285,9 @@ export const SEO_PAGES: SeoPage[] = [
   {
     slug: "voice-cloning",
     locale: "en",
-    title: "AI Voice Cloning for Dubbing — Your Voice in 40+ Languages",
+    title: "AI Voice Cloning for Dubbing — Your Voice in 42+ Languages",
     description:
-      "Clone a voice from about three seconds of audio and use it to dub video into 40+ languages. Consistent, natural AI voice cloning with lip sync, by TH-Labs.",
+      "Clone a voice from about three seconds of audio and use it to dub video into 42+ languages. Consistent, natural AI voice cloning with lip sync, by TH-Labs.",
     keywords: [
       ...BRAND_KEYWORDS,
       "voice cloning",
@@ -298,7 +298,7 @@ export const SEO_PAGES: SeoPage[] = [
       "voice cloning for dubbing",
     ],
     h1: "AI voice cloning for multilingual dubbing",
-    lead: "TH-Labs clones a speaker's voice from about three seconds of clean audio, then uses it to speak their words in 40+ languages — so the audience hears the same person, not a stranger.",
+    lead: "TH-Labs clones a speaker's voice from about three seconds of clean audio, then uses it to speak their words in 42+ languages — so the audience hears the same person, not a stranger.",
     sections: [
       {
         h2: "Why the voice matters",
@@ -329,7 +329,7 @@ export const SEO_PAGES: SeoPage[] = [
       },
       {
         q: "Does the clone work in other languages?",
-        a: "Yes. The same voice speaks in any of the 40+ supported languages.",
+        a: "Yes. The same voice speaks in any of the 42+ supported languages.",
       },
     ],
     cta: "Clone your voice free",
@@ -337,9 +337,9 @@ export const SEO_PAGES: SeoPage[] = [
   {
     slug: "ru",
     locale: "ru",
-    title: "ИИ-озвучка и перевод видео на 40+ языков",
+    title: "ИИ-озвучка и перевод видео на 42+ языков",
     description:
-      "Перевод и озвучка видео нейросетью: голос оригинального спикера, синхронизация губ и субтитры на 40+ языках. Живой перевод трансляций с задержкой ~2 с. Бесплатный тариф.",
+      "Перевод и озвучка видео нейросетью: голос оригинального спикера, синхронизация губ и субтитры на 42+ языках. Живой перевод трансляций с задержкой ~2 с. Бесплатный тариф.",
     keywords: [
       ...BRAND_KEYWORDS,
       "ТХ Лабс",
@@ -367,7 +367,7 @@ export const SEO_PAGES: SeoPage[] = [
       {
         h2: "Возможности",
         body: [
-          "Более 40 языков в обоих направлениях, включая русский, узбекский и английский. Синхронизация губ под новую аудиодорожку. Распознавание нескольких спикеров — в интервью и подкастах у каждого остаётся свой голос. Экспорт субтитров на всех языках.",
+          "Более 42 языков в обоих направлениях, включая русский, узбекский и английский. Синхронизация губ под новую аудиодорожку. Распознавание нескольких спикеров — в интервью и подкастах у каждого остаётся свой голос. Экспорт субтитров на всех языках.",
           "Десятиминутное видео обычно готово за несколько минут. Прямые трансляции переводятся и озвучиваются в реальном времени с задержкой около двух секунд. Для разработчиков доступен API.",
         ],
       },
@@ -382,7 +382,7 @@ export const SEO_PAGES: SeoPage[] = [
       h2: "Четыре шага",
       items: [
         "Загрузите видео или аудио, либо подключите трансляцию.",
-        "Выберите один или несколько из 40+ языков.",
+        "Выберите один или несколько из 42+ языков.",
         "TH-Labs расшифрует, переведёт и озвучит его голосом спикера.",
         "Скачайте озвученное видео, аудиодорожку или субтитры.",
       ],
@@ -408,7 +408,7 @@ export const SEO_PAGES: SeoPage[] = [
     locale: "uz",
     title: "Videoni sun'iy intellekt bilan tarjima qilish va dublyaj",
     description:
-      "Videoni 40 dan ortiq tilga sun'iy intellekt yordamida tarjima va dublyaj qiling: asl spiker ovozi, lab harakati sinxronizatsiyasi va subtitrlar. Bepul tarif mavjud.",
+      "Videoni 42 dan ortiq tilga sun'iy intellekt yordamida tarjima va dublyaj qiling: asl spiker ovozi, lab harakati sinxronizatsiyasi va subtitrlar. Bepul tarif mavjud.",
     keywords: [
       ...BRAND_KEYWORDS,
       "video tarjima",
@@ -434,7 +434,7 @@ export const SEO_PAGES: SeoPage[] = [
       {
         h2: "Imkoniyatlar",
         body: [
-          "O'zbek, rus va ingliz tillari bilan birga 40 dan ortiq til, ikki yo'nalishda. Yangi audioga mos lab sinxronizatsiyasi. Bir nechta spikerni ajratish — intervyu va podkastlarda har kim o'z ovozida qoladi. Barcha tillarda subtitr eksporti.",
+          "O'zbek, rus va ingliz tillari bilan birga 42 dan ortiq til, ikki yo'nalishda. Yangi audioga mos lab sinxronizatsiyasi. Bir nechta spikerni ajratish — intervyu va podkastlarda har kim o'z ovozida qoladi. Barcha tillarda subtitr eksporti.",
           "O'n daqiqalik video odatda bir necha daqiqada tayyor bo'ladi. Jonli efirlar taxminan ikki soniya kechikish bilan real vaqtda tarjima qilinadi. Dasturchilar uchun API mavjud.",
         ],
       },
@@ -449,7 +449,7 @@ export const SEO_PAGES: SeoPage[] = [
       h2: "To'rt qadam",
       items: [
         "Video yoki audio faylni yuklang yoki jonli efirni ulang.",
-        "40 dan ortiq tildan bir yoki bir nechtasini tanlang.",
+        "42 dan ortiq tildan bir yoki bir nechtasini tanlang.",
         "TH-Labs uni yozib oladi, tarjima qiladi va spiker ovozida o'qiydi.",
         "Dublyaj qilingan video, audio yoki subtitrlarni yuklab oling.",
       ],
@@ -457,7 +457,7 @@ export const SEO_PAGES: SeoPage[] = [
     faqs: [
       {
         q: "Qancha til qo'llab-quvvatlanadi?",
-        a: "40 dan ortiq til, ikki yo'nalishda, va ro'yxat muntazam kengaymoqda.",
+        a: "42 dan ortiq til, ikki yo'nalishda, va ro'yxat muntazam kengaymoqda.",
       },
       {
         q: "Dublyaj mening ovozimda bo'ladimi?",
