@@ -74,7 +74,7 @@ export const SEO_PAGES: SeoPage[] = [
       {
         h2: "Who uses AI dubbing",
         body: [
-          "Creators taking a YouTube channel into new markets, schools and online courses reaching students in their own language, companies localising product videos and training, and broadcasters running live events for a multilingual audience. Developers can do all of it programmatically through the API.",
+          "Creators taking a YouTube channel into new markets, filmmakers and studios dubbing films and series, podcasters reaching listeners in their own language, brands localising ads and product videos, and streamers going live to a multilingual audience. Developers can do all of it programmatically through the API.",
         ],
       },
     ],
@@ -192,7 +192,7 @@ export const SEO_PAGES: SeoPage[] = [
       {
         h2: "Live and recorded",
         body: [
-          "Recorded video is translated faster than real time. Live streams — lectures, conferences, broadcasts — are translated and voiced continuously at about two seconds of delay, so a multilingual audience stays in step with the room.",
+          "Recorded video is translated faster than real time. Live streams — premieres, shows, broadcasts — are translated and voiced continuously at about two seconds of delay, so a multilingual audience stays in step with the room.",
           "Developers can translate video programmatically through the TH-Labs API.",
         ],
       },
@@ -252,7 +252,7 @@ export const SEO_PAGES: SeoPage[] = [
       {
         h2: "Where it is used",
         body: [
-          "Conferences and panels with an international audience, webinars and online lectures, product launches and broadcasts. Several target languages can run from the same stream, and subtitles are produced alongside the audio.",
+          "Live streams and premieres, creator Q&As, product launches, conferences and broadcasts with an international audience. Several target languages can run from the same stream, and subtitles are produced alongside the audio.",
           "Developers can connect streams programmatically through the TH-Labs API.",
         ],
       },
@@ -374,7 +374,7 @@ export const SEO_PAGES: SeoPage[] = [
       {
         h2: "Для кого",
         body: [
-          "Блогеры и YouTube-каналы, выходящие на новую аудиторию, онлайн-школы и курсы, компании, локализующие обучающие и продуктовые видео, организаторы конференций и трансляций.",
+          "Блогеры и YouTube-каналы, выходящие на новую аудиторию, кинематографисты и студии дубляжа, подкастеры, бренды, локализующие рекламу и продуктовые видео, стримеры и организаторы трансляций.",
         ],
       },
     ],
@@ -441,7 +441,7 @@ export const SEO_PAGES: SeoPage[] = [
       {
         h2: "Kimlar uchun",
         body: [
-          "Yangi auditoriyaga chiqayotgan blogerlar va YouTube kanallar, onlayn maktab va kurslar, o'quv va mahsulot videolarini mahalliylashtirayotgan kompaniyalar, konferensiya va jonli efir tashkilotchilari.",
+          "Yangi auditoriyaga chiqayotgan blogerlar va YouTube kanallar, kinoijodkorlar va dublyaj studiyalari, podkasterlar, reklama va mahsulot videolarini mahalliylashtirayotgan brendlar, strimerlar va jonli efir tashkilotchilari.",
         ],
       },
     ],
