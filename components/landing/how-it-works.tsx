@@ -351,11 +351,19 @@ export default function HowItWorks() {
             </h2>
             <CtaPair className="mt-6" />
 
-            <ol className="mt-8 flex flex-col gap-2">
+            {/* Phones stack every step in one grid cell and show only the
+                current one, so the cell is always as tall as the longest
+                step. Swapping steps on the timer then never changes the page
+                height — Safari has no scroll anchoring, so a height change
+                here would jump the page under a reader's thumb. */}
+            <ol className="mt-8 grid lg:flex lg:flex-col lg:gap-2">
               {STEPS.map((s, i) => {
                 const on = i === step;
                 return (
-                  <li key={s.title} className={on ? "" : "hidden lg:block"}>
+                  <li
+                    key={s.title}
+                    className={`max-lg:[grid-area:1/1] ${on ? "" : "max-lg:invisible"}`}
+                  >
                     <button
                       type="button"
                       onClick={() => goTo(i)}
@@ -384,12 +392,22 @@ export default function HowItWorks() {
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.35, ease: EASE }}
-                            className="overflow-hidden pl-12 text-[13px] leading-relaxed text-white/50"
+                            className="overflow-hidden pl-12 text-[13px] leading-relaxed text-white/50 max-lg:hidden"
                           >
                             <span className="block pt-1.5">{s.body}</span>
                           </motion.p>
                         ) : null}
                       </AnimatePresence>
+                      {/* Phones: always rendered, so even a hidden step holds
+                          its full height and the exit animation can't add any. */}
+                      <span
+                        aria-hidden={on ? undefined : true}
+                        className={`block pl-12 pt-1.5 text-[13px] leading-relaxed text-white/50 lg:hidden ${
+                          on ? "animate-[fadeUp_.35s_ease-out]" : ""
+                        }`}
+                      >
+                        {s.body}
+                      </span>
                       {on ? (
                         <span
                           className="absolute bottom-0 left-0 h-[2px] bg-[var(--orange)]"

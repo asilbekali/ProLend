@@ -6,8 +6,6 @@ import { Check, Mic, X } from "lucide-react";
 import { CtaPair, Eyebrow, Squiggle, Waveform, useCycle } from "./primitives";
 import { PHOTOS } from "./media";
 
-const STUDIO_SHOT = "/media/studio-dub.jpg";
-
 const THEIRS = ["A stock robot voice", "Lips out of sync", "Subtitles only"];
 // The switcher beside our card, like the reference's colour dots: each one
 // re-dubs the same frame into another language.
@@ -17,6 +15,9 @@ const DUBS = [
   { code: "ES", line: "Hoy les voy a mostrar algo nuevo.", color: "#ffc128" },
   { code: "TR", line: "Bugün size yeni bir şey göstereceğim.", color: "#ffffff" },
 ];
+
+// Line for line against THEIRS, so the two cards compare at a glance.
+const OURS_SHORT = ["Your own voice", "Lips in sync", "Dub + subtitles"];
 
 const OURS = [
   "Speaker's own voice",
@@ -104,15 +105,18 @@ export default function Difference() {
         </p>
         <CtaPair className="mt-6" align="center" />
 
-        <div className="mx-auto mt-14 grid max-w-3xl gap-10 sm:grid-cols-2 sm:gap-6 lg:max-w-[820px] lg:-translate-x-[95px]">
+        <div className="mx-auto mt-14 grid max-w-3xl gap-10 sm:grid-cols-2 sm:gap-6 lg:max-w-[820px] lg:grid-rows-[auto_auto] lg:gap-y-0 lg:-translate-x-[95px]">
           {/* Theirs */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-15%" }}
             transition={{ duration: 0.7 }}
+            // Row 1 the card, row 2 the caption — shared with Ours, so both
+            // cards end and both captions start on the same line.
+            className="lg:row-span-2 lg:grid lg:grid-rows-subgrid"
           >
-            <div className="panel rounded-3xl p-3 text-left">
+            <div className="panel h-full rounded-3xl p-3 text-left">
               <MacBook dim>
                 <GenericPlayer />
               </MacBook>
@@ -124,8 +128,10 @@ export default function Difference() {
                 ))}
               </ul>
             </div>
-            <p className="mt-4 text-[13px] text-white/40">They give you a translation.</p>
-            <p className="text-[13px] text-white">Done translating, not done working.</p>
+            <div className="mt-6">
+              <p className="text-[13px] text-white/40">They give you a translation.</p>
+              <p className="text-[13px] text-white">Done translating, not done working.</p>
+            </div>
           </motion.div>
 
           {/* Ours */}
@@ -134,18 +140,19 @@ export default function Difference() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-15%" }}
             transition={{ duration: 0.7, delay: 0.1 }}
+            className="lg:row-span-2 lg:grid lg:grid-rows-subgrid"
           >
-            <div className="relative">
-              <div className="panel rounded-3xl p-3 text-left shadow-[0_30px_80px_-30px_rgba(255,120,30,0.5)]">
-                {/* The real TH-Labs Studio, mid-job: original and Uzbek dub side
-                    by side, pipeline done, quality scores below. */}
+            <div className="relative lg:h-full">
+              <div className="panel h-full rounded-3xl p-3 text-left shadow-[0_30px_80px_-30px_rgba(255,120,30,0.5)]">
+                {/* The same footage as theirs, in full colour — dubbed in the
+                    speaker's own voice, with the live subtitle line over it. */}
                 <MacBook>
                   <Image
-                    src={STUDIO_SHOT}
-                    alt="The TH-Labs Studio showing a video and its Uzbek dub side by side"
+                    src={PHOTOS.callCrew.src}
+                    alt={PHOTOS.callCrew.alt}
                     fill
                     sizes="(max-width: 640px) 90vw, 380px"
-                    className="object-cover object-top"
+                    className="object-cover"
                   />
                   <span
                     key={dub.code}
@@ -154,15 +161,24 @@ export default function Difference() {
                     {dub.code} · {dub.line}
                   </span>
                 </MacBook>
-                <div className="mt-3 flex items-center gap-2 px-1">
-                  <span className="text-[10px] text-white/50">{dub.code} · your voice</span>
-                  <Waveform
-                    seed={6.1}
-                    count={26}
-                    className="h-5 flex-1 justify-between"
-                    barClassName="bg-[var(--orange)]"
-                  />
-                </div>
+                <ul className="mt-3 flex flex-col gap-1.5 px-1 pb-1">
+                  {OURS_SHORT.map((t, k) => (
+                    <li key={t} className="flex items-center gap-2 text-[12px] text-white/85">
+                      <Check className="h-3.5 w-3.5 shrink-0 text-[var(--green)]" /> {t}
+                      {k === 0 ? (
+                        <>
+                          <span className="font-mono text-[10px] text-white/45">{dub.code}</span>
+                          <Waveform
+                            seed={6.1}
+                            count={20}
+                            className="h-3.5 flex-1 justify-between"
+                            barClassName="bg-[var(--orange)]"
+                          />
+                        </>
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
               </div>
               <div className="panel mx-auto mt-3 flex w-fit gap-1.5 rounded-full p-1.5 lg:absolute lg:-left-8 lg:bottom-16 lg:mt-0 lg:flex-col">
                 {DUBS.map((x, k) => (
@@ -196,11 +212,13 @@ export default function Difference() {
               </div>
             </div>
             {/* The one promise this section exists to make, said loudly. */}
-            <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-[var(--orange)]/50 bg-[var(--orange)]/15 px-4 py-2 text-[15px] font-semibold text-white shadow-[0_0_30px_-6px_rgba(255,122,26,0.6)]">
-              <Mic className="h-4 w-4 text-[var(--orange)]" />
-              We save your own voice
-            </p>
-            <p className="mt-2 text-[13px] text-white/60">Your voice · Ready to publish.</p>
+            <div className="mt-6">
+              <p className="inline-flex items-center gap-2 rounded-full border border-[var(--orange)]/50 bg-[var(--orange)]/15 px-4 py-2 text-[15px] font-semibold text-white shadow-[0_0_30px_-6px_rgba(255,122,26,0.6)]">
+                <Mic className="h-4 w-4 text-[var(--orange)]" />
+                We save your own voice
+              </p>
+              <p className="mt-2 text-[13px] text-white/60">Your voice · Ready to publish.</p>
+            </div>
           </motion.div>
         </div>
       </div>
