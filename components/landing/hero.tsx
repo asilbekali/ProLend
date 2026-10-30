@@ -39,25 +39,26 @@ const LINKS = [
   "https://drive.google.com/podcast-ep-12.mp4",
 ];
 
+// Every language named on the site, with the code the Studio shows beside it.
 const LANGUAGES = [
-  "O'zbek",
-  "English",
-  "Русский",
-  "Türkçe",
-  "Қазақша",
-  "Azərbaycanca",
-  "Кыргызча",
-  "Türkmençe",
-  "Español",
-  "Français",
-  "Deutsch",
-  "Português",
-  "العربية",
-  "हिन्दी",
-  "中文",
-  "日本語",
-  "한국어",
-  "Italiano",
+  { code: "UZ", name: "O'zbek" },
+  { code: "EN", name: "English" },
+  { code: "RU", name: "Русский" },
+  { code: "TR", name: "Türkçe" },
+  { code: "KK", name: "Қазақша" },
+  { code: "AZ", name: "Azərbaycanca" },
+  { code: "KY", name: "Кыргызча" },
+  { code: "TK", name: "Türkmençe" },
+  { code: "ES", name: "Español" },
+  { code: "FR", name: "Français" },
+  { code: "DE", name: "Deutsch" },
+  { code: "PT", name: "Português" },
+  { code: "AR", name: "العربية" },
+  { code: "HI", name: "हिन्दी" },
+  { code: "ZH", name: "中文" },
+  { code: "JA", name: "日本語" },
+  { code: "KO", name: "한국어" },
+  { code: "IT", name: "Italiano" },
 ];
 
 // Tinted like the reference's chips: the job in orange, the source neutral,
@@ -128,6 +129,86 @@ function useTypedLink() {
   return LINKS[state.i].slice(0, state.n);
 }
 
+/** The target-language pill: opens the full list, closes on pick, Esc or a click outside. */
+function LanguagePicker() {
+  const [lang, setLang] = useState(LANGUAGES[0]);
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: PointerEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label={`Dub into ${lang.name}`}
+        onClick={() => setOpen((o) => !o)}
+        className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-3 py-1.5 text-[12px] text-white/80 transition-colors hover:bg-white/10"
+      >
+        <span className="font-mono text-[10px] text-[var(--orange)]">{lang.code}</span>
+        {lang.name}
+        <ChevronDown
+          className={`h-3.5 w-3.5 text-white/40 transition-transform ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      <AnimatePresence>
+        {open ? (
+          <motion.ul
+            role="listbox"
+            aria-label="Target language"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.18, ease: EASE }}
+            // Lenis would otherwise swallow the wheel and scroll the page.
+            data-lenis-prevent
+            className="absolute left-0 top-[calc(100%+6px)] z-30 grid max-h-64 w-[min(320px,calc(100vw-48px))] grid-cols-2 gap-0.5 overflow-y-auto overscroll-contain rounded-xl border border-white/10 bg-[#141416] p-1.5 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.9)]"
+          >
+            {LANGUAGES.map((l) => {
+              const on = l.code === lang.code;
+              return (
+                <li key={l.code} role="option" aria-selected={on}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setLang(l);
+                      setOpen(false);
+                    }}
+                    className={`flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-[12px] transition-colors ${
+                      on
+                        ? "bg-white/10 text-white"
+                        : "text-white/70 hover:bg-white/[0.06] hover:text-white"
+                    }`}
+                  >
+                    <span className="w-5 font-mono text-[10px] text-[var(--orange)]">{l.code}</span>
+                    <span className="truncate">{l.name}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </motion.ul>
+        ) : null}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default function Hero() {
   const [job] = useCycle(JOBS.length, 2800);
   const j = JOBS[job];
@@ -135,7 +216,10 @@ export default function Hero() {
   const [tab, setTab] = useState<"link" | "file">("link");
   // The hero sinks into the dark as the next scene arrives.
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
   const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const sink = useTransform(scrollYProgress, [0, 0.7], [1, 0.94]);
 
@@ -214,7 +298,10 @@ export default function Hero() {
           </div>
           <div className="min-h-[72px] px-3 pb-2 pt-2 text-[15px]">
             {tab === "link" ? (
-              <p className="break-all text-white/85">
+              // Two lines reserved: a long link wraps on phones, and the hero
+              // growing mid-type would shove the whole page down (Safari has
+              // no scroll anchoring to hide it).
+              <p className="min-h-[3em] break-all text-white/85">
                 {typed}
                 <span className="ml-px inline-block h-[1.05em] w-px translate-y-[3px] animate-pulse bg-[var(--orange)]" />
               </p>
@@ -228,11 +315,7 @@ export default function Hero() {
             </p>
           </div>
           <div className="flex items-center justify-between gap-2 border-t border-white/[0.07] px-2 pt-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-3 py-1.5 text-[12px] text-white/80">
-              <span className="font-mono text-[10px] text-[var(--orange)]">UZ</span>
-              O&rsquo;zbek
-              <ChevronDown className="h-3.5 w-3.5 text-white/40" />
-            </span>
+            <LanguagePicker />
             <StartButton tone="orange" size="sm" className="!w-9 !px-0" label="Start dubbing">
               <ArrowUp className="h-4 w-4" />
             </StartButton>
@@ -285,7 +368,7 @@ export default function Hero() {
           <ul className="animate-marquee-x flex w-max gap-8 text-[14px] font-medium text-white/45">
             {[...LANGUAGES, ...LANGUAGES].map((l, i) => (
               <li key={i} aria-hidden={i >= LANGUAGES.length}>
-                {l}
+                {l.name}
               </li>
             ))}
           </ul>

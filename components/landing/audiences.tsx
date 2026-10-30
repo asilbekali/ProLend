@@ -211,11 +211,16 @@ export default function Audiences() {
           </h2>
           <CtaPair className="mt-6" />
 
-          <ul className="mt-8 flex flex-col gap-2">
+          {/* Phones stack every card in one grid cell, so the timer's swap
+              never changes the page height (see How it works). */}
+          <ul className="mt-8 grid lg:flex lg:flex-col lg:gap-2">
             {AUDIENCES.map((x, k) => {
               const on = k === i;
               return (
-                <li key={x.title} className={on ? "" : "hidden lg:block"}>
+                <li
+                  key={x.title}
+                  className={`max-lg:[grid-area:1/1] ${on ? "" : "max-lg:invisible"}`}
+                >
                   <button
                     type="button"
                     onClick={() => setI(k)}
@@ -243,7 +248,14 @@ export default function Audiences() {
                       <span className="block animate-[fadeUp_.35s_ease-out] pl-11 pt-1.5 text-[13px] leading-relaxed text-white/50">
                         {x.body}
                       </span>
-                    ) : null}
+                    ) : (
+                      <span
+                        aria-hidden="true"
+                        className="block pl-11 pt-1.5 text-[13px] leading-relaxed lg:hidden"
+                      >
+                        {x.body}
+                      </span>
+                    )}
                   </button>
                 </li>
               );
