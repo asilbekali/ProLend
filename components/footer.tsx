@@ -168,7 +168,12 @@ export default function Footer() {
         </div>
 
         <div className="mx-auto mt-8 flex max-w-[1180px] flex-col gap-2 text-center text-[11px] leading-relaxed text-white/30 sm:flex-row sm:justify-between sm:text-left">
-          <p>© 2026 TH-Labs · th-labs.uz</p>
+          <p>
+            © 2026 TH-Labs · th-labs.uz ·{" "}
+            <a href="/privacy" className="hover:text-white/70">
+              Privacy Policy
+            </a>
+          </p>
           <p className="sm:max-w-[60%] sm:text-right">
             Photos:{" "}
             {Object.values(PHOTOS).map((p, i) => (
