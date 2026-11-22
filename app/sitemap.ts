@@ -33,5 +33,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ...(isHomeTranslation ? { alternates: homeAlternates } : {}),
       };
     }),
+    { url: abs("/privacy"), lastModified, changeFrequency: "yearly", priority: 0.3 },
   ];
 }
