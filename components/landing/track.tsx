@@ -4,7 +4,6 @@ import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { Lock } from "lucide-react";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import Live from "./live";
 import { ExportCard } from "./cards";
 import { CtaPair, Eyebrow, Waveform } from "./primitives";
 
@@ -153,10 +152,10 @@ function SpeedPanel() {
   );
 }
 
-const PANELS = [Live, VoicePanel, SpeedPanel];
+const PANELS = [VoicePanel, SpeedPanel];
 
 /**
- * The reference's sideways run: on desktop, scrolling down slides three
+ * The reference's sideways run: on desktop, scrolling down slides the
  * panels across, with the green stroke drawn through them. Phones stack the
  * same panels.
  */

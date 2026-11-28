@@ -24,6 +24,21 @@ function extractMessage(body: unknown, status: number): string {
   return `Request failed (${status})`;
 }
 
+// One short line per path per minute. The raw error dumped a whole
+// DOMException (every legacy error-code constant) on each timeout, and the
+// presence beat repeats every 20s per visitor — an outage buried the log.
+const LOG_EVERY_MS = 60_000;
+const lastLogged = new Map<string, number>();
+
+function logUnreachable(path: string, err: unknown) {
+  const now = Date.now();
+  if (now - (lastLogged.get(path) ?? 0) < LOG_EVERY_MS) return;
+  lastLogged.set(path, now);
+  const e = err as { name?: string; message?: string; cause?: { code?: string } };
+  const reason = e?.cause?.code ?? e?.name ?? "Error";
+  console.error(`[backend] ${path} unreachable (${reason}: ${e?.message ?? String(err)})`);
+}
+
 export async function backendFetch<T>(
   path: string,
   init?: RequestInit
@@ -40,7 +55,7 @@ export async function backendFetch<T>(
     });
   } catch (err) {
     // Network / DNS / timeout — backend unreachable.
-    console.error(`[backend] ${path} unreachable`, err);
+    logUnreachable(path, err);
     return { ok: false, status: 502, message: "Backend is unreachable." };
   }
 

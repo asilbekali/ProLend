@@ -32,22 +32,23 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sparksRef = useRef<Spark[]>([]);
-  const startTimeRef = useRef<number | null>(null);
+  // Set while sparks are on screen; the loop only runs between a click and
+  // the last spark fading.
+  const frameRef = useRef<number | null>(null);
+  const drawRef = useRef<(t: number) => void>(() => {});
 
+  // The canvas covers the viewport, not the page. Sized to the page it was
+  // ~1440x21000 px, cleared every frame — that alone halved the frame rate.
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const parent = canvas.parentElement;
-    if (!parent) return;
-
     let resizeTimeout: ReturnType<typeof setTimeout>;
 
     const resizeCanvas = () => {
-      const { width, height } = parent.getBoundingClientRect();
-      if (canvas.width !== width || canvas.height !== height) {
-        canvas.width = width;
-        canvas.height = height;
+      if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
       }
     };
 
@@ -56,13 +57,11 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
       resizeTimeout = setTimeout(resizeCanvas, 100);
     };
 
-    const ro = new ResizeObserver(handleResize);
-    ro.observe(parent);
-
+    window.addEventListener('resize', handleResize);
     resizeCanvas();
 
     return () => {
-      ro.disconnect();
+      window.removeEventListener('resize', handleResize);
       clearTimeout(resizeTimeout);
     };
   }, []);
@@ -89,13 +88,8 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let animationId: number;
-
     const draw = (timestamp: number) => {
-      if (!startTimeRef.current) {
-        startTimeRef.current = timestamp;
-      }
-      ctx?.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       sparksRef.current = sparksRef.current.filter((spark: Spark) => {
         const elapsed = timestamp - spark.startTime;
@@ -124,22 +118,22 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
         return true;
       });
 
-      animationId = requestAnimationFrame(draw);
+      // Idle once the last spark is gone; the next click restarts it.
+      frameRef.current = sparksRef.current.length ? requestAnimationFrame(draw) : null;
     };
 
-    animationId = requestAnimationFrame(draw);
+    drawRef.current = draw;
 
     return () => {
-      cancelAnimationFrame(animationId);
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
     };
   }, [sparkColor, sparkSize, sparkRadius, sparkCount, duration, easeFunc, extraScale]);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>): void => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    // The canvas is fixed to the viewport, so client coordinates are canvas ones.
+    const x = e.clientX;
+    const y = e.clientY;
 
     const now = performance.now();
     const newSparks: Spark[] = Array.from({ length: sparkCount }, (_, i) => ({
@@ -150,11 +144,12 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     }));
 
     sparksRef.current.push(...newSparks);
+    if (frameRef.current === null) frameRef.current = requestAnimationFrame(drawRef.current);
   };
 
   return (
     <div className="relative w-full h-full" onClick={handleClick}>
-      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
+      <canvas ref={canvasRef} className="pointer-events-none fixed inset-0 z-[9999]" />
       {children}
     </div>
   );

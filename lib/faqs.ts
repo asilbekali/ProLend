@@ -10,6 +10,18 @@ export type Faq = { q: string; a: string };
 
 export const FAQS: Faq[] = [
   {
+    q: "What's the difference between real-time and AI video dubbing?",
+    a: "Real-time dubbing is for things happening now — calls, meetings and livestreams — and you hear them in your language about two seconds behind. AI video dubbing is for recordings: upload a file and get it back dubbed in the speaker's own voice. One account works for both.",
+  },
+  {
+    q: "How do I start real-time dubbing?",
+    a: "Create a TH-Labs account, add the TH-Labs Real-Time Dubbing extension to Chrome and log in with that account. Then open a call or stream in any tab, click the TH-Labs icon, pick your language and press Start. Mobile and web apps are on the way.",
+  },
+  {
+    q: "Do the other people on the call need TH-Labs?",
+    a: "No. Real-time dubbing only changes what you hear. Everyone else keeps speaking and listening as usual.",
+  },
+  {
     q: "Which languages are supported?",
     a: "More than forty-two today, in both directions, and we keep adding more. If you need a specific pair, ask and we'll tell you exactly where it stands.",
   },

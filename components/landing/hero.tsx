@@ -4,39 +4,58 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
 import {
   ArrowRight,
-  ArrowUp,
   ChevronDown,
-  Clapperboard,
-  Link2,
-  Mic,
+  Headphones,
   Play,
-  Upload,
+  Presentation,
   Radio,
+  Video,
   type LucideIcon,
 } from "lucide-react";
 import { StartButton, useCycle } from "./primitives";
 import ContactButton from "./contact-button";
+import LogoMark from "../logo-mark";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-// What gets dubbed, from what, into what — the chips in the headline swap
-// through real jobs people bring to TH-Labs.
-const JOBS: {
+// Real-time dubbing leads the page: the chips in the headline and the live
+// card under it swap through moments people turn TH-Labs on for.
+type Scene = {
   Icon: LucideIcon;
   what: string;
   from: [string, string];
   to: [string, string];
-}[] = [
-  { Icon: Play, what: "your vlog", from: ["EN", "English"], to: ["UZ", "O'zbek"] },
-  { Icon: Mic, what: "your podcast", from: ["RU", "Русский"], to: ["EN", "English"] },
-  { Icon: Clapperboard, what: "your short film", from: ["UZ", "O'zbek"], to: ["ES", "Español"] },
-  { Icon: Radio, what: "your live stream", from: ["EN", "English"], to: ["TR", "Türkçe"] },
-];
+  /** One line as the speaker says it, and as the listener hears it. */
+  said: string;
+  heard: string;
+};
 
-const LINKS = [
-  "https://youtu.be/your-vlog",
-  "https://vimeo.com/your-short-film",
-  "https://drive.google.com/podcast-ep-12.mp4",
+const SCENES: Scene[] = [
+  {
+    Icon: Video,
+    what: "your team call",
+    from: ["EN", "English"],
+    to: ["UZ", "O'zbek"],
+    said: "Let's go through this week's numbers.",
+    heard: "Keling, bu haftaning raqamlarini ko'rib chiqamiz.",
+  },
+  {
+    Icon: Presentation,
+    what: "a webinar",
+    from: ["RU", "Русский"],
+    to: ["EN", "English"],
+    said: "Сегодня покажу, как это работает.",
+    heard: "Today I'll show you how it works.",
+  },
+  {
+    Icon: Radio,
+    what: "a livestream",
+    from: ["EN", "English"],
+    to: ["RU", "Русский"],
+    said: "Welcome back, everyone — we're live!",
+    heard: "С возвращением, друзья — мы в эфире!",
+  },
+  // TODO(human): add one more scene — the moment you most want visitors to picture.
 ];
 
 // Every language named on the site, with the code the Studio shows beside it.
@@ -112,23 +131,6 @@ function Swap({ k, children }: { k: string; children: React.ReactNode }) {
   );
 }
 
-/** Types a link out, holds it, clears it, moves to the next. */
-function useTypedLink() {
-  const [state, setState] = useState({ i: 0, n: 0, hold: 0 });
-  useEffect(() => {
-    const id = setInterval(() => {
-      setState(({ i, n, hold }) => {
-        const full = LINKS[i].length;
-        if (n < full) return { i, n: n + 1, hold };
-        if (hold < 28) return { i, n, hold: hold + 1 };
-        return { i: (i + 1) % LINKS.length, n: 0, hold: 0 };
-      });
-    }, 55);
-    return () => clearInterval(id);
-  }, []);
-  return LINKS[state.i].slice(0, state.n);
-}
-
 /** The target-language pill: opens the full list, closes on pick, Esc or a click outside. */
 function LanguagePicker() {
   const [lang, setLang] = useState(LANGUAGES[0]);
@@ -157,9 +159,9 @@ function LanguagePicker() {
         type="button"
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label={`Dub into ${lang.name}`}
+        aria-label={`Hear it in ${lang.name}`}
         onClick={() => setOpen((o) => !o)}
-        className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-3 py-1.5 text-[12px] text-white/80 transition-colors hover:bg-white/10"
+        className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white/[0.06] px-3 text-[13px] text-white/80 transition-colors hover:bg-white/10 sm:h-auto sm:py-1.5 sm:text-[12px]"
       >
         <span className="font-mono text-[10px] text-[var(--orange)]">{lang.code}</span>
         {lang.name}
@@ -210,10 +212,8 @@ function LanguagePicker() {
 }
 
 export default function Hero() {
-  const [job] = useCycle(JOBS.length, 2800);
-  const j = JOBS[job];
-  const typed = useTypedLink();
-  const [tab, setTab] = useState<"link" | "file">("link");
+  const [job] = useCycle(SCENES.length, 3400);
+  const j = SCENES[job];
   // The hero sinks into the dark as the next scene arrives.
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -233,6 +233,22 @@ export default function Hero() {
         style={{ opacity: fade, scale: sink }}
         className="mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center text-center"
       >
+        {/* The headline is real-time dubbing; this pill is the way to the
+            second feature, for people who came with a recording. */}
+        <motion.a
+          href="#studio"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: EASE }}
+          className="pill-dark mb-6 inline-flex h-8 items-center gap-2 rounded-full pl-1.5 pr-3 text-[12px] text-white/75 transition-colors hover:text-white"
+        >
+          <span className="rounded-full bg-[var(--orange)] px-2 py-0.5 text-[10px] font-semibold text-white">
+            Also
+          </span>
+          AI dubbing for your recorded videos
+          <ArrowRight className="h-3 w-3 text-white/50" />
+        </motion.a>
+
         {/* Stacked one phrase per line on phones, one sentence from lg up —
             as the reference does it. */}
         <motion.h1
@@ -242,7 +258,7 @@ export default function Hero() {
           className="text-[clamp(1.9rem,3.4vw,2.6rem)] leading-[1.22] text-white/40"
         >
           <span className="block lg:inline">
-            Dub{" "}
+            Hear{" "}
             <Swap k={j.what}>
               <Chip Icon={j.Icon} tint="orange">
                 {j.what}
@@ -258,67 +274,61 @@ export default function Hero() {
             </Swap>
           </span>{" "}
           <span className="block lg:inline">
-            into{" "}
+            in{" "}
             <Swap k={j.to[1] + job}>
               <Chip code={j.to[0]} tint="green">
                 {j.to[1]}
               </Chip>
             </Swap>
           </span>
-          <span className="mt-1 block text-white">In your own voice. Every time.</span>
+          <span className="mt-1 block text-white">Live, while it&rsquo;s happening.</span>
         </motion.h1>
 
-        {/* The Studio's own first screen: paste a link or upload a file,
-            pick a language, go. */}
+        {/* Real-time dubbing in one card: the speaker's line goes in, your
+            language comes out. */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
           className="panel mt-8 w-full max-w-xl rounded-2xl p-2 text-left shadow-[0_30px_80px_-30px_rgba(255,120,30,0.35)] sm:mt-10"
         >
-          <div className="flex gap-1 p-1">
-            {(
-              [
-                { id: "link", label: "Paste a link", Icon: Link2 },
-                { id: "file", label: "Upload a file", Icon: Upload },
-              ] as const
-            ).map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => setTab(t.id)}
-                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] transition-colors ${
-                  tab === t.id ? "bg-white/10 text-white" : "text-white/45 hover:text-white/75"
-                }`}
-              >
-                <t.Icon className="h-3.5 w-3.5" />
-                {t.label}
-              </button>
-            ))}
+          <div className="flex items-center justify-between gap-2 px-2 pb-1 pt-1">
+            <span className="flex items-center gap-1.5 text-[12px] text-white">
+              <LogoMark className="h-3.5 w-3.5" /> TH-Labs Real-Time Dubbing
+            </span>
+            <span className="flex items-center gap-1 rounded-full bg-white px-1.5 py-0.5 text-[9px] font-semibold text-black">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#e0322b]" /> LIVE
+            </span>
           </div>
-          <div className="min-h-[72px] px-3 pb-2 pt-2 text-[15px]">
-            {tab === "link" ? (
-              // Two lines reserved: a long link wraps on phones, and the hero
-              // growing mid-type would shove the whole page down (Safari has
-              // no scroll anchoring to hide it).
-              <p className="min-h-[3em] break-all text-white/85">
-                {typed}
-                <span className="ml-px inline-block h-[1.05em] w-px translate-y-[3px] animate-pulse bg-[var(--orange)]" />
-              </p>
-            ) : (
-              <p className="flex items-center gap-2 text-white/55">
-                <Upload className="h-4 w-4" /> Drop a video or audio file · MP4, MOV, WAV, MP3
-              </p>
-            )}
-            <p className="mt-1 text-[12px] text-white/35">
-              The Studio takes it from here: source language, voice cloning and quality.
-            </p>
+          {/* Fixed height: a longer line swapping in must not shove the page
+              down (Safari has no scroll anchoring to hide it). */}
+          <div className="relative h-[92px] overflow-hidden px-3 pt-2">
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.div
+                key={job}
+                initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -14, filter: "blur(6px)" }}
+                transition={{ duration: 0.5, ease: EASE }}
+              >
+                <p className="flex items-center gap-2 text-[12px] text-white/40">
+                  <span className="font-mono text-[10px] text-white/50">{j.from[0]}</span>
+                  <span className="truncate">{j.said}</span>
+                </p>
+                <p className="mt-1.5 flex items-start gap-2 text-[15px] leading-snug text-white">
+                  <Headphones className="mt-[3px] h-4 w-4 shrink-0 text-[var(--green)]" />
+                  {j.heard}
+                </p>
+              </motion.div>
+            </AnimatePresence>
           </div>
           <div className="flex items-center justify-between gap-2 border-t border-white/[0.07] px-2 pt-2">
-            <LanguagePicker />
-            <StartButton tone="orange" size="sm" className="!w-9 !px-0" label="Start dubbing">
-              <ArrowUp className="h-4 w-4" />
-            </StartButton>
+            <span className="flex items-center gap-2 text-[12px] text-white/45">
+              Hear it in <LanguagePicker />
+            </span>
+            <span className="text-[11px] text-white/40">
+              <span className="font-num text-white">~2</span> s behind
+            </span>
           </div>
         </motion.div>
 
@@ -328,8 +338,8 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="mt-4 max-w-md text-[12px] leading-relaxed text-white/40"
         >
-          Paste a link or upload a file. TH-Labs transcribes it, translates it, clones the
-          speaker&rsquo;s voice and syncs the lips — in 42+ languages.
+          Calls, meetings and livestreams, dubbed into your language with a natural AI voice as
+          they happen. Works in Chrome today — mobile and web apps are on the way.
         </motion.p>
 
         <motion.div
@@ -343,7 +353,7 @@ export default function Hero() {
         </motion.div>
 
         <a
-          href="#outputs"
+          href="#features"
           className="mt-10 flex flex-col items-center gap-1 text-[12px] text-white/35 hover:text-white/60"
         >
           <ArrowRight className="h-3.5 w-3.5 rotate-90" />

@@ -3,6 +3,7 @@ import QueryProvider from "@/components/providers/QueryProvider";
 import { THEME_INIT_SCRIPT } from "@/components/theme-toggle";
 import ClickSpark from "@/components/reactbits/ClickSpark/ClickSpark";
 import SmoothScroll from "@/components/smooth-scroll";
+import PresenceBeacon from "@/components/presence-beacon";
 import { HOME_LANGUAGES } from "@/lib/seo-pages";
 import "./fonts.css";
 import "./globals.css";
@@ -136,6 +137,7 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-full flex-col bg-bg text-text">
         <QueryProvider>
+          <PresenceBeacon />
           <SmoothScroll>
             <ClickSpark
               sparkColor="#3b82f6"

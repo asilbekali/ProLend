@@ -6,8 +6,8 @@ import LogoMark from "../logo-mark";
 import { StartButton } from "./primitives";
 
 const LINKS = [
-  { label: "How it works", href: "#how" },
-  { label: "Live dubbing", href: "#live" },
+  { label: "Real-time dubbing", href: "#how" },
+  { label: "AI video dubbing", href: "#studio" },
   { label: "Who it's for", href: "#audiences" },
   { label: "Pricing", href: "#pricing" },
   { label: "FAQ", href: "#faq" },
@@ -43,7 +43,7 @@ export default function TopNav() {
     <>
       <header
         className={`z-nav fixed inset-x-0 top-0 pt-[env(safe-area-inset-top)] transition-colors duration-300 ${
-          scrolled ? "border-b border-white/[0.06] bg-black/60 backdrop-blur-xl" : ""
+          scrolled ? "border-b border-white/[0.06] bg-black/90 backdrop-blur-xl lg:bg-black/60" : ""
         }`}
       >
         <nav

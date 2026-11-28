@@ -529,13 +529,14 @@ body:has(.landing) {
   letter-spacing: -0.03em;
 }
 
-/* Frosted dark panel — app windows, step cards, pricing cards. */
+/* Dark panel — app windows, step cards, pricing cards. No backdrop-filter:
+   the aurora behind never stops moving, so Safari re-blurs every panel on
+   every frame, and on a full-screen desktop window that froze scrolling. The
+   aurora is soft gradients anyway, so a blur of it looked the same. */
 @utility panel {
-  background: linear-gradient(180deg, rgba(30, 26, 24, 0.72), rgba(14, 12, 11, 0.72));
+  background: linear-gradient(180deg, rgba(30, 26, 24, 0.8), rgba(14, 12, 11, 0.8));
   border: 1px solid rgba(255, 255, 255, 0.09);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
 }
 
 /* The two pill buttons. */
