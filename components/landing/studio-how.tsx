@@ -340,17 +340,23 @@ export default function StudioHow() {
     });
   };
 
+  // Phones: a swipe on the window or the step card moves one step either way.
+  const swipe = (dx: number) => {
+    if (pinned || Math.abs(dx) < 40) return;
+    setStep((s) => (s + (dx < 0 ? 1 : STEPS.length - 1)) % STEPS.length);
+  };
+
   return (
     <section ref={ref} id="studio" className="relative scroll-mt-16 lg:h-[360svh]">
       <div className="px-4 py-24 sm:px-6 sm:py-32 lg:sticky lg:top-0 lg:flex lg:h-svh lg:items-center lg:py-0">
-        <div className="mx-auto grid w-full max-w-[1180px] items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14">
-          <motion.div style={pinned ? { x: windowX } : undefined} className="order-2 lg:order-1">
-            <Window step={step} t={t} />
-          </motion.div>
-
+        {/* Phones read top to bottom: heading, the window acting the step
+            out, then the step itself — so the animation is on screen while
+            its text is. Desktop keeps the window on the left, with heading
+            and steps stacked on the right. */}
+        <div className="mx-auto grid w-full max-w-[1180px] grid-cols-[minmax(0,1fr)] items-center gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-x-14 lg:gap-y-0">
           <motion.div
             style={pinned ? { opacity: copyOpacity, x: copyX } : undefined}
-            className="order-1 text-center lg:order-2 lg:text-left"
+            className="text-center lg:col-start-2 lg:row-start-1 lg:self-end lg:text-left"
           >
             <Eyebrow>How AI video dubbing works</Eyebrow>
             <h2 className="mt-3 text-[clamp(2rem,4.2vw,3.1rem)] leading-[1.04] text-white">
@@ -358,14 +364,28 @@ export default function StudioHow() {
               <br />
               Share it everywhere.
             </h2>
-            <CtaPair className="mt-6" />
+            <CtaPair className="mt-6 max-lg:hidden" />
+          </motion.div>
 
+          <motion.div
+            style={pinned ? { x: windowX } : undefined}
+            onPanEnd={(_, info) => swipe(info.offset.x)}
+            className="touch-pan-y lg:col-start-1 lg:row-span-2 lg:row-start-1"
+          >
+            <Window step={step} t={t} />
+          </motion.div>
+
+          <motion.div
+            style={pinned ? { opacity: copyOpacity, x: copyX } : undefined}
+            onPanEnd={(_, info) => swipe(info.offset.x)}
+            className="touch-pan-y text-center lg:col-start-2 lg:row-start-2 lg:self-start lg:text-left"
+          >
             {/* Phones stack every step in one grid cell and show only the
                 current one, so the cell is always as tall as the longest
                 step. Swapping steps on the timer then never changes the page
                 height — Safari has no scroll anchoring, so a height change
                 here would jump the page under a reader's thumb. */}
-            <ol className="mt-8 grid lg:flex lg:flex-col lg:gap-2">
+            <ol className="grid lg:mt-8 lg:flex lg:flex-col lg:gap-2">
               {STEPS.map((s, i) => {
                 const on = i === step;
                 return (
@@ -375,7 +395,11 @@ export default function StudioHow() {
                   >
                     <button
                       type="button"
-                      onClick={() => goTo(i)}
+                      // Desktop scrolls to the step; on phones a tap on the
+                      // card showing moves on to the next one.
+                      onClick={() =>
+                        pinned || !on ? goTo(i) : setStep((i + 1) % STEPS.length)
+                      }
                       className={`relative w-full overflow-hidden rounded-2xl border p-4 text-left transition-colors duration-300 ${
                         on ? "panel border-white/15" : "border-white/[0.06] hover:border-white/15"
                       }`}
@@ -386,11 +410,16 @@ export default function StudioHow() {
                             on ? "border-white/30 text-white" : "border-white/10 text-white/45"
                           }`}
                         >
-                          <s.Icon className="h-4 w-4" />
+                          {i < step ? (
+                            <Check className="h-4 w-4 text-[var(--green)]" />
+                          ) : (
+                            <s.Icon className="h-4 w-4" />
+                          )}
                         </span>
                         <span
-                          className={`text-[14px] font-medium ${on ? "text-white" : "text-white/55"}`}
+                          className={`text-[15px] font-medium lg:text-[14px] ${on ? "text-white" : "text-white/55"}`}
                         >
+                          <span className="mr-1.5 text-white/35">{i + 1}.</span>
                           {s.title}
                         </span>
                       </span>
@@ -411,7 +440,7 @@ export default function StudioHow() {
                           its full height and the exit animation can't add any. */}
                       <span
                         aria-hidden={on ? undefined : true}
-                        className={`block pl-12 pt-1.5 text-[13px] leading-relaxed text-white/50 lg:hidden ${
+                        className={`block pl-12 pt-1.5 text-[14px] leading-relaxed text-white/55 lg:hidden ${
                           on ? "animate-[fadeUp_.35s_ease-out]" : ""
                         }`}
                       >
@@ -428,20 +457,28 @@ export default function StudioHow() {
                 );
               })}
             </ol>
-            {/* Phones show one step at a time, like the reference. */}
-            <div className="mt-4 flex justify-center gap-1.5 lg:hidden">
+            {/* Phones show one step at a time. The dots stay small to look
+                at, but each sits in a 32px tap target. */}
+            <div className="mt-2 flex justify-center lg:hidden">
               {STEPS.map((s, i) => (
                 <button
                   key={s.title}
                   type="button"
-                  aria-label={`Show step: ${s.title}`}
+                  aria-label={`Show step ${i + 1}: ${s.title}`}
+                  aria-current={i === step ? "step" : undefined}
                   onClick={() => setStep(i)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === step ? "w-5 bg-white" : "w-1.5 bg-white/30"
-                  }`}
-                />
+                  className="flex h-8 min-w-8 items-center justify-center"
+                >
+                  <span
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      i === step ? "w-5 bg-white" : "w-1.5 bg-white/30"
+                    }`}
+                  />
+                </button>
               ))}
             </div>
+            <p className="text-[12px] text-white/35 lg:hidden">Tap or swipe for the next step</p>
+            <CtaPair className="mt-6 lg:hidden" />
           </motion.div>
         </div>
       </div>

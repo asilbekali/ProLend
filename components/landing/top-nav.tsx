@@ -43,7 +43,7 @@ export default function TopNav() {
     <>
       <header
         className={`z-nav fixed inset-x-0 top-0 pt-[env(safe-area-inset-top)] transition-colors duration-300 ${
-          scrolled ? "border-b border-white/[0.06] bg-black/60 backdrop-blur-xl" : ""
+          scrolled ? "border-b border-white/[0.06] bg-black/90 backdrop-blur-xl lg:bg-black/60" : ""
         }`}
       >
         <nav

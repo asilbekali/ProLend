@@ -116,7 +116,7 @@ function Feature({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.7, delay, ease: EASE }}
-      className={`panel flex flex-col rounded-3xl p-5 sm:p-6 ${
+      className={`panel flex min-w-0 flex-col rounded-3xl p-5 sm:p-6 ${
         main ? "shadow-[0_30px_80px_-40px_rgba(255,120,30,0.45)] !border-[var(--orange)]/30" : ""
       }`}
     >
@@ -187,7 +187,7 @@ export default function Features() {
           </p>
         </motion.div>
 
-        <div className="mt-12 grid gap-4 lg:grid-cols-[1.2fr_1fr]">
+        <div className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[1.2fr_1fr]">
           <Feature
             main
             Icon={Headphones}

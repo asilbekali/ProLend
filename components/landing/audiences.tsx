@@ -204,7 +204,7 @@ export default function Audiences() {
           <Orbit progress={scrollYProgress} />
         </div>
 
-        <div className="relative z-20 mx-auto mt-6 max-w-[440px] px-4 text-center sm:px-6 lg:absolute lg:right-[max(1.5rem,calc((100vw-1180px)/2))] lg:top-1/2 lg:mt-0 lg:-translate-y-1/2 lg:px-0 lg:text-left">
+        <div className="relative z-20 mx-auto mt-16 max-w-[440px] px-4 text-center sm:px-6 lg:absolute lg:right-[max(1.5rem,calc((100vw-1180px)/2))] lg:top-1/2 lg:mt-0 lg:-translate-y-1/2 lg:px-0 lg:text-left">
           <Eyebrow className="!text-[var(--orange)]">Built for how people actually speak</Eyebrow>
           <h2 className="mt-3 text-[clamp(2rem,4.2vw,3.1rem)] leading-[1.06] text-white">
             One voice.
@@ -275,17 +275,21 @@ export default function Audiences() {
               );
             })}
           </ul>
-          <div className="mt-4 flex justify-center gap-1.5 lg:hidden">
+          <div className="mt-2 flex justify-center lg:hidden">
             {AUDIENCES.map((x, k) => (
               <button
                 key={x.title}
                 type="button"
                 aria-label={`Show ${x.title}`}
                 onClick={() => setI(k)}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  k === i ? "w-5 bg-white" : "w-1.5 bg-white/30"
-                }`}
-              />
+                className="flex h-8 min-w-8 items-center justify-center"
+              >
+                <span
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    k === i ? "w-5 bg-white" : "w-1.5 bg-white/30"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>

@@ -161,7 +161,7 @@ function LanguagePicker() {
         aria-expanded={open}
         aria-label={`Hear it in ${lang.name}`}
         onClick={() => setOpen((o) => !o)}
-        className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-3 py-1.5 text-[12px] text-white/80 transition-colors hover:bg-white/10"
+        className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white/[0.06] px-3 text-[13px] text-white/80 transition-colors hover:bg-white/10 sm:h-auto sm:py-1.5 sm:text-[12px]"
       >
         <span className="font-mono text-[10px] text-[var(--orange)]">{lang.code}</span>
         {lang.name}

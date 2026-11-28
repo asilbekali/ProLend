@@ -180,18 +180,22 @@ export default function Difference() {
                   ))}
                 </ul>
               </div>
-              <div className="panel mx-auto mt-3 flex w-fit gap-1.5 rounded-full p-1.5 lg:absolute lg:-left-8 lg:bottom-16 lg:mt-0 lg:flex-col">
+              <div className="panel mx-auto mt-3 flex w-fit rounded-full p-0.5 lg:absolute lg:-left-8 lg:bottom-16 lg:mt-0 lg:flex-col">
                 {DUBS.map((x, k) => (
                   <button
                     key={x.code}
                     type="button"
                     aria-label={`Hear it in ${x.code}`}
                     onClick={() => setD(k)}
-                    className={`h-5 w-5 rounded-full border-2 transition-transform ${
-                      k === d ? "scale-110 border-white" : "border-transparent"
-                    }`}
-                    style={{ background: x.color }}
-                  />
+                    className="flex h-9 w-9 items-center justify-center"
+                  >
+                    <span
+                      className={`h-5 w-5 rounded-full border-2 transition-transform ${
+                        k === d ? "scale-110 border-white" : "border-transparent"
+                      }`}
+                      style={{ background: x.color }}
+                    />
+                  </button>
                 ))}
               </div>
               {/* Layers panel, like an editor's: everything that came across */}
