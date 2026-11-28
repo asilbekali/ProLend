@@ -6,8 +6,8 @@ import LogoMark from "../logo-mark";
 import { StartButton } from "./primitives";
 
 const LINKS = [
-  { label: "How it works", href: "#how" },
-  { label: "Live dubbing", href: "#live" },
+  { label: "Real-time dubbing", href: "#how" },
+  { label: "AI video dubbing", href: "#studio" },
   { label: "Who it's for", href: "#audiences" },
   { label: "Pricing", href: "#pricing" },
   { label: "FAQ", href: "#faq" },

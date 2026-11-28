@@ -1,13 +1,16 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   AnimatePresence,
+  cancelFrame,
+  frame,
   motion,
+  useInView,
+  useMotionValue,
   useReducedMotion,
   useScroll,
-  useTime,
   useTransform,
   type MotionValue,
 } from "motion/react";
@@ -123,14 +126,25 @@ function OnCircle({
  *   ring (turns) → anchor on the circle (0×0) → counter-turn (0×0) → card.
  */
 function Orbit({ progress }: { progress: MotionValue<number> }) {
+  const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-  const time = useTime();
-  const turn = useTransform(() => progress.get() * 220 + (reduce ? 0 : (time.get() / 1000) * 3));
+  // The slow drift only ticks while the orbit is on screen; left running it
+  // repainted the cards every frame for the whole visit.
+  const inView = useInView(ref, { margin: "200px" });
+  const drift = useMotionValue(0);
+  useEffect(() => {
+    if (reduce || !inView) return;
+    const tick = ({ delta }: { delta: number }) => drift.set(drift.get() + (delta / 1000) * 3);
+    frame.update(tick, true);
+    return () => cancelFrame(tick);
+  }, [reduce, inView, drift]);
+  const turn = useTransform(() => progress.get() * 220 + drift.get());
   const upright = useTransform(turn, (v) => -v);
   const runner = useTransform(turn, (v) => v * 1.6);
 
   return (
     <div
+      ref={ref}
       aria-hidden="true"
       className="relative aspect-square w-[min(100vw,600px)] [--s:0.5] [container-type:inline-size] sm:[--s:0.66] lg:w-[min(96vh,880px)] lg:[--s:0.9]"
     >
@@ -156,7 +170,7 @@ function Orbit({ progress }: { progress: MotionValue<number> }) {
             <motion.div style={{ rotate: upright }} className="absolute left-0 top-0 h-0 w-0">
               <div
                 className={`absolute left-0 top-0 transition-opacity ${
-                  o.dim ? "opacity-45 blur-[1px] brightness-75" : ""
+                  o.dim ? "opacity-35" : ""
                 }`}
                 style={{ width: o.w, transform: "translate(-50%, -50%) scale(var(--s))" }}
               >
@@ -224,7 +238,7 @@ export default function Audiences() {
                   <button
                     type="button"
                     onClick={() => setI(k)}
-                    className={`w-full rounded-2xl border p-3.5 text-left backdrop-blur-md transition-colors duration-300 ${
+                    className={`w-full rounded-2xl border p-3.5 text-left transition-colors duration-300 ${
                       on
                         ? "panel border-white/15"
                         : "border-white/[0.06] bg-black/40 hover:border-white/15"

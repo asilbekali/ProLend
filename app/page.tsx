@@ -1,8 +1,11 @@
 import TopNav from "@/components/landing/top-nav";
 import Aurora from "@/components/landing/aurora";
 import Hero from "@/components/landing/hero";
-import Outputs from "@/components/landing/outputs";
+import Features from "@/components/landing/features";
 import HowItWorks from "@/components/landing/how-it-works";
+import Live from "@/components/landing/live";
+import StudioHow from "@/components/landing/studio-how";
+import Outputs from "@/components/landing/outputs";
 import Difference from "@/components/landing/difference";
 import Track from "@/components/landing/track";
 import Audiences from "@/components/landing/audiences";
@@ -33,7 +36,7 @@ const jsonLd = {
       url: SITE,
       logo: `${SITE}/logo.png`,
       description:
-        "TH-Labs builds an AI dubbing and video translation system for natural multilingual voice conversion.",
+        "TH-Labs builds real-time AI dubbing for calls, meetings and livestreams, and AI video dubbing for recorded content.",
       email: "thethlabs.io@gmail.com",
       contactPoint: {
         "@type": "ContactPoint",
@@ -61,11 +64,24 @@ const jsonLd = {
       "@type": "WebPage",
       "@id": `${SITE}/#webpage`,
       url: SITE,
-      name: "AI Video Dubbing & Real-Time Translation in 42+ Languages",
+      name: "Real-Time Dubbing for Calls, Meetings and Livestreams — and AI Video Dubbing",
       isPartOf: { "@id": `${SITE}/#website` },
-      about: { "@id": `${SITE}/#software` },
+      about: [{ "@id": `${SITE}/#extension` }, { "@id": `${SITE}/#software` }],
       primaryImageOfPage: `${SITE}/opengraph-image`,
       inLanguage: "en",
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${SITE}/#extension`,
+      name: "TH-Labs Real-Time Dubbing",
+      url: SITE,
+      installUrl: "https://chromewebstore.google.com/detail/ldchkkmimnmciglkoajfjmjlnlgdbmkk",
+      applicationCategory: "BrowserApplication",
+      applicationSubCategory: "Real-time AI dubbing and speech translation",
+      operatingSystem: "Chrome",
+      description:
+        "Hear any call, meeting or livestream in your own language, in real time. Turn it on in any browser tab and TH-Labs translates the speaker and dubs them with a natural AI voice.",
+      publisher: { "@id": `${SITE}/#organization` },
     },
     {
       "@type": "SoftwareApplication",
@@ -118,8 +134,12 @@ export default function Home() {
       <TopNav />
       <div className="relative z-10">
         <Hero />
-        <Outputs />
+        {/* Real-time dubbing first — the main feature — then AI video dubbing. */}
+        <Features />
         <HowItWorks />
+        <Live />
+        <StudioHow />
+        <Outputs />
         <Ribbon>
           <Difference />
         </Ribbon>
